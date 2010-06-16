@@ -9,3 +9,9 @@
 	<title><?= $this->get_title() ?></title>
 </head>
 <body>
+
+<?php if ($this->get_current() == 'top'): ?>
+	<h1 id="top"><?= $this->config['application_name'] ?></h1>
+<?php else: ?>
+	<h1 id="top"><?= $this->get_name() ?></h1>
+<?php endif; ?>

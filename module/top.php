@@ -13,8 +13,8 @@ class Module_top extends Module_utilities
 		$consumer_secret = $this->config['twitter']['consumer_secret'];
 		$token_credentials = $_SESSION['token_credentials'];
 		
+		//not logged in
 		if ($token_credentials == "") {
-			$this->set_assign('is_logged_in', false);
 			$this->render();
 			exit(1);
 		}
@@ -58,7 +58,6 @@ class Module_top extends Module_utilities
 		$_SESSION['post_token'] = $post_token;
 		$this->set_assign('post_token', $post_token);
 		
-		$this->set_assign('is_logged_in', true);
 		$this->render();
 	}
 }

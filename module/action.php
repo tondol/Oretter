@@ -1,8 +1,9 @@
 <?php
 
 require_once 'twitteroauth.php';
+require_once dirname(__FILE__) . '/utilities.php';
 
-class Module_action extends Module
+class Module_action extends Module_utilities
 {
 	function action()
 	{
