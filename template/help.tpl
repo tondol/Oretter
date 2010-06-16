@@ -1,7 +1,6 @@
 <?php $this->include_template('header.tpl') ?>
 
 <?php
-	session_start();
 	$is_logged_in = $_SESSION['token_credentials'] != "";
 ?>
 
