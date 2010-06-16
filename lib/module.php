@@ -1,8 +1,5 @@
 <?php
 
-//sakura‚Å‚Í“®‚©‚È‚¢
-//require_once 'mysqli.php';
-
 class Module
 {
 	var $parent;
