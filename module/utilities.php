@@ -5,6 +5,7 @@ class Module_utilities extends Module
 	var $table = 'oretter_auth_tokens';
 	var $expire = 604800; //3600*24*7
 	
+	//initialize php database object
 	function initialize_database()
 	{
 		$dsn = "mysql:dbname={$this->config['db']['dbname']};host={$this->config['db']['host']}";
@@ -15,7 +16,7 @@ class Module_utilities extends Module
 		return $db;
 	}
 	
-	//load token_credentials by auth_token on database
+	//load token_credentials on database by auth_token
 	function load_token_credentials($db, $auth_token)
 	{
 		$st = $db->prepare("SELECT * FROM {$this->table} WHERE auth_token = ?");
@@ -23,7 +24,7 @@ class Module_utilities extends Module
 		return $st->fetch();
 	}
 	
-	//load auth_token by token_credentials on database
+	//load auth_token on database by token_credentials
 	function load_auth_token($db, $token_credentials)
 	{
 		$st = $db->prepare("SELECT * FROM {$this->table} WHERE oauth_token = ?");
@@ -65,6 +66,7 @@ class Module_utilities extends Module
 		return $st->execute();
 	}
 	
+	//replace uri text with anchor tag
 	function replace_uri($param)
 	{
 		$pattern_sub = preg_quote('-._~%:/?#[]@!$&\'()*+,;=', '/');
