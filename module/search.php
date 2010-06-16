@@ -56,7 +56,7 @@ class Module_search extends Module_utilities
 		//get response
 		$uri = 'http://search.twitter.com/search.atom';
 		$params = http_build_query(array(
-			//'lang' => 'ja',
+			'lang' => 'ja',
 			'q' => $query,
 			'page' => $current,
 			'rpp' => 40,
