@@ -6,7 +6,7 @@
 	$user_id = escape($status->user->id);
 	$screen_name = escape($status->user->screen_name);
 	$text = nl2br($this->replace_uri($status->text));
-	$protected = $status->user->protected;
+	$protected = $status->user->protected == "true";
 	$callback = $this->get_assign('callback');
 	$post_token = $this->get_assign('post_token');
 ?>
@@ -64,7 +64,7 @@
 	<input type="hidden" name="post_token" value="<?= $post_token ?>" /></p>
 </form>
 
-<?php if ($user_id == $_SESSION['token_credentials']['id']): ?>
+<?php if ($user_id == $_SESSION['token_credentials']['user_id']): ?>
 	<h2>つぶやきを削除</h2>
 	<form action="<?= $this->get_uri('post_destroy') ?>" method="post">
 		<p><input type="submit" value="削除する" />

@@ -54,7 +54,7 @@ class Module_auth_get extends Module_utilities
 				$token_credentials = array(
 					'oauth_token' => $data['oauth_token'],
 					'oauth_token_secret' => $data['oauth_token_secret'],
-					'id' => (int)$xml->id,
+					'user_id' => (string)$xml->user_id,
 					'screen_name' => (string)$xml->screen_name,
 				);
 				$_SESSION['token_credentials'] = $token_credentials;
