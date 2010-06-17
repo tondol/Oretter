@@ -6,7 +6,7 @@
 	$user_id = escape($status->user->id);
 	$screen_name = escape($status->user->screen_name);
 	$text = nl2br($this->replace_uri($status->text));
-	$protected = $status->user->protected == "true";
+	$protected = $status->user->protected;
 	$callback = $this->get_assign('callback');
 	$post_token = $this->get_assign('post_token');
 ?>
@@ -76,6 +76,7 @@
 
 <h2 id="bottom">ナビゲーション</h2>
 <ul>
+	<li><a href="<?= $callback ?>" accesskey="0">[0]元のページに戻る</a></li>
 	<li><a href="#top" accesskey="2">[2]ページ先頭に戻る</a></li>
 	<li><a href="#bottom" accesskey="8">[8]ページ後尾に移動</a></li>
 </ul>
