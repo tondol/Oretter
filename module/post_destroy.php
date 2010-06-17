@@ -27,7 +27,7 @@ class Module_post_destroy extends Module
 		
 		if ($_POST['id'] == "") {
 			//id is not supplied
-			$message = "RTするステータスを指定してください。";
+			$message = "削除するステータスを指定してください。";
 			
 		} else if (
 			$_POST['post_token'] == "" ||
