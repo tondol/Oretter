@@ -1,4 +1,4 @@
-Oretter is a web-based twitter client for Japanese mobile phones (keitai).
+Oretter is a web-based twitter client suitable for Japanese mobile phones (keitai).
 Working sample: http://digilog.usamimi.info/oretter/
 
 Oretter requires PHP (w/ cURL module) and MySQL.
