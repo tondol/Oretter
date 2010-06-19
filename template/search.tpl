@@ -17,7 +17,7 @@
 				$id = $matches[1];
 				preg_match('/http:\\/\\/twitter.com\\/([0-9A-Za-z_]+)$/', $entry->author->uri, $matches);
 				$screen_name = $matches[1];
-				$text = $this->replace_uri($entry->title);
+				$text = (string)$entry->title;
 				$created_at = strtotime($entry->published);
 				$action_params = array(
 					'id' => $id,
@@ -28,7 +28,7 @@
 				<a href="http://twitter.com/<?= escape($screen_name) ?>"><?= escape($screen_name) ?></a>
 			</dt>
 			<dd>
-				<?= $text ?>
+				<?= $this->replace_uri($text) ?>
 			</dd>
 			<dd>
 				<?= date('m/d H:i', $created_at) ?> -

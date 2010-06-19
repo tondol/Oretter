@@ -5,13 +5,13 @@
 	$id = (string)$status->id;
 	$user_id = (string)$status->user->id;
 	$screen_name = (string)$status->user->screen_name;
-	$text = $this->replace_uri($status->text);
+	$text = (string)$status->text;
 	$callback = $this->get_assign('callback');
 	$post_token = $this->get_assign('post_token');
 ?>
 
 <h2 id="tweet">対象となるつぶやき</h2>
-<p><?= escape($screen_name) ?>: <?= $text ?></p>
+<p><?= escape($screen_name) ?>: <?= $this->replace_uri($text) ?></p>
 
 <h2 id="reply">つぶやきに返信</a></h2>
 <form action="<?= escape($this->get_uri('post_tweet')) ?>" method="post">

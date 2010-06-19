@@ -23,7 +23,7 @@
 				<?php
 					$id = (string)$status->id;
 					$screen_name = (string)$status->user->screen_name;
-					$text = $this->replace_uri($status->text);
+					$text = (string)$status->text;
 					$created_at = strtotime($status->created_at);
 					$params = array(
 						'id' => $id,
@@ -34,7 +34,7 @@
 					<a href="http://twitter.com/<?= escape($screen_name) ?>"><?= escape($screen_name) ?></a>
 				</dt>
 				<dd>
-					<?= $text ?>
+					<?= $this->replace_uri($text) ?>
 				</dd>
 				<dd>
 					<?= date('m/d H:i', $created_at) ?> -
