@@ -28,17 +28,17 @@ class Module_auth_get extends Module_utilities
 		}
 		
 		//load token_credentials
-		$auth_token = $this->request['auth_token'];
-		$data = $this->load_token_credentials($db, $auth_token);
+		$auth_token = $this->load_auth_token();
+		$data = $this->load_record_by_auth_token($db, $auth_token);
 		
 		//not logged in
 		if ($data !== false) {
-			//auth_token supplied
-			$auth_token = $this->regenerate_auth_token($db, $data);
-			$this->store_auth_token($auth_token);
+			//record exists
+			$auth_token = $this->generate_auth_token();
+			$result = $this->update_record($db, $auth_token, $data);
 			
-			//completed
-			if ($auth_token !== false) {
+			//updated
+			if ($result !== false) {
 				//get instance of twitteroauth
 				$connection = new TwitterOAuth(
 					$consumer_key, $consumer_secret,
@@ -50,23 +50,24 @@ class Module_auth_get extends Module_utilities
 				$response = $connection->get('account/verify_credentials');
 				$xml = simplexml_load_string($response);
 				
-				//store token_credentials
+				//store auth_token and token_credentials
 				$token_credentials = array(
 					'oauth_token' => $data['oauth_token'],
 					'oauth_token_secret' => $data['oauth_token_secret'],
-					'user_id' => (string)$xml->user_id,
+					'user_id' => (string)$xml->id,
 					'screen_name' => (string)$xml->screen_name,
 				);
+				$this->store_auth_token($auth_token);
 				$_SESSION['token_credentials'] = $token_credentials;
 				
 				header('Location: ' . $this->get_uri('top'));
 				exit(1);
+				
 			} else {
 				$message = "簡易ログインに失敗しました。";
 			}
 		} else {
-			//auth_token not supplied
-			$this->store_auth_token('');
+			//record not exists
 			$message = "簡易ログイン用のトークンが登録されていません。";
 		}
 		

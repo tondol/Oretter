@@ -20,29 +20,31 @@ class Module_auth_set extends Module_utilities
 			exit(1);
 		}
 		
-		//load token_credentials
-		$data = $this->load_auth_token($db, $token_credentials);
-		
-		//delete unused token_credential records
+		//load record and delete unused records
+		$data = $this->load_record_by_token_credentials($db, $token_credentials);
 		$this->garbage_collect($db);
 		
 		//logged in
 		if ($data !== false) {
-			//auth_token supplied
-			$result = $this->regenerate_auth_token($db, $token_credentials);
+			//record exists
+			$auth_token = $this->generate_auth_token();
+			$result = $this->update_record($db, $auth_token, $token_credentials);
+			
 			//completed
 			if ($result !== false) {
-				$this->store_auth_token($result);
+				$this->store_auth_token($auth_token);
 				$message = "簡易ログイン用のトークンを更新しました。";
 			} else {
 				$message = "簡易ログイン用のトークンを更新できませんでした。";
 			}
 		} else {
-			//auth_token not supplied
-			$result = $this->store_token_credentials($db, $token_credentials);
+			//record does not exist
+			$auth_token = $this->generate_auth_token();
+			$result = $this->store_record($db, $auth_token, $token_credentials);
+			
 			//completed
 			if ($result !== false) {
-				$this->store_auth_token($result);
+				$this->store_auth_token($auth_token);
 				$message = "簡易ログイン用のトークンを登録しました。";
 			} else {
 				$message = "簡易ログイン用のトークンを登録できませんでした。";

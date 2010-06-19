@@ -50,6 +50,10 @@ $config = array(
 		'password' => 'YOUR_DB_PASSWORD',
 		'dbname' => 'YOUR_DB_DBNAME',
 	),
+	'auth' => array(
+		'table' => 'oretter_auth_tokens',
+		'expire' => 3600 * 24 * 7,
+	),
 );
 
 ?>
