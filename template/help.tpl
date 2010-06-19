@@ -44,19 +44,19 @@ Oretterの主要な機能にはすべてアクセスキーが設定されてい�
 		<li><a href="#bottom" accesskey="8">[8]ページ後尾に移動</a></li>
 	</ul>
 	<ul>
-		<li><a href="<?= $this->get_uri('top') ?>" accesskey="1">[1]トップページ</a></li>
-		<li><a href="<?= $this->get_uri('mentions') ?>" accesskey="*">[*]あなた宛のつぶやき</a></li>
-		<li><a href="<?= $this->get_uri('search') ?>" accesskey="#">[#]実況ビュー</a></li>
-		<li><a href="<?= $this->get_uri('auth_set') ?>">簡易ログインを設定</a></li>
-		<li><a href="<?= $this->get_uri('logout') ?>">ログアウト</a></li>
-		<li><a href="<?= $this->get_uri('help') ?>">ヘルプ</a></li>
+		<li><a href="<?= escape($this->get_uri('top')) ?>" accesskey="1">[1]トップページ</a></li>
+		<li><a href="<?= escape($this->get_uri('mentions')) ?>" accesskey="*">[*]あなた宛のつぶやき</a></li>
+		<li><a href="<?= escape($this->get_uri('search')) ?>" accesskey="#">[#]実況ビュー</a></li>
+		<li><a href="<?= escape($this->get_uri('auth_set')) ?>">簡易ログインを設定</a></li>
+		<li><a href="<?= escape($this->get_uri('logout')) ?>">ログアウト</a></li>
+		<li><a href="<?= escape($this->get_uri('help')) ?>">ヘルプ</a></li>
 	</ul>
 <?php else: ?>
 	<ul>
-		<li><a href="<?= $this->get_uri('top') ?>" accesskey="1">[1]トップページ</a></li>
-		<li><a href="<?= $this->get_uri('login') ?>">ログイン</a></li>
-		<li><a href="<?= $this->get_uri('auth_get') ?>">簡易ログイン</a></li>
-		<li><a href="<?= $this->get_uri('help') ?>">ヘルプ</a></li>
+		<li><a href="<?= escape($this->get_uri('top')) ?>" accesskey="1">[1]トップページ</a></li>
+		<li><a href="<?= escape($this->get_uri('login')) ?>">ログイン</a></li>
+		<li><a href="<?= escape($this->get_uri('auth_get')) ?>">簡易ログイン</a></li>
+		<li><a href="<?= escape($this->get_uri('help')) ?>">ヘルプ</a></li>
 	</ul>
 <?php endif; ?>
 

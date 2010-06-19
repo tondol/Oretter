@@ -20,8 +20,8 @@ class Module_top extends Module_utilities
 		}
 		
 		//pager
-		if ($_GET['p'] != "") {
-			$current = max(intval($_GET['p']), 1);
+		if ($this->request['p'] != "") {
+			$current = max(intval($this->request['p']), 1);
 		} else {
 			$current = 1;
 		}
@@ -30,11 +30,10 @@ class Module_top extends Module_utilities
 		$this->set_assign('prev', $current - 1);
 		
 		//callback
-		$params = http_build_query(array(
+		$params = array(
 			'p' => $current,
-		));
-		$callback = $this->get_uri('top') . '?' . $params;
-		$this->set_assign('callback', $callback);
+		);
+		$this->set_assign('callback', $this->get_uri(null, $params));
 		
 		//get instance of twitteroauth
 		$connection = new TwitterOAuth(

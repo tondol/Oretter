@@ -7,6 +7,7 @@ class Application
 {
 	var $get;
 	var $post;
+	var $request;
 	var $config;
 	var $current;
 	var $module;
@@ -16,6 +17,7 @@ class Application
 	{
 		$this->get = &$_GET;
 		$this->post = &$_POST;
+		$this->request = &$_REQUEST;
 		$this->config = &$GLOBALS['config'];
 		$this->load();
 	}

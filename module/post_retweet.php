@@ -19,19 +19,19 @@ class Module_post_retweet extends Module
 		}
 		
 		//callback
-		if ($_POST['callback'] != "") {
-			$callback = $_POST['callback'];
+		if ($this->post['callback'] != "") {
+			$callback = $this->post['callback'];
 		} else {
 			$callback = $this->get_uri('top');
 		}
 		
-		if ($_POST['id'] == "") {
+		if ($this->post['id'] == "") {
 			//id is not supplied
 			$message = "RTするステータスを指定してください。";
 			
 		} else if (
-			$_POST['post_token'] == "" ||
-			$_POST['post_token'] != $_SESSION['post_token'])
+			$this->post['post_token'] == "" ||
+			$this->post['post_token'] != $_SESSION['post_token'])
 		{
 			//duplicated post
 			$message = "もう一度やり直してください。";
@@ -45,7 +45,7 @@ class Module_post_retweet extends Module
 			$connection->format = 'xml';
 			
 			//get response
-			$response = $connection->post('statuses/retweet/' . $_POST['id']);
+			$response = $connection->post('statuses/retweet/' . $this->post['id']);
 			$xml = simplexml_load_string($response);
 			
 			//check response

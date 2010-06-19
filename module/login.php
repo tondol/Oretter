@@ -21,7 +21,7 @@ class Module_login extends Module_utilities
 				$_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
 			
 			//get access token
-			$token_credentials = $connection->getAccessToken($_GET['oauth_verifier']);
+			$token_credentials = $connection->getAccessToken($this->request['oauth_verifier']);
 			
 			//token_credentials is supplied
 			if ($token_credentials['oauth_token'] != "") {
@@ -38,6 +38,7 @@ class Module_login extends Module_utilities
 		
 		//get temporary_credentials
 		$connection = new TwitterOAuth($consumer_key, $consumer_secret);
+		//var_dump($this->get_uri());
 		$temporary_credentials = $connection->getRequestToken($this->get_uri());
 		
 		//store temporary_credentials

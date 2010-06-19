@@ -21,14 +21,14 @@ class Module_auth_get extends Module_utilities
 		}
 		
 		//callback
-		if ($_POST['callback'] != "") {
-			$callback = $_POST['callback'];
+		if ($this->post['callback'] != "") {
+			$callback = $this->post['callback'];
 		} else {
 			$callback = $this->get_uri('top');
 		}
 		
 		//load token_credentials
-		$auth_token = $_COOKIE['auth_token'];
+		$auth_token = $this->request['auth_token'];
 		$data = $this->load_token_credentials($db, $auth_token);
 		
 		//not logged in

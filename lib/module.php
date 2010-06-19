@@ -5,6 +5,7 @@ class Module
 	var $parent;
 	var $get;
 	var $post;
+	var $request;
 	var $config;
 	var $current;
 	var $variables;
@@ -14,6 +15,7 @@ class Module
 		$this->parent = $parent;
 		$this->get = &$this->parent->get;
 		$this->post = &$this->parent->post;
+		$this->request = &$this->parent->request;
 		$this->config = &$this->parent->config;
 		$this->current = $this->parent->current;
 	}
@@ -68,29 +70,72 @@ class Module
 		}
 	}
 	//get uri of specified page (default: current)
-	function get_uri($id=null)
+	//use this if mod_rewrite is enabled
+	function get_uri($id=null, $params=null)
 	{
 		if (is_null($id)) {
 			$id = $this->current;
 		}
-		if ($id == $this->config['application_main']) {
-			return $this->config['application_uri'];
+		if (is_null($params)) {
+			$params = array();
+		}
+		if ($id != $this->config['application_main']) {
+			$params['page'] = $id;
+		}
+		//query
+		$query = http_build_query($params);
+		if (SID != "") {
+			$query .= $query != "" ? '&' : "";
+			$query .= escape(SID);
+		}
+		//create uri
+		if ($query != "") {
+			return $this->config['application_uri'] . '?' . $query;
 		} else {
-			//return $this->config['application_uri'] . $id . DIRECTORY_SEPARATOR;
-			return $this->config['application_uri'] . '?page=' . $id;
+			return $this->config['application_uri'];
 		}
 	}
-	//get link of specified path
-	function get_link($id=null)
+/*
+	//get uri of specified page (default: current)
+	//use this if mod_rewrite is disabled
+	function get_uri($id=null, $params=null)
 	{
-		$uri = $this->get_uri($id);
+		if (is_null($id)) {
+			$id = $this->get_current();
+		}
+		if (is_null($params)) {
+			$params = array();
+		}
+		if ($id == $this->config['application_main']) {
+			$id = "";
+		} else {
+			$id .= DIRECTORY_SEPARATOR;
+		}
+		//query
+		$query = http_build_query($params);
+		if (SID != "") {
+			$query .= $query != "" ? '&' : "";
+			$query .= escape(SID);
+		}
+		//create uri
+		if ($query != "") {
+			return $this->config['application_uri'] . $id . '?' . $query;
+		} else {
+			return $this->config['application_uri'] . $id;
+		}
+	}
+*/
+	//get link of specified path
+	function get_link($id=null, $params=null)
+	{
+		$uri = $this->get_uri($id, $params);
 		$name = $this->get_name($id);
 		return "<a href=\"{$uri}\">{$name}</a>";
 	}
 	//get uri of specified path
 	function get_static($path)
 	{
-		return $this->config['application_uri'] . $path;
+		return $this->config['static_dir'] . $path;
 	}
 	//include specified template
 	function include_template($path)

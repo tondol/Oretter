@@ -20,14 +20,14 @@ class Module_action extends Module_utilities
 		}
 		
 		//callback
-		if ($_GET['callback'] != "") {
-			$callback = $_GET['callback'];
+		if ($this->request['callback'] != "") {
+			$callback = $this->request['callback'];
 		} else {
 			$callback = $this->get_uri('top');
 		}
 		
 		//id is not suplied
-		if ($_GET['id'] == "") {
+		if ($this->request['id'] == "") {
 			header('Location: ' . $callback);
 			exit(1);
 		}
@@ -42,7 +42,7 @@ class Module_action extends Module_utilities
 		//get response
 		$response = $connection->get(
 			'statuses/show',
-			array('id' => $_GET['id']));
+			array('id' => $this->request['id']));
 		$xml = simplexml_load_string($response);
 		$this->set_assign('status', $xml);
 		

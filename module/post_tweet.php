@@ -19,19 +19,19 @@ class Module_post_tweet extends Module
 		}
 		
 		//callback
-		if ($_POST['callback'] != "") {
-			$callback = $_POST['callback'];
+		if ($this->post['callback'] != "") {
+			$callback = $this->post['callback'];
 		} else {
 			$callback = $this->get_uri('top');
 		}
 		
-		if ($_POST['status'] == "") {
+		if ($this->post['status'] == "") {
 			//status is not supplied
 			$message = "ステータスを入力してください。";
 			
 		} else if (
-			$_POST['post_token'] == "" ||
-			$_POST['post_token'] != $_SESSION['post_token'])
+			$this->post['post_token'] == "" ||
+			$this->post['post_token'] != $_SESSION['post_token'])
 		{
 			//duplicated post
 			$message = "もう一度やり直してください。";
@@ -45,10 +45,11 @@ class Module_post_tweet extends Module
 			$connection->format = 'xml';
 			
 			//make parameters
-			$params = array();
-			$params['status'] = $_POST['status'];
-			if ($_POST['in_reply_to_status_id'] != "") {
-				$params['in_reply_to_status_id'] = $_POST['in_reply_to_status_id'];
+			$params = array(
+				'status' => $this->post['status'],
+			);
+			if ($this->post['in_reply_to_status_id'] != "") {
+				$params['in_reply_to_status_id'] = $this->post['in_reply_to_status_id'];
 			}
 			
 			//get response

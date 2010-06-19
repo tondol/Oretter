@@ -19,8 +19,8 @@ class Module_search extends Module_utilities
 		}
 		
 		//pager
-		if ($_GET['p'] != "") {
-			$current = max(intval($_GET['p']), 1);
+		if ($this->request['p'] != "") {
+			$current = max(intval($this->request['p']), 1);
 		} else {
 			$current = 1;
 		}
@@ -30,7 +30,7 @@ class Module_search extends Module_utilities
 		
 		//get search_query
 		//store search_query
-		$query = $_GET['q'];
+		$query = $this->request['q'];
 		if ($query != "") {
 			$_SESSION['search_query'] = $query;
 		} else {
@@ -39,13 +39,11 @@ class Module_search extends Module_utilities
 		$this->set_assign('query', $query);
 		
 		//callback
-		$params = http_build_query(array(
-			'page' => $this->get_current(),
+		$params = array(
 			'q' => $query,
 			'p' => $current,
-		));
-		$callback = $this->get_uri('top') . '?' . $params;
-		$this->set_assign('callback', $callback);
+		);
+		$this->set_assign('callback', $this->get_uri(null, $params));
 		
 		//get instance of twitteroauth
 		$connection = new TwitterOAuth(

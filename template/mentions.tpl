@@ -13,25 +13,24 @@
 	<dl>
 		<?php foreach ($statuses as $status): ?>
 			<?php
-				$id = escape($status->id);
-				$screen_name = escape($status->user->screen_name);
-				//エスケープするとむしろ不具合
-				$text = nl2br($this->replace_uri($status->text));
+				$id = (string)$status->id;
+				$screen_name = (string)$status->user->screen_name;
+				$text = $this->replace_uri($status->text);
 				$created_at = strtotime($status->created_at);
-				$params = http_build_query(array(
-					'page' => 'action',
+				$action_params = array(
 					'id' => $id,
 					'callback' => $callback,
-				));
-				$action = $this->get_uri('top') . '?' . $params;
+				);
 			?>
 			<dt>
-				<a href="http://twitter.com/<?= $screen_name ?>"><?= $screen_name ?></a>
+				<a href="http://twitter.com/<?= escape($screen_name) ?>"><?= escape($screen_name) ?></a>
 			</dt>
 			<dd>
-				<?= $text ?><br />
+				<?= $text ?>
+			</dd>
+			<dd>
 				<?= date('m/d H:i', $created_at) ?> -
-				<a href="<?= $action ?>">@action</a>
+				<a href="<?= escape($this->get_uri('action', $action_params)) ?>">@action</a>
 			</dd>
 		<?php endforeach; ?>
 	</dl>
@@ -40,42 +39,40 @@
 <?php endif; ?>
 
 <h2 id="tweet"><a href="#tweet" accesskey="7">[7]つぶやきを投稿</a></h2>
-<form action="<?= $this->get_uri('post_tweet') ?>" method="post">
+<form action="<?= escape($this->get_uri('post_tweet')) ?>" method="post">
 	<p><input type="text" name="status" />
 	<input type="submit" value="送信" />
-	<input type="hidden" name="callback" value="<?= $callback ?>" />
-	<input type="hidden" name="post_token" value="<?= $post_token ?>" /></p>
+	<input type="hidden" name="callback" value="<?= escape($callback) ?>" />
+	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
 
 <h2 id="bottom">ナビゲーション</h2>
 <?php
-	$prev_query = http_build_query(array(
-		'page' => $current,
+	$prev_params = array(
 		'p' => $prev,
-	), '', '&amp;');
-	$next_query = http_build_query(array(
-		'page' => $current,
+	);
+	$next_params = array(
 		'p' => $next,
-	), '', '&amp;');
+	);
 ?>
 <ul>
-	<li><a href="<?= $this->get_uri() ?>" accesskey="0">[0]タイムラインを更新</a></li>
+	<li><a href="<?= escape($this->get_uri()) ?>" accesskey="0">[0]タイムラインを更新</a></li>
 	<?php if ($prev): ?>
-		<li><a href="<?= $this->get_uri('top') ?>?<?= $prev_query ?>" accesskey="4">[4]前を見る</a></li>
+		<li><a href="<?= escape($this->get_uri(null, $prev_params)) ?>" accesskey="4">[4]前を見る</a></li>
 	<?php endif; ?>
 	<?php if ($next): ?>
-		<li><a href="<?= $this->get_uri('top') ?>?<?= $next_query ?>" accesskey="6">[6]次を見る</a></li>
+		<li><a href="<?= escape($this->get_uri(null, $next_params)) ?>" accesskey="6">[6]次を見る</a></li>
 	<?php endif; ?>
 	<li><a href="#top" accesskey="2">[2]ページ先頭に戻る</a></li>
 	<li><a href="#bottom" accesskey="8">[8]ページ後尾に移動</a></li>
 </ul>
 <ul>
-	<li><a href="<?= $this->get_uri('top') ?>" accesskey="1">[1]トップページに戻る</a></li>
-	<li><a href="<?= $this->get_uri('mentions') ?>" accesskey="*">[*]あなた宛のつぶやき</a></li>
-	<li><a href="<?= $this->get_uri('search') ?>" accesskey="#">[#]実況ビュー</a></li>
-	<li><a href="<?= $this->get_uri('auth_set') ?>">簡易ログインを設定</a></li>
-	<li><a href="<?= $this->get_uri('logout') ?>">ログアウト</a></li>
-	<li><a href="<?= $this->get_uri('help') ?>">ヘルプ</a></li>
+	<li><a href="<?= escape($this->get_uri('top')) ?>" accesskey="1">[1]トップページ</a></li>
+	<li><a href="<?= escape($this->get_uri('mentions')) ?>" accesskey="*">[*]あなた宛のつぶやき</a></li>
+	<li><a href="<?= escape($this->get_uri('search')) ?>" accesskey="#">[#]実況ビュー</a></li>
+	<li><a href="<?= escape($this->get_uri('auth_set')) ?>">簡易ログインを設定</a></li>
+	<li><a href="<?= escape($this->get_uri('logout')) ?>">ログアウト</a></li>
+	<li><a href="<?= escape($this->get_uri('help')) ?>">ヘルプ</a></li>
 </ul>
 
 <?php $this->include_template('footer.tpl') ?>
