@@ -2,7 +2,7 @@ Oretter is a web-based twitter client suitable for Japanese mobile phones (keita
 Working sample: http://digilog.usamimi.info/oretter/
 
 Oretter requires PHP version 5.2 or higher (w/ cURL module) and MySQL version 5.1 or higher.
-You must create the table below if you want to run Oretter on your server.
+If you want to run Oretter on your server, you must create the table below:
 
 CREATE TABLE IF NOT EXISTS `oretter_auth_tokens` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
@@ -12,3 +12,6 @@ CREATE TABLE IF NOT EXISTS `oretter_auth_tokens` (
   `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+Oretter is currently maintained by @tondol (http://twitter.com/tondol/).
+Oretter source code is published at github: http://github.com/tondol/oretter/
