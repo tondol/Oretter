@@ -105,18 +105,6 @@ function escape_nl2br($value)
 		return nl2br(htmlspecialchars($value, ENT_QUOTES, 'UTF-8'));
 	}
 }
-function build_query($params)
-{
-	if (is_array($params)) {
-		$query = array();
-		foreach ($params as $k => $v) {
-			$query[] = $k . '=' . $v;
-		}
-		return implode('&', $query);
-	} else {
-		return "";
-	}
-}
 
 function guid($salt="")
 {
