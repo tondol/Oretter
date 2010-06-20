@@ -38,7 +38,6 @@ class Module_login extends Module_utilities
 		
 		//get temporary_credentials
 		$connection = new TwitterOAuth($consumer_key, $consumer_secret);
-		//var_dump($this->get_uri());
 		$temporary_credentials = $connection->getRequestToken($this->get_uri());
 		
 		//store temporary_credentials

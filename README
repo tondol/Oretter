@@ -14,4 +14,4 @@ CREATE TABLE IF NOT EXISTS `oretter_auth_tokens` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 Oretter is currently maintained by @tondol (http://twitter.com/tondol/).
-Oretter source code is published at github: http://github.com/tondol/oretter/
+Oretter source code is published on GitHub: http://github.com/tondol/oretter/

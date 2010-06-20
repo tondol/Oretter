@@ -7,7 +7,7 @@
 
 <p><strong><?= escape($this->get_assign('message')) ?></strong></p>
 
-<h2 id="bottom">ナビゲーション</h2>
+<h2><a name="bottom" id="bottom">ナビゲーション</a></h2>
 <?php if ($is_logged_in): ?>
 	<ul>
 		<?php if ($callback): ?>

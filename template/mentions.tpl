@@ -13,24 +13,26 @@
 	<dl>
 		<?php foreach ($statuses as $status): ?>
 			<?php
-				$id = (string)$status->id;
-				$screen_name = (string)$status->user->screen_name;
-				$text = (string)$status->text;
-				$created_at = strtotime($status->created_at);
 				$action_params = array(
-					'id' => $id,
+					'id' => (string)$status->id,
 					'callback' => $callback,
+				);
+				$user_params = array(
+					'screen_name' => (string)$status->user->screen_name,
 				);
 			?>
 			<dt>
-				<a href="http://twitter.com/<?= escape($screen_name) ?>"><?= escape($screen_name) ?></a>
+				<a href="<?= escape($this->get_uri('user', $user_params)) ?>">
+				<?= escape($status->user->screen_name) ?>
+				</a>
 			</dt>
 			<dd>
-				<?= $this->replace_uri($text) ?>
+				<?= $this->replace_uri($status->text) ?>
 			</dd>
 			<dd>
-				<?= date('m/d H:i', $created_at) ?> -
-				<a href="<?= escape($this->get_uri('action', $action_params)) ?>">@action</a>
+				<a href="<?= escape($this->get_uri('action', $action_params)) ?>">
+				<?= date('Y-m-d H:i:s', strtotime($status->created_at)) ?>
+				</a>
 			</dd>
 		<?php endforeach; ?>
 	</dl>
@@ -38,7 +40,7 @@
 	<p>つぶやきはありません。</p>
 <?php endif; ?>
 
-<h2 id="tweet"><a href="#tweet" accesskey="7">[7]つぶやきを投稿</a></h2>
+<h2><a href="#tweet" name="tweet" id="tweet" accesskey="7">[7]つぶやきを投稿</a></h2>
 <form action="<?= escape($this->get_uri('post_tweet')) ?>" method="post">
 	<p><input type="text" name="status" />
 	<input type="submit" value="送信" />
@@ -46,7 +48,7 @@
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
 
-<h2 id="bottom">ナビゲーション</h2>
+<h2><a name="bottom" id="bottom">ナビゲーション</a></h2>
 <?php
 	$prev_params = array(
 		'p' => $prev,

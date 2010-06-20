@@ -2,82 +2,121 @@
 
 <?php
 	$status = $this->get_assign('status');
-	$id = (string)$status->id;
-	$user_id = (string)$status->user->id;
-	$screen_name = (string)$status->user->screen_name;
-	$text = (string)$status->text;
+	$reply = $this->get_assign('reply');
 	$callback = $this->get_assign('callback');
 	$post_token = $this->get_assign('post_token');
+	$user_params = array(
+		'screen_name' => (string)$status->user->screen_name,
+	);
 ?>
 
-<h2 id="tweet">対象となるつぶやき</h2>
-<p><?= escape($screen_name) ?>: <?= $this->replace_uri($text) ?></p>
+<dl>
+	<dt>
+		<a href="<?= escape($this->get_uri('user', $user_params)) ?>">
+		<?= escape($status->user->screen_name) ?>
+		</a>
+	</dt>
+	<dd>
+		<?= $this->replace_uri($status->text) ?>
+	</dd>
+	<dd>
+		<?= date('Y-m-d H:i:s', strtotime($status->created_at)) ?>
+	</dd>
+</dl>
 
-<h2 id="reply">つぶやきに返信</a></h2>
+<?php if ($reply): ?>
+	<?php
+		$user_params = array(
+			'screen_name' => (string)$reply->user->screen_name,
+		);
+		$action_params = array(
+			'id' => (string)$reply->id,
+			'callback' => $callback,
+		);
+	?>
+	<h2>返信元のつぶやき</h2>
+	<dl>
+		<dt>
+			<a href="<?= escape($this->get_uri('user', $user_params)) ?>">
+			<?= escape($reply->user->screen_name) ?>
+			</a>
+		</dt>
+		<dd>
+			<?= $this->replace_uri($reply->text) ?>
+		</dd>
+		<dd>
+			<a href="<?= escape($this->get_uri('action', $action_params)) ?>">
+			<?= date('Y-m-d H:i:s', strtotime($reply->created_at)) ?>
+			</a>
+		</dd>
+	</dl>
+<?php endif; ?>
+
+<h2>つぶやきに返信する</h2>
 <form action="<?= escape($this->get_uri('post_tweet')) ?>" method="post">
 	<?php
-		$reply = '@' . escape($screen_name) . ' ';
+		$reply = '@' . escape($status->user->screen_name) . ' ';
 	?>
 	<p><input type="text" name="status" value="<?= $reply ?>" />
 	<input type="submit" value="返信する" />
-	<input type="hidden" name="in_reply_to_status_id" value="<?= escape($id) ?>" />
+	<input type="hidden" name="in_reply_to_status_id" value="<?= escape($status->id) ?>" />
 	<input type="hidden" name="callback" value="<?= escape($callback) ?>" />
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
 
-<?php if ($status->favorited == "true"): ?>
-	<h2 id="favorite">ふぁぼりを取り消す</h2>
-	<form action="<?= escape($this->get_uri('post_unfavorite')) ?>" method="post">
-		<p><input type="submit" value="取り消す" />
-		<input type="hidden" name="id" value="<?= escape($id) ?>" />
+<?php if ($status->favorited != "true"): ?>
+	<h2>つぶやきをふぁぼる</h2>
+	<form action="<?= escape($this->get_uri('post_favorite')) ?>" method="post">
+		<p><input type="submit" value="ふぁぼる" />
+		<input type="hidden" name="id" value="<?= escape($status->id) ?>" />
 		<input type="hidden" name="callback" value="<?= escape($callback) ?>" />
 		<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 	</form>
 <?php else: ?>
-	<h2 id="favorite">つぶやきをふぁぼる</h2>
-	<form action="<?= escape($this->get_uri('post_favorite')) ?>" method="post">
-		<p><input type="submit" value="ふぁぼる" />
-		<input type="hidden" name="id" value="<?= escape($id) ?>" />
+	<h2>ふぁぼりを取り消す</h2>
+	<form action="<?= escape($this->get_uri('post_unfavorite')) ?>" method="post">
+		<p><input type="submit" value="取り消す" />
+		<input type="hidden" name="id" value="<?= escape($status->id) ?>" />
 		<input type="hidden" name="callback" value="<?= escape($callback) ?>" />
 		<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 	</form>
 <?php endif; ?>
 
-<h2 id="retweet">つぶやきをRT</h2>
+<h2>つぶやきをRTする</h2>
 <form action="<?= escape($this->get_uri('post_retweet')) ?>" method="post">
 	<p><input type="submit" value="RTする" />
-	<input type="hidden" name="id" value="<?= escape($id) ?>" />
+	<input type="hidden" name="id" value="<?= escape($status->id) ?>" />
 	<input type="hidden" name="callback" value="<?= escape($callback) ?>" />
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
 
-<h2 id="quote">つぶやきをQT</h2>
+<h2>つぶやきをQTする</h2>
 <form action="<?= escape($this->get_uri('post_tweet')) ?>" method="post">
 	<?php
 		if ($status->user->protected == "true") {
-			$quote = ' QT @***: ' . $text;
+			$quote = ' QT @***: ' . $status->text;
 		} else {
-			$quote = ' QT @' . escape($screen_name) . ': ' . $text;
+			$quote = ' QT @' . escape($status->user->screen_name) . ': ' . $status->text;
 		}
 	?>
 	<p><input type="text" name="status" value="<?= $quote ?>" />
 	<input type="submit" value="QTする" />
-	<input type="hidden" name="in_reply_to_status_id" value="<?= escape($id) ?>" />
+	<input type="hidden" name="in_reply_to_status_id" value="<?= escape($status->id) ?>" />
 	<input type="hidden" name="callback" value="<?= escape($callback) ?>" />
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
 
-<?php if ($user_id == $_SESSION['token_credentials']['user_id']): ?>
-	<h2>つぶやきを削除</h2>
+<?php if ($status->user->id == $_SESSION['token_credentials']['user_id']): ?>
+	<h2>つぶやきを削除する</h2>
 	<form action="<?= escape($this->get_uri('post_destroy')) ?>" method="post">
 		<p><input type="submit" value="削除する" />
-		<input type="hidden" name="id" value="<?= escape($id) ?>" />
+		<input type="hidden" name="id" value="<?= escape($status->id) ?>" />
 		<input type="hidden" name="callback" value="<?= escape($callback) ?>" />
 		<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 	</form>
 <?php endif; ?>
 
-<h2 id="bottom">ナビゲーション</h2>
+<h2><a name="bottom" id="bottom">ナビゲーション</a></h2>
 <ul>
 	<li><a href="<?= escape($callback) ?>" accesskey="0">[0]元のページに戻る</a></li>
 	<li><a href="#top" accesskey="2">[2]ページ先頭に戻る</a></li>

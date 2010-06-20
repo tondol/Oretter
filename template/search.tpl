@@ -2,6 +2,7 @@
 
 <?php
 	$entries = $this->get_assign('entry');
+	$callback = $this->get_assign('callback');
 	$current = $this->get_current();
 	$query = $this->get_assign('query');
 	$post_token = $this->get_assign('post_token');
@@ -17,22 +18,26 @@
 				$id = $matches[1];
 				preg_match('/http:\\/\\/twitter.com\\/([0-9A-Za-z_]+)$/', $entry->author->uri, $matches);
 				$screen_name = $matches[1];
-				$text = (string)$entry->title;
-				$created_at = strtotime($entry->published);
 				$action_params = array(
 					'id' => $id,
 					'callback' => $callback,
 				);
+				$user_params = array(
+					'screen_name' => $screen_name,
+				);
 			?>
 			<dt>
-				<a href="http://twitter.com/<?= escape($screen_name) ?>"><?= escape($screen_name) ?></a>
+				<a href="<?= escape($this->get_uri('user', $user_params)) ?>">
+				<?= escape($screen_name) ?>
+				</a>
 			</dt>
 			<dd>
-				<?= $this->replace_uri($text) ?>
+				<?= $this->replace_uri($entry->title) ?>
 			</dd>
 			<dd>
-				<?= date('m/d H:i', $created_at) ?> -
-				<a href="<?= escape($this->get_uri('action', $action_params)) ?>">@action</a>
+				<a href="<?= escape($this->get_uri('action', $action_params)) ?>">
+				<?= date('Y-m-d H:i:s', strtotime($entry->published)) ?>
+				</a>
 			</dd>
 		<?php endforeach; ?>
 	</dl>
@@ -40,7 +45,7 @@
 	<p>つぶやきがありません。</p>
 <?php endif; ?>
 
-<h2 id="tweet"><a href="#tweet" accesskey="7">[7]つぶやきを投稿</a></h2>
+<h2><a href="#tweet" id="tweet" name="tweet" accesskey="7">[7]つぶやきを投稿</a></h2>
 <form action="<?= escape($this->get_uri('post_tweet')) ?>" method="post">
 	<?php
 		if ($query != "") {
@@ -55,7 +60,7 @@
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
 
-<h2 id="search">検索ワード</h2>
+<h2><a name="search" id="search">検索ワード</a></h2>
 <form action="<?= escape($this->get_uri()) ?>" method="post">
 	<?php
 		if ($query != "") {
@@ -68,7 +73,7 @@
 	<input type="submit" value="検索" /></p>
 </form>
 
-<h2 id="bottom">ナビゲーション</h2>
+<h2><a name="bottom" id="bottom">ナビゲーション</a></h2>
 <?php
 	$reload_params = array(
 		'q' => $query,

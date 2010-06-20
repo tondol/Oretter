@@ -46,7 +46,7 @@ class Module_post_destroy extends Module
 			
 			//get response
 			$response = $connection->post('statuses/destroy/' . $this->post['id']);
-			$xml = simplexml_load_string($response);
+			$xml = @simplexml_load_string($response);
 			
 			//check response
 			if ($xml->id != "") {

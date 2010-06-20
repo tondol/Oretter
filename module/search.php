@@ -60,7 +60,7 @@ class Module_search extends Module_utilities
 			'rpp' => 40,
 		));
 		$response = file_get_contents($uri . '?' . $params);
-		$xml = simplexml_load_string($response);
+		$xml = @simplexml_load_string($response);
 		$this->set_assign('entry', $xml->entry);
 		
 		//token

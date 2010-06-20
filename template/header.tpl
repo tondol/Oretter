@@ -11,7 +11,7 @@
 <body>
 
 <?php if ($this->get_current() == 'top'): ?>
-	<h1 id="top"><?= $this->config['application_name'] ?></h1>
+	<h1><a name="top" id="top"><?= $this->config['application_name'] ?></a></h1>
 <?php else: ?>
-	<h1 id="top"><?= $this->get_name() ?></h1>
+	<h1><a name="top" id="top"><?= $this->get_name() ?></a></h1>
 <?php endif; ?>

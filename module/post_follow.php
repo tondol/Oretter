@@ -1,8 +1,9 @@
 <?php
 
 require_once 'twitteroauth.php';
+require_once dirname(__FILE__) . '/utilities.php';
 
-class Module_post_tweet extends Module
+class Module_post_follow extends Module_utilities
 {
 	function action()
 	{
@@ -24,10 +25,11 @@ class Module_post_tweet extends Module
 		} else {
 			$callback = $this->get_uri('top');
 		}
+		$this->set_assign('callback', $callback);
 		
-		if ($this->post['status'] == "") {
-			//status is not supplied
-			$message = "ステータスを入力してください。";
+		if ($this->post['id'] == "") {
+			//id is not supplied
+			$message = "フォローするユーザーを指定してください。";
 			
 		} else if (
 			$this->post['post_token'] == "" ||
@@ -44,21 +46,13 @@ class Module_post_tweet extends Module
 				$token_credentials['oauth_token_secret']);
 			$connection->format = 'xml';
 			
-			//make parameters
-			$params = array(
-				'status' => $this->post['status'],
-			);
-			if ($this->post['in_reply_to_status_id'] != "") {
-				$params['in_reply_to_status_id'] = $this->post['in_reply_to_status_id'];
-			}
-			
 			//get response
-			$response = $connection->post('statuses/update', $params);
+			$response = $connection->post('friendships/create/' . $this->post['id']);
 			$xml = @simplexml_load_string($response);
 			
 			//check response
 			if ($xml->id != "") {
-				$message = "ステータスは正しく更新されました。";
+				$message = "フォローが正しく完了しました。";
 			} else {
 				$message = "おやおや、何かおかしい！";
 			}
@@ -68,7 +62,6 @@ class Module_post_tweet extends Module
 		unset($_SESSION['post_token']);
 		
 		$this->set_assign('message', $message);
-		$this->set_assign('callback', $callback);
 		$this->render();
 	}
 }

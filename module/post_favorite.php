@@ -46,7 +46,7 @@ class Module_post_favorite extends Module
 			
 			//get response
 			$response = $connection->post('favorites/create/' . $this->post['id']);
-			$xml = simplexml_load_string($response);
+			$xml = @simplexml_load_string($response);
 			
 			//check response
 			if ($xml->id != "") {

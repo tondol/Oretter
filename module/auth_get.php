@@ -48,7 +48,7 @@ class Module_auth_get extends Module_utilities
 				
 				//get authenticated user's information
 				$response = $connection->get('account/verify_credentials');
-				$xml = simplexml_load_string($response);
+				$xml = @simplexml_load_string($response);
 				
 				//store auth_token and token_credentials
 				$token_credentials = array(

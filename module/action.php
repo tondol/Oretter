@@ -25,6 +25,7 @@ class Module_action extends Module_utilities
 		} else {
 			$callback = $this->get_uri('top');
 		}
+		$this->set_assign('callback', $callback);
 		
 		//id is not suplied
 		if ($this->request['id'] == "") {
@@ -39,20 +40,27 @@ class Module_action extends Module_utilities
 			$token_credentials['oauth_token_secret']);
 		$connection->format = 'xml';
 		
-		//get response
+		//get status
 		$response = $connection->get(
 			'statuses/show',
 			array('id' => $this->request['id']));
-		$xml = simplexml_load_string($response);
+		$xml = @simplexml_load_string($response);
 		$this->set_assign('status', $xml);
+		
+		//get reply
+		if ($xml->in_reply_to_status_id != "") {
+			$response = $connection->get(
+				'statuses/show',
+				array('id' => (string)$xml->in_reply_to_status_id));
+			$xml = @simplexml_load_string($response);
+			$this->set_assign('reply', $xml);
+		}
 		
 		//token
 		$post_token = guid();
 		$_SESSION['post_token'] = $post_token;
 		$this->set_assign('post_token', $post_token);
 		
-		$this->set_assign('message', $message);
-		$this->set_assign('callback', $callback);
 		$this->render();
 	}
 }
