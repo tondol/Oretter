@@ -124,12 +124,12 @@ class Module_utilities extends Module
         //replace screen_name
         $pattern = '/@([0-9A-Z_]+)/i';
         $user_uri = $this->get_uri('user', array('screen_name' => '${1}'));
-        $replace = '<a href="' . urldecode($user_uri) . '">@${1}</a>';
+        $replace = '<a href="' . escape(urldecode($user_uri)) . '">@${1}</a>';
         $param = preg_replace($pattern, $replace, $param);
         //replace hashtag
         $pattern = '/#([0-9A-Z_]+)/i';
         $hash_uri = $this->get_uri('search', array('q' => urlencode('#') . '${1}'));
-        $replace = '<a href="' . urldecode($hash_uri) . '">#${1}</a>';
+        $replace = '<a href="' . escape(urldecode($hash_uri)) . '">#${1}</a>';
         $param = preg_replace($pattern, $replace, $param);
         return $param;
 	}
