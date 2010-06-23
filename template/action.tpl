@@ -52,7 +52,7 @@
 	</dl>
 <?php endif; ?>
 
-<h2>つぶやきに返信する</h2>
+<h2><a href="#reply" name="reply" id="reply" accesskey="7">[7]つぶやきに返信する</a></h2>
 <form action="<?= escape($this->get_uri('post_tweet')) ?>" method="post">
 	<?php
 		$reply = '@' . escape($status->user->screen_name) . ' ';

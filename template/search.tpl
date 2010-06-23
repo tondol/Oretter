@@ -45,7 +45,7 @@
 	<p>つぶやきがありません。</p>
 <?php endif; ?>
 
-<h2><a href="#tweet" id="tweet" name="tweet" accesskey="7">[7]つぶやきを投稿</a></h2>
+<h2><a href="#tweet" id="tweet" name="tweet" accesskey="7">[7]つぶやきを投稿する</a></h2>
 <form action="<?= escape($this->get_uri('post_tweet')) ?>" method="post">
 	<?php
 		if ($query != "") {
