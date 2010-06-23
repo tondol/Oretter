@@ -15,6 +15,14 @@ class Module_top extends Module_utilities
 		
 		//not logged in
 		if ($token_credentials == "") {
+			
+			if($this->config["autoLoginFlag"]){
+				if(!$_SESSION['autoLogin']){
+					$_SESSION['autoLogin']=1;
+					header('Location: ' . $this->get_uri('auth_get'));
+				}
+			}
+		
 			$this->render();
 			exit(1);
 		}

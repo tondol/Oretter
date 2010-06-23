@@ -71,6 +71,11 @@ class Module_auth_get extends Module_utilities
 			$message = "簡易ログイン用のトークンが登録されていません。";
 		}
 		
+		if($_SESSION['autoLogin']){
+			header('Location: ' . $this->get_uri('top'));
+			exit(1);
+		}
+		
 		$this->set_assign('message', $message);
 		$this->render();
 	}

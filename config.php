@@ -17,10 +17,14 @@ $config = array(
 	'template_dir' => TEMPLATE_DIR,
 	'static_dir' => STATIC_DIR,
 	//アプリケーション固有の設定
-	'application_name' => 'Oretter（β）',
-	'application_uri' => 'YOUR_APPLICATION_URI',
+	'application_name' => 'Oretter.omochi',
+	'application_uri' => 'http://omochimetaru.com/oretter/',
 	'application_main' => 'top',
 	'application_missing' => 'missing',
+	
+	'autoLoginFlag'=>true,
+	'autoCallbackFlag'=>true,
+	
 	//ページIDとページ名称の設定
 	'pages' => array(
 		'top' => 'トップ',
@@ -44,14 +48,14 @@ $config = array(
 	),
 	//ユーザー設定
 	'twitter' => array(
-		'consumer_key' => 'YOUR_CONSUMER_KEY',
-		'consumer_secret' => 'YOUR_CONSUMER_SECRET',
+		'consumer_key' => '********',
+		'consumer_secret' => '*******',
 	),
 	'db' => array(
-		'host' => 'YOUR_DB_HOST',
-		'user' => 'YOUR_DB_USER',
-		'password' => 'YOUR_DB_PASSWORD',
-		'dbname' => 'YOUR_DB_DBNAME',
+		'host' => 'mysql68.db.sakura.ne.jp',
+		'user' => 'omochimetaru',
+		'password' => '********',
+		'dbname' => 'omochimetaru',
 	),
 	'auth' => array(
 		'table' => 'oretter_auth_tokens',

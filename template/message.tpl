@@ -1,3 +1,18 @@
+<?php
+	if($this->config["autoCallbackFlag"]){
+		$append="?cbMsg=".urlencode($this->get_assign('message'));
+		$callback=$this->get_assign('callback');
+		if(strpos($callback,"?")!==false){
+			$callback=str_replace("?",$append."&",$callback);
+		}else
+		{
+			$callback.=$append;
+		}
+		header('Location: ' . $callback);
+		exit(1);
+	}
+?>
+
 <?php $this->include_template('header.tpl') ?>
 
 <?php

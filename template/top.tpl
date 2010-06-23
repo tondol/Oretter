@@ -9,11 +9,9 @@
 	$next = $this->get_assign('next');
 ?>
 
-<?php if (mt_rand() % 2 == 0): ?>
-	<p><strong>ぼくがかんがえたさいきょうのガラケー向けTwitterクライアント。</strong></p>
-<?php else: ?>
-	<p><strong>ソビエトロシアでは、いまどうしてる？があなたをつぶやく！</strong></p>
-<?php endif; ?>
+<? if($this->get["cbMsg"]!=""): ?>
+	メッセージ:<?= escape($this->get["cbMsg"]) ?>
+<? endif; ?>
 
 <?php if ($is_logged_in): ?>
 	
@@ -95,5 +93,13 @@
 		<li><a href="<?= escape($this->get_uri('help')) ?>">ヘルプ</a></li>
 	</ul>
 <?php endif; ?>
+
+<?php
+	require_once("omochiUtils.php");
+	if(!isGarakeIP()){
+		$url="http://chart.apis.google.com/chart?chs=150x150&cht=qr&chl=".urlencode($this->config["application_uri"]);
+		echo "<img src=\"{$url}\"><br />\n";
+	}
+?>
 
 <?php $this->include_template('footer.tpl') ?>
