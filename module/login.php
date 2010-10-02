@@ -33,14 +33,14 @@ class Module_login extends Module_utilities
 					
 				} else {
 					//failed to login with oauth
-					$message = "ƒƒOƒCƒ“‚É¸”s‚µ‚Ü‚µ‚½B";
+					$message = "ãƒ­ã‚°ã‚¤ãƒ³ã«å¤±æ•—ã—ã¾ã—ãŸã€‚";
 					$this->set_assign('message', $message);
 					$this->render();
 				}
 				
 			} else {
 				//failed to login with oauth
-				$message = "ƒƒOƒCƒ“‚É¸”s‚µ‚Ü‚µ‚½B";
+				$message = "ãƒ­ã‚°ã‚¤ãƒ³ã«å¤±æ•—ã—ã¾ã—ãŸã€‚";
 				$this->set_assign('message', $message);
 				$this->render();
 			}
