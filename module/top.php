@@ -49,7 +49,7 @@ class Module_top extends Module_utilities
 				'count' => 40,
 				'page' => $current,
 			));
-		$xml = simplexml_load_string($response);
+		$xml = @simplexml_load_string($response);
 		$this->set_assign('status', $xml->status);
 		
 		//token

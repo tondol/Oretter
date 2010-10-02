@@ -66,7 +66,7 @@ class Module_user extends Module_utilities
 			array(
 				'target_screen_name' => $screen_name,
 			));
-		$xml = simplexml_load_string($response);
+		$xml = @simplexml_load_string($response);
 		$this->set_assign('target', $xml->target);
 		
 		//get statuses

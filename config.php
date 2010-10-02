@@ -1,13 +1,15 @@
 <?php
 
 //ディレクトリの設定
+//基本的に弄る必要はないはず
 define('SYSTEM_DIR', dirname(__FILE__) . '/');
 define('LIB_DIR', SYSTEM_DIR . 'lib/');
 define('MODULE_DIR', SYSTEM_DIR . 'module/');
 define('TEMPLATE_DIR', SYSTEM_DIR . 'template/');
 define('STATIC_DIR', SYSTEM_DIR . 'static/');
-//ini_set('display_errors', 1);
+//ini_set('display_errors', true);
 ini_set('include_path', ini_get('include_path') . ':' . LIB_DIR);
+date_default_timezone_set('Asia/Tokyo');
 
 //フレームワークの設定
 //すべてのモジュールから参照できる
@@ -18,7 +20,7 @@ $config = array(
 	'static_dir' => STATIC_DIR,
 	//アプリケーション固有の設定
 	'application_name' => 'Oretter（β）',
-	'application_uri' => 'YOUR_APPLICATION_URI',
+	'application_uri' => 'http://digilog.usamimi.info/oretter/',
 	'application_main' => 'top',
 	'application_missing' => 'missing',
 	//ページIDとページ名称の設定
@@ -38,8 +40,7 @@ $config = array(
 		'post_unfollow' => 'フォローをやめる',
 		'login' => 'ログイン',
 		'logout' => 'ログアウト',
-		'auth_get' => '簡易ログイン',
-		'auth_set' => '簡易ログインを設定',
+		'auth' => '簡易ログイン',
 		'missing' => '404 Not Found',
 	),
 	//ユーザー設定
@@ -48,10 +49,10 @@ $config = array(
 		'consumer_secret' => 'YOUR_CONSUMER_SECRET',
 	),
 	'db' => array(
-		'host' => 'YOUR_DB_HOST',
-		'user' => 'YOUR_DB_USER',
-		'password' => 'YOUR_DB_PASSWORD',
-		'dbname' => 'YOUR_DB_DBNAME',
+		'host' => 'DB_HOST',
+		'user' => 'DB_USER',
+		'password' => 'DB_PASSWORD',
+		'dbname' => 'DB_NAME',
 	),
 	'auth' => array(
 		'table' => 'oretter_auth_tokens',
