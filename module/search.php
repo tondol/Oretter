@@ -43,7 +43,7 @@ class Module_search extends Module_utilities
 			'q' => $query,
 			'p' => $current,
 		);
-		$this->set_assign('callback', $this->get_uri(null, $params));
+		$_SESSION['callback'] = $this->get_uri(null, $params);
 		
 		//get instance of twitteroauth
 		$connection = new TwitterOAuth(
@@ -61,7 +61,7 @@ class Module_search extends Module_utilities
 		));
 		$response = file_get_contents($uri . '?' . $params);
 		$xml = @simplexml_load_string($response);
-		$this->set_assign('entry', $xml->entry);
+		$this->set_assign('entries', $xml->entry);
 		
 		//token
 		$post_token = guid();

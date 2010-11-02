@@ -6,6 +6,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript" />
 	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.1.0/build/cssfonts/fonts-min.css" />
+	<link rel="stylesheet" type="text/css" href="<?= $this->get_static('static/style/default.css') ?>" />
 	<title><?= $this->get_title() ?></title>
 </head>
 <body>

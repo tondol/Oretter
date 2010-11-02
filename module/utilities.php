@@ -118,20 +118,20 @@ class Module_utilities extends Module
 	{
 		//replace uri
 		$pattern_sub = preg_quote('-._~%:/?#[]@!$&\'()*+,;=', '/');
-        $pattern = '/((http|https):\/\/[0-9A-Z' . $pattern_sub . ']+)/i';
-        $replace = '<a href="${1}">${1}</a>';
-        $param = preg_replace($pattern, $replace, $param);
-        //replace screen_name
-        $pattern = '/@([0-9A-Z_]+)/i';
-        $user_uri = $this->get_uri('user', array('screen_name' => '${1}'));
-        $replace = '<a href="' . escape(urldecode($user_uri)) . '">@${1}</a>';
-        $param = preg_replace($pattern, $replace, $param);
-        //replace hashtag
-        $pattern = '/#([0-9A-Z_]+)/i';
-        $hash_uri = $this->get_uri('search', array('q' => urlencode('#') . '${1}'));
-        $replace = '<a href="' . escape(urldecode($hash_uri)) . '">#${1}</a>';
-        $param = preg_replace($pattern, $replace, $param);
-        return $param;
+		$pattern = '/((http|https):\/\/[0-9A-Z' . $pattern_sub . ']+)/i';
+		$replace = '<a href="${1}">${1}</a>';
+		$param = preg_replace($pattern, $replace, $param);
+		//replace screen_name
+		$pattern = '/@([0-9A-Z_]+)/i';
+		$user_uri = $this->get_uri('user', array('screen_name' => '${1}'));
+		$replace = '<a href="' . escape(urldecode($user_uri)) . '">@${1}</a>';
+		$param = preg_replace($pattern, $replace, $param);
+		//replace hashtag
+		$pattern = '/#([0-9A-Z_-]+)/i';
+		$hash_uri = $this->get_uri('search', array('q' => urlencode('#') . '${1}'));
+		$replace = '<a href="' . escape(urldecode($hash_uri)) . '">#${1}</a>';
+		$param = preg_replace($pattern, $replace, $param);
+		return $param;
 	}
 }
 

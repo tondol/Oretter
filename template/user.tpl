@@ -1,13 +1,18 @@
 <?php $this->include_template('header.tpl') ?>
 
 <?php
-	$statuses = $this->get_assign('status');
+	$statuses = $this->get_assign('statuses');
 	$target = $this->get_assign('target');
 	$user = $this->get_assign('user');
-	$callback = $this->get_assign('callback');
 	$post_token = $this->get_assign('post_token');
 	$prev = $this->get_assign('prev');
 	$next = $this->get_assign('next');
+	$friendships_params = array(
+		'screen_name' => (string)$user->screen_name,
+	);
+	$lists_params = array(
+		'screen_name' => (string)$user->screen_name,
+	);
 ?>
 
 <dl>
@@ -22,40 +27,45 @@
 	<dt>自己紹介</dt>
 	<dd><?= escape($user->description) ?></dd>
 	<dt>フォローしている</dt>
-	<dd><?= escape($user->friends_count) ?></dd>
+	<dd><a href="<?= escape($this->get_uri('info/friendships_friends', $friendships_params)) ?>">
+		<?= escape($user->friends_count) ?>
+	</a></dd>
 	<dt>フォローされている</dt>
-	<dd><?= escape($user->followers_count) ?></dd>
+	<dd><a href="<?= escape($this->get_uri('info/friendships_followers', $friendships_params)) ?>">
+		<?= escape($user->followers_count) ?>
+	</a></dd>
 	<dt>ツイート</dt>
 	<dd><?= escape($user->statuses_count) ?></dd>
+	<dt>リスト</dt>
+	<dd><ul>
+		<li><?= $this->get_link('info/lists', $lists_params) ?></li>
+		<li><?= $this->get_link('info/lists_subscriptions', $lists_params) ?></li>
+		<li><?= $this->get_link('info/lists_memberships', $lists_params) ?></li>
+	</ul></dd>
 </dl>
 
-<h2><?= escape($user->screen_name) ?>のつぶやき</h2>
+<hr />
 
+<h2><?= escape($user->screen_name) ?>のつぶやき</h2>
 <?php if ($statuses instanceof Traversable): ?>
 	<dl>
 		<?php foreach ($statuses as $status): ?>
-			<?php
-				$action_params = array(
-					'id' => (string)$status->id,
-					'callback' => $callback,
-				);
-			?>
-			<dt>
-				<?= escape($user->screen_name) ?>
-			</dt>
-			<dd>
-				<?= $this->replace_uri($status->text) ?>
-			</dd>
-			<dd>
-				<a href="<?= escape($this->get_uri('action', $action_params)) ?>">
-				<?= date('Y-m-d H:i:s', strtotime($status->created_at)) ?>
-				</a>
-			</dd>
+			<?php $this->set_assign('status', $status) ?>
+			<?php $this->include_template('status.tpl'); ?>
 		<?php endforeach; ?>
 	</dl>
 <?php else: ?>
 	<p>つぶやきはありません。</p>
 <?php endif; ?>
+
+<h2><a href="#tweet" name="tweet" id="tweet" accesskey="7">[7]<?= escape($user->screen_name) ?>宛につぶやく</a></h2>
+<form action="<?= escape($this->get_uri('post/tweet')) ?>" method="post">
+	<p><input type="text" name="status" value="@<?= escape($user->screen_name) ?> " />
+	<input type="submit" value="送信" />
+	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
+</form>
+
+<hr />
 
 <?php if ($user->id != $_SESSION['token_credentials']['user_id']): ?>
 	<?php if ($target->followed_by != "true"): ?>
@@ -63,7 +73,6 @@
 		<form action="<?= escape($this->get_uri('post_follow')) ?>" method="post">
 			<p><input type="submit" value="フォローする" />
 			<input type="hidden" name="id" value="<?= escape($user->id) ?>" />
-			<input type="hidden" name="callback" value="<?= escape($callback) ?>" />
 			<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 		</form>
 	<?php else: ?>
@@ -71,15 +80,15 @@
 		<form action="<?= escape($this->get_uri('post_unfollow')) ?>" method="post">
 			<p><input type="submit" value="フォローをやめる" />
 			<input type="hidden" name="id" value="<?= escape($user->id) ?>" />
-			<input type="hidden" name="callback" value="<?= escape($callback) ?>" />
 			<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 		</form>
 	<?php endif; ?>
+	<hr />
 <?php endif; ?>
 
-<h2><a name="bottom" id="bottom">ナビゲーション</a></h2>
+<h2>ページナビ</h2>
 <?php
-	$reload_params = array(
+	$current_params = array(
 		'screen_name' => (string)$user->screen_name,
 	);
 	$prev_params = array(
@@ -92,7 +101,7 @@
 	);
 ?>
 <ul>
-	<li><a href="<?= escape($this->get_uri(null, $reload_params)) ?>" accesskey="0">[0]タイムラインを更新</a></li>
+	<li><a href="<?= escape($this->get_uri(null, $current_params)) ?>" accesskey="0">[0]タイムラインを更新</a></li>
 	<?php if ($prev): ?>
 		<li><a href="<?= escape($this->get_uri(null, $prev_params)) ?>" accesskey="4">[4]前を見る</a></li>
 	<?php endif; ?>
@@ -102,13 +111,9 @@
 	<li><a href="#top" accesskey="2">[2]ページ先頭に戻る</a></li>
 	<li><a href="#bottom" accesskey="8">[8]ページ後尾に移動</a></li>
 </ul>
-<ul>
-	<li><a href="<?= escape($this->get_uri('top')) ?>" accesskey="1">[1]トップページ</a></li>
-	<li><a href="<?= escape($this->get_uri('mentions')) ?>" accesskey="*">[*]あなた宛のつぶやき</a></li>
-	<li><a href="<?= escape($this->get_uri('search')) ?>" accesskey="#">[#]実況ビュー</a></li>
-	<li><a href="<?= escape($this->get_uri('auth', array('guid' => 'ON'))) ?>">簡易ログインを設定</a></li>
-	<li><a href="<?= escape($this->get_uri('logout')) ?>">ログアウト</a></li>
-	<li><a href="<?= escape($this->get_uri('help')) ?>">ヘルプ</a></li>
-</ul>
+
+<?php $this->include_template('gnavi.tpl') ?>
+
+<hr />
 
 <?php $this->include_template('footer.tpl') ?>

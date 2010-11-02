@@ -19,14 +19,6 @@ class Module_action extends Module_utilities
 			exit(1);
 		}
 		
-		//callback
-		if ($this->request['callback'] != "") {
-			$callback = $this->request['callback'];
-		} else {
-			$callback = $this->get_uri('top');
-		}
-		$this->set_assign('callback', $callback);
-		
 		//id is not suplied
 		if ($this->request['id'] == "") {
 			header('Location: ' . $callback);

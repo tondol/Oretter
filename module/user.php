@@ -41,8 +41,7 @@ class Module_user extends Module_utilities
 			'screen_name' => $screen_name,
 			'p' => $current,
 		);
-		$callback = $this->get_uri(null, $params);
-		$this->set_assign('callback', $callback);
+		$_SESSION['callback'] = $this->get_uri(null, $params);
 		
 		//get instance of twitteroauth
 		$connection = new TwitterOAuth(
@@ -78,7 +77,7 @@ class Module_user extends Module_utilities
 				'count' => 40,
 			));
 		$xml = simplexml_load_string($response);
-		$this->set_assign('status', $xml->status);
+		$this->set_assign('statuses', $xml->status);
 		
 		//token
 		$post_token = guid();
@@ -86,7 +85,8 @@ class Module_user extends Module_utilities
 		$this->set_assign('post_token', $post_token);
 		
 		//overwrite current name
-		$this->config['pages']['user'] = escape($screen_name);
+		$current = $this->get_current();
+		$this->config['pages'][$current] = escape($screen_name);
 		$this->render();
 	}
 }

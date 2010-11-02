@@ -33,7 +33,7 @@ class Module_top extends Module_utilities
 		$params = array(
 			'p' => $current,
 		);
-		$this->set_assign('callback', $this->get_uri(null, $params));
+		$_SESSION['callback'] = $this->get_uri(null, $params);
 		
 		//get instance of twitteroauth
 		$connection = new TwitterOAuth(
@@ -50,7 +50,7 @@ class Module_top extends Module_utilities
 				'page' => $current,
 			));
 		$xml = @simplexml_load_string($response);
-		$this->set_assign('status', $xml->status);
+		$this->set_assign('statuses', $xml->status);
 		
 		//token
 		$post_token = guid();

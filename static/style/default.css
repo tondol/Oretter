@@ -1,0 +1,17 @@
+* {
+
+}
+html {
+	line-height: 1.5em;
+}
+h1 {
+	border-bottom: solid #ff9933 10px;
+}
+h2 {
+	border-left: solid #6666ff 10px;
+	padding-left: 5px;
+}
+hr {
+	visibility: hidden;
+	height: 1em;
+}

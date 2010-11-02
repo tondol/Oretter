@@ -1,9 +1,8 @@
 <?php $this->include_template('header.tpl') ?>
 
 <?php
-	$entries = $this->get_assign('entry');
-	$callback = $this->get_assign('callback');
 	$current = $this->get_current();
+	$entries = $this->get_assign('entries');
 	$query = $this->get_assign('query');
 	$post_token = $this->get_assign('post_token');
 	$prev = $this->get_assign('prev');
@@ -20,7 +19,6 @@
 				$screen_name = $matches[1];
 				$action_params = array(
 					'id' => $id,
-					'callback' => $callback,
 				);
 				$user_params = array(
 					'screen_name' => $screen_name,
@@ -45,8 +43,8 @@
 	<p>つぶやきがありません。</p>
 <?php endif; ?>
 
-<h2><a href="#tweet" id="tweet" name="tweet" accesskey="7">[7]つぶやきを投稿する</a></h2>
-<form action="<?= escape($this->get_uri('post_tweet')) ?>" method="post">
+<h2><a href="#tweet" id="tweet" name="tweet" accesskey="7">[7]検索ワード付きでつぶやく</a></h2>
+<form action="<?= escape($this->get_uri('post/tweet')) ?>" method="post">
 	<?php
 		if ($query != "") {
 			$status = ' ' . escape($query);
@@ -56,7 +54,6 @@
 	?>
 	<p><input type="text" name="status" value="<?= escape($status) ?>" />
 	<input type="submit" value="送信" />
-	<input type="hidden" name="callback" value="<?= escape($callback) ?>" />
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
 
@@ -73,9 +70,11 @@
 	<input type="submit" value="検索" /></p>
 </form>
 
-<h2><a name="bottom" id="bottom">ナビゲーション</a></h2>
+<hr />
+
+<h2>ページナビ</h2>
 <?php
-	$reload_params = array(
+	$current_params = array(
 		'q' => $query,
 	);
 	$prev_params = array(
@@ -88,7 +87,7 @@
 	);
 ?>
 <ul>
-	<li><a href="<?= escape($this->get_uri(null, $reload_params)) ?>" accesskey="0">[0]タイムラインを更新</a></li>
+	<li><a href="<?= escape($this->get_uri(null, $current_params)) ?>" accesskey="0">[0]タイムラインを更新</a></li>
 	<?php if ($prev): ?>
 		<li><a href="<?= escape($this->get_uri(null, $prev_params)) ?>" accesskey="4">[4]前を見る</a></li>
 	<?php endif; ?>
@@ -98,13 +97,9 @@
 	<li><a href="#top" accesskey="2">[2]ページ先頭に戻る</a></li>
 	<li><a href="#bottom" accesskey="8">[8]ページ後尾に移動</a></li>
 </ul>
-<ul>
-	<li><a href="<?= escape($this->get_uri('top')) ?>" accesskey="1">[1]トップページ</a></li>
-	<li><a href="<?= escape($this->get_uri('mentions')) ?>" accesskey="*">[*]あなた宛のつぶやき</a></li>
-	<li><a href="<?= escape($this->get_uri('search')) ?>" accesskey="#">[#]実況ビュー</a></li>
-	<li><a href="<?= escape($this->get_uri('auth', array('guid' => 'ON'))) ?>">簡易ログインを設定</a></li>
-	<li><a href="<?= escape($this->get_uri('logout')) ?>">ログアウト</a></li>
-	<li><a href="<?= escape($this->get_uri('help')) ?>">ヘルプ</a></li>
-</ul>
+
+<?php $this->include_template('gnavi.tpl') ?>
+
+<hr />
 
 <?php $this->include_template('footer.tpl') ?>

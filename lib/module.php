@@ -135,12 +135,12 @@ class Module
 	//get uri of specified path
 	function get_static($path)
 	{
-		return $this->config['static_dir'] . $path;
+		return $this->config['application_uri'] . $path;
 	}
 	//include specified template
 	function include_template($path)
 	{
-		include_once $this->config['template_dir'] . $path;
+		include $this->config['template_dir'] . $path;
 	}
 	
 	function __destruct()
