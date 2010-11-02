@@ -18,9 +18,9 @@
 				);
 			?>
 			<dt>
-				<a href="<?= escape($this->get_uri('lists', $lists_params)) ?>">
-				<?= escape($list->full_name) ?>
-				</a>
+				<a href="<?= escape($this->get_uri('lists', $lists_params)) ?>"><!--
+				--><?= escape($list->full_name) ?><!--
+				--></a>
 			</dt>
 			<dd>
 				<?= $this->replace_uri($list->description) ?>

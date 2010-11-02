@@ -17,9 +17,9 @@
 				);
 			?>
 			<dt>
-				<a href="<?= escape($this->get_uri('user', $friend_params)) ?>">
-				<?= escape($friend->screen_name) ?>
-				</a>
+				<a href="<?= escape($this->get_uri('user', $friend_params)) ?>"><!--
+				--><?= escape($friend->screen_name) ?><!--
+				--></a>
 			</dt>
 			<dd>
 				<?= $this->replace_uri($friend->name) ?>
