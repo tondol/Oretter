@@ -7,6 +7,12 @@
 	$post_token = $this->get_assign('post_token');
 	$prev = $this->get_assign('prev');
 	$next = $this->get_assign('next');
+	$friendships_params = array(
+		'screen_name' => (string)$user->screen_name,
+	);
+	$user_params = array(
+		'screen_name' => (string)$user->screen_name,
+	);
 ?>
 
 <dl>
@@ -29,7 +35,9 @@
 		<?= escape($user->followers_count) ?>
 	</a></dd>
 	<dt>ツイート</dt>
-	<dd><?= escape($user->statuses_count) ?></dd>
+	<dd><a href="<?= escape($this->get_uri(null, $user_params)) ?>">
+		<?= escape($user->statuses_count) ?>
+	</a></dd>
 </dl>
 
 <hr />
@@ -55,7 +63,6 @@
 
 <?php
 	$this->include_template('info/lists_navi.tpl');
-	$this->include_template('info/friendships_navi.tpl');
 ?>
 
 <hr />
