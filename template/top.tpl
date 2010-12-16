@@ -15,7 +15,9 @@
 <?php endif; ?>
 
 <?php if ($is_logged_in): ?>
-	<?php if ($statuses instanceof Traversable): ?>
+	<h2>タイムライン</h2>
+	
+	<?php if ($statuses instanceof Traversable && count($statuses) != 0): ?>
 		<dl>
 			<?php foreach ($statuses as $status): ?>
 				<?php $this->set_assign('status', $status); ?>
@@ -25,6 +27,7 @@
 	<?php else: ?>
 		<p>つぶやきがありません。</p>
 	<?php endif; ?>
+	
 	<h2><a href="#tweet" name="tweet" id="tweet" accesskey="7">[7]つぶやきを投稿する</a></h2>
 	<form action="<?= escape($this->get_uri('post/tweet')) ?>" method="post">
 		<p><input type="text" name="status" />

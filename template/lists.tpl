@@ -1,6 +1,7 @@
 <?php $this->include_template('header.tpl') ?>
 
 <?php
+	$lists = $this->get_assign('lists');
 	$statuses = $this->get_assign('statuses');
 	$post_token = $this->get_assign('post_token');
 	$id = $this->get_assign('id');
@@ -10,11 +11,15 @@
 	$next = $this->get_assign('next');
 ?>
 
-<?php if ($statuses instanceof Traversable): ?>
+<h2>タイムライン</h2>
+
+<?php if ($statuses instanceof Traversable && count($statuses) != 0): ?>
 	<dl>
 		<?php foreach ($statuses as $status): ?>
-			<?php $this->set_assign('status', $status) ?>
-			<?php $this->include_template('status.tpl'); ?>
+			<?php
+				$this->set_assign('status', $status);
+				$this->include_template('status.tpl');
+			?>
 		<?php endforeach; ?>
 	</dl>
 <?php else: ?>
@@ -27,6 +32,11 @@
 	<input type="submit" value="送信" />
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
+
+<?php
+	$this->set_assign('user', $lists->user);
+	$this->include_template('info/lists_navi.tpl');
+?>
 
 <hr />
 

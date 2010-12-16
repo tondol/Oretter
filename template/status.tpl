@@ -7,13 +7,13 @@
 		'screen_name' => (string)$status->user->screen_name,
 	);
 	$retweeted_user_params = array(
-		'screen_name' => (string)$status->retweeted_status->user->screen_name,
+		'screen_name' => (string)$status->retweetedstatus->user->screen_name,
 	);
 ?>
 <dt>
-	<?php if ($status->retweeted_status): ?>
+	<?php if ($status->retweetedstatus): ?>
 		<a href="<?= escape($this->get_uri('user', $retweeted_user_params)) ?>"><!--
-		--><?= escape($status->retweeted_status->user->screen_name) ?><!--
+		--><?= escape($status->retweetedstatus->user->screen_name) ?><!--
 		--></a>
 		(RT by <a href="<?= escape($this->get_uri('user', $user_params)) ?>"><!--
 		--><?= escape($status->user->screen_name) ?><!--
@@ -25,8 +25,8 @@
 	<?php endif; ?>
 </dt>
 <dd>
-	<?php if ($status->retweeted_status): ?>
-		<?= $this->replace_uri($status->retweeted_status->text) ?>
+	<?php if ($status->retweetedstatus): ?>
+		<?= $this->replace_uri($status->retweetedstatus->text) ?>
 	<?php else: ?>
 		<?= $this->replace_uri($status->text) ?>
 	<?php endif; ?>

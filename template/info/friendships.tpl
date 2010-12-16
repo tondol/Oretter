@@ -8,7 +8,9 @@
 	$callback = $_SESSION['callback'];
 ?>
 
-<?php if ($friends instanceof Traversable): ?>
+<h2>ユーザー一覧</h2>
+
+<?php if ($friends instanceof Traversable && count($friends) != 0): ?>
 	<dl>
 		<?php foreach ($friends as $friend): ?>
 			<?php
@@ -24,17 +26,16 @@
 			<dd>
 				<?= $this->replace_uri($friend->name) ?>
 			</dd>
+			<dd>
+				<strong><?= $friend->following == "true" ? "フォロー中" : "未フォロー" ?></strong>
+			</dd>
 		<?php endforeach; ?>
 	</dl>
 <?php else: ?>
 	<p>ユーザーがいません。</p>
 <?php endif; ?>
 
-<h2 id="friendships"><?= escape($user->screen_name) ?>のフォロー関係</h2>
-<ul>
-	<li><a href="<?= escape($this->get_uri('info/friendships_friends')) ?>"><?= escape($user->screen_name) ?>がフォローしているユーザー</a></li>
-	<li><a href="<?= escape($this->get_uri('info/friendships_followers')) ?>"><?= escape($user->screen_name) ?>をフォローしているユーザー</a></li>
-</ul>
+<?php $this->include_template('info/friendships_navi.tpl'); ?>
 
 <hr />
 

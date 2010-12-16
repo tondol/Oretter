@@ -1,7 +1,7 @@
 <?php
 
 require_once 'twitteroauth.php';
-require_once dirname(__FILE__) . '/utilities.php';
+require_once dirname(dirname(__FILE__)) . '/utilities.php';
 
 class Module_post_follow extends Module_utilities
 {

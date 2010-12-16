@@ -7,7 +7,10 @@
 	$prev = $this->get_assign('prev');
 	$next = $this->get_assign('next');
 ?>
-<?php if ($statuses instanceof Traversable): ?>
+
+<h2>タイムライン</h2>
+
+<?php if ($statuses instanceof Traversable && count($statuses) != 0): ?>
 	<dl>
 		<?php foreach ($statuses as $status): ?>
 			<?php $this->set_assign('status', $status) ?>

@@ -7,12 +7,6 @@
 	$post_token = $this->get_assign('post_token');
 	$prev = $this->get_assign('prev');
 	$next = $this->get_assign('next');
-	$friendships_params = array(
-		'screen_name' => (string)$user->screen_name,
-	);
-	$lists_params = array(
-		'screen_name' => (string)$user->screen_name,
-	);
 ?>
 
 <dl>
@@ -36,12 +30,6 @@
 	</a></dd>
 	<dt>ツイート</dt>
 	<dd><?= escape($user->statuses_count) ?></dd>
-	<dt>リスト</dt>
-	<dd><ul>
-		<li><?= $this->get_link('info/lists', $lists_params) ?></li>
-		<li><?= $this->get_link('info/lists_subscriptions', $lists_params) ?></li>
-		<li><?= $this->get_link('info/lists_memberships', $lists_params) ?></li>
-	</ul></dd>
 </dl>
 
 <hr />
@@ -65,19 +53,24 @@
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
 
+<?php
+	$this->include_template('info/lists_navi.tpl');
+	$this->include_template('info/friendships_navi.tpl');
+?>
+
 <hr />
 
 <?php if ($user->id != $_SESSION['token_credentials']['user_id']): ?>
 	<?php if ($target->followed_by != "true"): ?>
 		<h2 id="follow"><?= escape($user->screen_name) ?>をフォローする</a></h2>
-		<form action="<?= escape($this->get_uri('post_follow')) ?>" method="post">
+		<form action="<?= escape($this->get_uri('post/follow')) ?>" method="post">
 			<p><input type="submit" value="フォローする" />
 			<input type="hidden" name="id" value="<?= escape($user->id) ?>" />
 			<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 		</form>
 	<?php else: ?>
 		<h2 id="follow"><?= escape($user->screen_name) ?>のフォローをやめる</a></h2>
-		<form action="<?= escape($this->get_uri('post_unfollow')) ?>" method="post">
+		<form action="<?= escape($this->get_uri('post/unfollow')) ?>" method="post">
 			<p><input type="submit" value="フォローをやめる" />
 			<input type="hidden" name="id" value="<?= escape($user->id) ?>" />
 			<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>

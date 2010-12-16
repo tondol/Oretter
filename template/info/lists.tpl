@@ -8,7 +8,9 @@
 	$callback = $_SESSION['callback'];
 ?>
 
-<?php if ($lists instanceof Traversable): ?>
+<h2>リスト一覧</h2>
+
+<?php if ($lists instanceof Traversable && count($lists) != 0): ?>
 	<dl>
 		<?php foreach ($lists as $list): ?>
 			<?php
@@ -32,16 +34,8 @@
 <?php endif; ?>
 
 <?php
-	$lists_params = array(
-		'screen_name' => (string)$user->screen_name,
-	);
+	$this->include_template('info/lists_navi.tpl');
 ?>
-<h2 id="list"><?= escape($user->screen_name) ?>のリスト</h2>
-<ul>
-	<li><a href="<?= escape($this->get_uri('info/lists', $lists_params)) ?>"><?= escape($user->screen_name) ?>が作成したリスト</a></li>
-	<li><a href="<?= escape($this->get_uri('info/lists_subscriptions', $lists_params)) ?>"><?= escape($user->screen_name) ?>がフォローしているリスト</a></li>
-	<li><a href="<?= escape($this->get_uri('info/lists_memberships', $lists_params)) ?>"><?= escape($user->screen_name) ?>をフォローしているリスト</a></li>
-</ul>
 
 <hr />
 

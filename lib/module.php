@@ -70,11 +70,11 @@ class Module
 		}
 	}
 	//get uri of specified page (default: current)
-	//use this if mod_rewrite is enabled
+	//use this if mod_rewrite is disabled
 	function get_uri($id=null, $params=null)
 	{
 		if (is_null($id)) {
-			$id = $this->current;
+			$id = $this->get_current();
 		}
 		if (is_null($params)) {
 			$params = array();
@@ -97,7 +97,7 @@ class Module
 	}
 /*
 	//get uri of specified page (default: current)
-	//use this if mod_rewrite is disabled
+	//use this if mod_rewrite is enabled
 	function get_uri($id=null, $params=null)
 	{
 		if (is_null($id)) {

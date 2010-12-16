@@ -9,7 +9,9 @@
 	$next = $this->get_assign('next');
 ?>
 
-<?php if ($entries instanceof Traversable): ?>
+<h2>タイムライン</h2>
+
+<?php if ($entries instanceof Traversable && count($entries) != 0): ?>
 	<dl>
 		<?php foreach ($entries as $entry): ?>
 			<?php

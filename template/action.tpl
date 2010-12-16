@@ -13,6 +13,8 @@
 	);
 ?>
 
+<h2>対象のつぶやき</h2
+
 <dl>
 	<?php $this->set_assign('status', $status) ?>
 	<?php $this->include_template('status.tpl'); ?>

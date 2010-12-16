@@ -6,17 +6,17 @@ require_once dirname(__FILE__) . '/utilities.php';
 class Module_auth extends Module_utilities
 {
 	//簡易ログインを設定
-	function auth_set($concumer_key, $consumer_secret, $token_credentials)
+	function auth_set($token_credentials)
 	{
 		$message = array();
 		$db = $this->initialize_database();
 		
 		//load record and delete unused records
-		$data = $this->load_record_by_token_credentials($db, $token_credentials);
+		$tmp_credentials = $this->load_record_by_token_credentials($db, $token_credentials);
 		$this->garbage_collect($db);
 		
 		//logged in
-		if ($data !== false) {
+		if ($tmp_credentials !== false) {
 			//record exists
 			$auth_token = $this->generate_auth_token();
 			$result = $this->update_record($db, $auth_token, $token_credentials);
@@ -48,7 +48,7 @@ class Module_auth extends Module_utilities
 	}
 	
 	//簡易ログイン
-	function auth_get($concumer_key, $consumer_secret, $token_credentials)
+	function auth_get($consumer_key, $consumer_secret)
 	{
 		$message = array();
 		$db = $this->initialize_database();
@@ -62,21 +62,21 @@ class Module_auth extends Module_utilities
 		
 		//load token_credentials
 		$auth_token = $this->load_auth_token();
-		$data = $this->load_record_by_auth_token($db, $auth_token);
+		$tmp_credentials = $this->load_record_by_auth_token($db, $auth_token);
 		
 		//not logged in
-		if ($data !== false) {
+		if ($tmp_credentials !== false) {
 			//record exists
 			$auth_token = $this->generate_auth_token();
-			$result = $this->update_record($db, $auth_token, $data);
+			$result = $this->update_record($db, $auth_token, $tmp_credentials);
 			
 			//updated
 			if ($result !== false) {
 				//get instance of twitteroauth
 				$connection = new TwitterOAuth(
 					$consumer_key, $consumer_secret,
-					$data['oauth_token'],
-					$data['oauth_token_secret']);
+					$tmp_credentials['oauth_token'],
+					$tmp_credentials['oauth_token_secret']);
 				$connection->format = 'xml';
 				
 				//get authenticated user's information
@@ -85,8 +85,8 @@ class Module_auth extends Module_utilities
 				
 				//store auth_token and token_credentials
 				$token_credentials = array(
-					'oauth_token' => $data['oauth_token'],
-					'oauth_token_secret' => $data['oauth_token_secret'],
+					'oauth_token' => $tmp_credentials['oauth_token'],
+					'oauth_token_secret' => $tmp_credentials['oauth_token_secret'],
 					'user_id' => (string)$xml->id,
 					'screen_name' => (string)$xml->screen_name,
 				);
@@ -117,9 +117,9 @@ class Module_auth extends Module_utilities
 		
 		//ログイン状態で操作を振り分け
 		if ($token_credentials == "") {
-			$this->auth_get($concumer_key, $consumer_secret, $token_credentials);
+			$this->auth_get($consumer_key, $consumer_secret);
 		} else {
-			$this->auth_set($concumer_key, $consumer_secret, $token_credentials);
+			$this->auth_set($token_credentials);
 		}
 		
 		$this->render();

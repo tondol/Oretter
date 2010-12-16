@@ -56,8 +56,8 @@ class Module_lists extends Module_utilities
 		
 		//get list
 		$response = $connection->get($screen_name . '/lists/' . $id);
-		$list = @simplexml_load_string($response);
-		$this->set_assign('list', $xml);
+		$lists = @simplexml_load_string($response);
+		$this->set_assign('lists', $lists);
 		
 		//get statuses
 		$response = $connection->get(
@@ -77,7 +77,7 @@ class Module_lists extends Module_utilities
 		
 		//overwrite current name
 		$current = $this->get_current();
-		$this->config['pages'][$current] = escape($list->full_name);
+		$this->config['pages'][$current] = escape($lists->name);
 		$this->render();
 	}
 }
