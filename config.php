@@ -9,6 +9,7 @@ define('TEMPLATE_DIR', SYSTEM_DIR . 'template/');
 define('STATIC_DIR', SYSTEM_DIR . 'static/');
 //ini_set('display_errors', true);
 ini_set('include_path', ini_get('include_path') . ':' . LIB_DIR);
+ini_set('session.use_only_cookies', false);
 date_default_timezone_set('Asia/Tokyo');
 
 //フレームワークの設定

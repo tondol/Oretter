@@ -61,9 +61,9 @@
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
 
-<?php
-	$this->include_template('info/lists_navi.tpl');
-?>
+<hr />
+
+<?php $this->include_template('info/lists_navi.tpl'); ?>
 
 <hr />
 

@@ -33,6 +33,8 @@
 	<p>リストはありません。</p>
 <?php endif; ?>
 
+<hr />
+
 <?php
 	$this->include_template('info/lists_navi.tpl');
 ?>

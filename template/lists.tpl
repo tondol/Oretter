@@ -33,6 +33,8 @@
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
 
+<hr />
+
 <?php
 	$this->set_assign('user', $lists->user);
 	$this->include_template('info/lists_navi.tpl');

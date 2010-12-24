@@ -35,6 +35,8 @@
 	<p>ユーザーがいません。</p>
 <?php endif; ?>
 
+<hr />
+
 <?php $this->include_template('info/friendships_navi.tpl'); ?>
 
 <hr />
