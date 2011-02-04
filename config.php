@@ -21,7 +21,7 @@ $config = array(
 	'static_dir' => STATIC_DIR,
 	//アプリケーション固有の設定
 	'application_name' => 'Oretter（β）',
-	'application_uri' => 'http://digilog.usamimi.info/oretter/',
+	'application_uri' => 'http://oretter.tondol.com/',
 	'application_main' => 'top',
 	'application_missing' => 'missing',
 	//ページIDとページ名称の設定
