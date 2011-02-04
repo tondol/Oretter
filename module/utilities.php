@@ -117,8 +117,7 @@ class Module_utilities extends Module
 	function replace_uri($param)
 	{
 		//replace uri
-		$pattern_sub = preg_quote('-._~%:/?#[]@!$&\'()*+,;=', '/');
-		$pattern = '/((http|https):\/\/[0-9A-Z' . $pattern_sub . ']+)/i';
+		$pattern = '/((?:https?|ftp)(?::\/\/[-_.!~*\'a-zA-Z0-9;\/?:\@&=+\$,%#]+))/i';
 		$replace = '<a href="${1}">${1}</a>';
 		$param = preg_replace($pattern, $replace, $param);
 		//replace screen_name
@@ -127,9 +126,9 @@ class Module_utilities extends Module
 		$replace = '<a href="' . escape(urldecode($user_uri)) . '">@${1}</a>';
 		$param = preg_replace($pattern, $replace, $param);
 		//replace hashtag
-		$pattern = '/#([0-9A-Z_-]+)/i';
-		$hash_uri = $this->get_uri('search', array('q' => urlencode('#') . '${1}'));
-		$replace = '<a href="' . escape(urldecode($hash_uri)) . '">#${1}</a>';
+		$pattern = '/(^|\s)#(\w+)/i';
+		$hash_uri = $this->get_uri('search', array('q' => urlencode('#') . '${2}'));
+		$replace = '${1}<a href="' . escape(urldecode($hash_uri)) . '">#${2}</a>';
 		$param = preg_replace($pattern, $replace, $param);
 		return $param;
 	}

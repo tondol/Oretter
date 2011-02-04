@@ -1,0 +1,12 @@
+# basic option
+DirectoryIndex index.php index.html
+
+# deny
+<Files ~ "^\.(htaccess|htpasswd)$">
+	deny from all
+</Files>
+
+# php
+<IfModule mod_php5.c>
+	php_flag short_open_tag On
+</IfModule>

@@ -75,6 +75,7 @@ class Module_user extends Module_utilities
 				'screen_name' => $screen_name,
 				'page' => $current,
 				'count' => 40,
+				'include_rts' => true,
 			));
 		$xml = simplexml_load_string($response);
 		$this->set_assign('statuses', $xml->status);
