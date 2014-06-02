@@ -9,6 +9,7 @@ define('TEMPLATE_DIR', SYSTEM_DIR . 'template/');
 define('STATIC_DIR', SYSTEM_DIR . 'static/');
 //ini_set('display_errors', true);
 ini_set('include_path', ini_get('include_path') . ':' . LIB_DIR);
+ini_set('include_path', ini_get('include_path') . ':' . LIB_DIR . 'twitteroauth/twitteroauth/');
 ini_set('session.use_only_cookies', false);
 date_default_timezone_set('Asia/Tokyo');
 
@@ -40,9 +41,10 @@ $config = array(
 		'post/unfavorite' => 'ふぁぼりをやめる',
 		'post/follow' => 'フォローする',
 		'post/unfollow' => 'フォローをやめる',
-		'info/lists' => '作成したリスト',
-		'info/lists_subscriptions' => 'フォローしているリスト',
-		'info/lists_memberships' => 'フォローされているリスト',
+		'info/lists' => '作成したリスト・購読しているリスト',
+		'info/lists_ownerships' => '作成したリスト',
+		'info/lists_subscriptions' => '購読しているリスト',
+		'info/lists_memberships' => '登録されているリスト',
 		'info/friendships_friends' => 'フォローしているユーザー',
 		'info/friendships_followers' => 'フォローされているユーザー',
 		'login' => 'ログイン',
@@ -52,14 +54,14 @@ $config = array(
 	),
 	//ユーザー設定
 	'twitter' => array(
-		'consumer_key' => 'YOUR_CONSUMER_KEY',
-		'consumer_secret' => 'YOUR_CONSUMER_SECRET',
+		'consumer_key' => '',
+		'consumer_secret' => '',
 	),
 	'db' => array(
-		'host' => 'DB_HOST',
-		'user' => 'DB_USER',
-		'password' => 'DB_PASSWORD',
-		'dbname' => 'DB_NAME',
+		'host' => 'localhost',
+		'user' => '',
+		'password' => '',
+		'dbname' => '',
 	),
 	'auth' => array(
 		'table' => 'oretter_auth_tokens',

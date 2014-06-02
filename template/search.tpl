@@ -11,38 +11,15 @@
 
 <h2>タイムライン</h2>
 
-<?php if ($entries instanceof Traversable && count($entries) != 0): ?>
+<?php if (is_array($entries) && count($entries) != 0): ?>
 	<dl>
 		<?php foreach ($entries as $entry): ?>
-			<?php
-				preg_match('/^tag:[A-Za-z.]+,[0-9]+:([0-9]+)$/', $entry->id, $matches);
-				$id = $matches[1];
-				preg_match('/http:\\/\\/twitter.com\\/([0-9A-Za-z_]+)$/', $entry->author->uri, $matches);
-				$screen_name = $matches[1];
-				$action_params = array(
-					'id' => $id,
-				);
-				$user_params = array(
-					'screen_name' => $screen_name,
-				);
-			?>
-			<dt>
-				<a href="<?= escape($this->get_uri('user', $user_params)) ?>">
-				<?= escape($screen_name) ?>
-				</a>
-			</dt>
-			<dd>
-				<?= $this->replace_uri($entry->title) ?>
-			</dd>
-			<dd>
-				<a href="<?= escape($this->get_uri('action', $action_params)) ?>">
-				<?= date('Y-m-d H:i:s', strtotime($entry->published)) ?>
-				</a>
-			</dd>
+			<?php $this->set_assign('status', $entry) ?>
+			<?php $this->include_template('status.tpl'); ?>
 		<?php endforeach; ?>
 	</dl>
 <?php else: ?>
-	<p>つぶやきがありません。</p>
+	<p>つぶやきはありません。</p>
 <?php endif; ?>
 
 <h2><a href="#tweet" id="tweet" name="tweet" accesskey="7">[7]検索ワード付きでつぶやく</a></h2>

@@ -10,13 +10,13 @@
 
 <h2>リスト一覧</h2>
 
-<?php if ($lists instanceof Traversable && count($lists) != 0): ?>
+<?php if (is_array($lists) && count($lists) != 0): ?>
 	<dl>
 		<?php foreach ($lists as $list): ?>
 			<?php
 				$lists_params = array(
-					'id' => (string)$list->id,
-					'screen_name' => (string)$list->user->screen_name,
+					'id' => $list->id_str,
+					'screen_name' => $list->user->screen_name,
 				);
 			?>
 			<dt>

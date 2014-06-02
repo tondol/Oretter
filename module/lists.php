@@ -52,23 +52,21 @@ class Module_lists extends Module_utilities
 			$consumer_key, $consumer_secret,
 			$token_credentials['oauth_token'],
 			$token_credentials['oauth_token_secret']);
-		$connection->format = 'xml';
 		
 		//get list
-		$response = $connection->get($screen_name . '/lists/' . $id);
-		$lists = @simplexml_load_string($response);
+		$lists = $connection->get('lists/show', array('list_id' => $id));
 		$this->set_assign('lists', $lists);
 		
 		//get statuses
 		$response = $connection->get(
-			$screen_name . '/lists/' . $id . '/statuses',
+			'lists/statuses',
 			array(
+				'list_id' => $id,
 				'per_page' => 40,
 				'page' => $current,
 			)
 		);
-		$statuses = @simplexml_load_string($response);
-		$this->set_assign('statuses', $statuses->status);
+		$this->set_assign('statuses', $response);
 		
 		//token
 		$post_token = guid();

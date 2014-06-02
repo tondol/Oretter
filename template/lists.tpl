@@ -13,7 +13,7 @@
 
 <h2>タイムライン</h2>
 
-<?php if ($statuses instanceof Traversable && count($statuses) != 0): ?>
+<?php if (is_array($statuses) && count($statuses) != 0): ?>
 	<dl>
 		<?php foreach ($statuses as $status): ?>
 			<?php

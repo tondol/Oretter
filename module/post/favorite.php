@@ -35,14 +35,12 @@ class Module_post_favorite extends Module
 				$consumer_key, $consumer_secret,
 				$token_credentials['oauth_token'],
 				$token_credentials['oauth_token_secret']);
-			$connection->format = 'xml';
-			
+	
 			//get response
-			$response = $connection->post('favorites/create/' . $this->post['id']);
-			$xml = @simplexml_load_string($response);
-			
+			$response = $connection->post('favorites/create', array('id' => $this->post['id']));
+	
 			//check response
-			if ($xml->id != "") {
+			if ($response->id_str != "") {
 				$message = "ステータスは正しくふぁぼられました。";
 			} else {
 				$message = "おやおや、何かおかしい！";

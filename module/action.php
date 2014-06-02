@@ -30,22 +30,19 @@ class Module_action extends Module_utilities
 			$consumer_key, $consumer_secret,
 			$token_credentials['oauth_token'],
 			$token_credentials['oauth_token_secret']);
-		$connection->format = 'xml';
 		
 		//get status
 		$response = $connection->get(
 			'statuses/show',
 			array('id' => $this->request['id']));
-		$xml = @simplexml_load_string($response);
-		$this->set_assign('status', $xml);
+		$this->set_assign('status', $response);
 		
 		//get reply
-		if ($xml->in_reply_to_status_id != "") {
+		if ($response->in_reply_to_status_id_str != "") {
 			$response = $connection->get(
 				'statuses/show',
-				array('id' => (string)$xml->in_reply_to_status_id));
-			$xml = @simplexml_load_string($response);
-			$this->set_assign('reply', $xml);
+				array('id' => $response->in_reply_to_status_id_str));
+			$this->set_assign('reply', $response);
 		}
 		
 		//token

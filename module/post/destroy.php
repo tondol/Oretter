@@ -35,14 +35,12 @@ class Module_post_destroy extends Module
 				$consumer_key, $consumer_secret,
 				$token_credentials['oauth_token'],
 				$token_credentials['oauth_token_secret']);
-			$connection->format = 'xml';
-			
+	
 			//get response
 			$response = $connection->post('statuses/destroy/' . $this->post['id']);
-			$xml = @simplexml_load_string($response);
-			
+
 			//check response
-			if ($xml->id != "") {
+			if ($response->id_str != "") {
 				$message = "ステータスは正しく削除されました。";
 			} else {
 				$message = "おやおや、何かおかしい！";

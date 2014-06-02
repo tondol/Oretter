@@ -7,14 +7,22 @@ class Module_info_friendships_followers extends Module_info_friendships
 {
 	function get_and_parse($connection, $user, $cursor)
 	{
-		$response = $connection->get(
-			'statuses/followers',
+		$this->response = $connection->get(
+			'followers/list',
 			array(
+				'screen_name' => $user->screen_name,
 				'cursor' => $cursor,
-				'screen_name' => (string)$user->screen_name,
 			)
 		);
-		return @simplexml_load_string($response);
+		return $this->response->users;
+	}
+	function get_next_cursor()
+	{
+		return $this->response->next_cursor_str;
+	}
+	function get_prev_cursor()
+	{
+		return $this->response->prev_cursor_str;
 	}
 }
 

@@ -1,7 +1,7 @@
 <?php
 	$status = $this->get_assign('status');
 	$action_params = array(
-		'id' => (string)$status->id,
+		'id' => $status->id_str,
 	);
 	$user_params = array(
 		'screen_name' => (string)$status->user->screen_name,

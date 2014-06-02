@@ -10,6 +10,14 @@ class Module_info_friendships extends Module_utilities
 	{
 		return null;
 	}
+	function get_next_cursor()
+	{
+		return null;
+	}
+	function get_prev_cursor()
+	{
+		return null;
+	}
 	
 	function action()
 	{
@@ -44,21 +52,19 @@ class Module_info_friendships extends Module_utilities
 			$consumer_key, $consumer_secret,
 			$token_credentials['oauth_token'],
 			$token_credentials['oauth_token_secret']);
-		$connection->format = 'xml';
 		
 		//get user
-		$response = $connection->get(
+		$user = $connection->get(
 			'users/show',
 			array('screen_name' => $screen_name)
 		);
-		$user = @simplexml_load_string($response);
 		$this->set_assign('user', $user);
 		
 		//get ids
-		$xml = $this->get_and_parse($connection, $user, $cursor);
-		$this->set_assign('next', (string)$xml->next_cursor);
-		$this->set_assign('prev', (string)$xml->previous_cursor);
-		$this->set_assign('friends', $xml->users->user);
+		$response = $this->get_and_parse($connection, $user, $cursor);
+		$this->set_assign('next', $this->get_next_cursor());
+		$this->set_assign('prev', $this->get_prev_cursor());
+		$this->set_assign('friends', $response);
 		
 		//token
 		$post_token = guid();

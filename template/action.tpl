@@ -43,7 +43,7 @@
 	?>
 	<p><input type="text" name="status" value="<?= $reply ?>" />
 	<input type="submit" value="返信する" />
-	<input type="hidden" name="in_reply_to_status_id" value="<?= escape($status->id) ?>" />
+	<input type="hidden" name="in_reply_to_status_id" value="<?= escape($status->id_str) ?>" />
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
 
@@ -53,14 +53,14 @@
 	<h2>つぶやきをふぁぼる</h2>
 	<form action="<?= escape($this->get_uri('post/favorite')) ?>" method="post">
 		<p><input type="submit" value="ふぁぼる" />
-		<input type="hidden" name="id" value="<?= escape($status->id) ?>" />
+		<input type="hidden" name="id" value="<?= escape($status->id_str) ?>" />
 		<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 	</form>
 <?php else: ?>
 	<h2>ふぁぼりを取り消す</h2>
 	<form action="<?= escape($this->get_uri('post/unfavorite')) ?>" method="post">
 		<p><input type="submit" value="取り消す" />
-		<input type="hidden" name="id" value="<?= escape($status->id) ?>" />
+		<input type="hidden" name="id" value="<?= escape($status->id_str) ?>" />
 		<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 	</form>
 <?php endif; ?>
@@ -68,7 +68,7 @@
 <h2>つぶやきを公式RTする</h2>
 <form action="<?= escape($this->get_uri('post/retweet')) ?>" method="post">
 	<p><input type="submit" value="公式RTする" />
-	<input type="hidden" name="id" value="<?= escape($status->id) ?>" />
+	<input type="hidden" name="id" value="<?= escape($status->id_str) ?>" />
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
 
@@ -97,7 +97,7 @@
 	?>
 	<p><input type="text" name="status" value="<?= $quote ?>" />
 	<input type="submit" value="QTする" />
-	<input type="hidden" name="in_reply_to_status_id" value="<?= escape($status->id) ?>" />
+	<input type="hidden" name="in_reply_to_status_id" value="<?= escape($status->id_str) ?>" />
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
 
@@ -105,7 +105,7 @@
 	<h2>つぶやきを削除する</h2>
 	<form action="<?= escape($this->get_uri('post/destroy')) ?>" method="post">
 		<p><input type="submit" value="削除する" />
-		<input type="hidden" name="id" value="<?= escape($status->id) ?>" />
+		<input type="hidden" name="id" value="<?= escape($status->id_str) ?>" />
 		<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 	</form>
 <?php endif; ?>

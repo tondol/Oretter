@@ -10,7 +10,7 @@
 
 <h2>ユーザー一覧</h2>
 
-<?php if ($friends instanceof Traversable && count($friends) != 0): ?>
+<?php if (is_array($friends) && count($friends) != 0): ?>
 	<dl>
 		<?php foreach ($friends as $friend): ?>
 			<?php

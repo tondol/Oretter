@@ -48,7 +48,6 @@ class Module_user extends Module_utilities
 			$consumer_key, $consumer_secret,
 			$token_credentials['oauth_token'],
 			$token_credentials['oauth_token_secret']);
-		$connection->format = 'xml';
 		
 		//get user
 		$response = $connection->get(
@@ -56,8 +55,7 @@ class Module_user extends Module_utilities
 			array(
 				'screen_name' => $screen_name,
 			));
-		$xml = simplexml_load_string($response);
-		$this->set_assign('user', $xml);
+		$this->set_assign('user', $response);
 		
 		//get friendship
 		$response = $connection->get(
@@ -65,8 +63,7 @@ class Module_user extends Module_utilities
 			array(
 				'target_screen_name' => $screen_name,
 			));
-		$xml = @simplexml_load_string($response);
-		$this->set_assign('target', $xml->target);
+		$this->set_assign('source', $response->relationship->source);
 		
 		//get statuses
 		$response = $connection->get(
@@ -77,8 +74,7 @@ class Module_user extends Module_utilities
 				'count' => 40,
 				'include_rts' => true,
 			));
-		$xml = simplexml_load_string($response);
-		$this->set_assign('statuses', $xml->status);
+		$this->set_assign('statuses', $response);
 		
 		//token
 		$post_token = guid();

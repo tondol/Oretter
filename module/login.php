@@ -53,6 +53,7 @@ class Module_login extends Module_utilities
 		
 		//get temporary_credentials
 		$connection = new TwitterOAuth($consumer_key, $consumer_secret);
+		$connection->host = "https://api.twitter.com/1.1/";
 		$redirect_uri = $this->get_uri(null, array('verifying' => true));
 		$temporary_credentials = $connection->getRequestToken($redirect_uri);
 		
@@ -60,7 +61,7 @@ class Module_login extends Module_utilities
 		$_SESSION['oauth_token'] = $temporary_credentials['oauth_token'];
 		$_SESSION['oauth_token_secret'] = $temporary_credentials['oauth_token_secret'];
 		$oauth_uri = $connection->getAuthorizeURL($temporary_credentials);
-		
+
 		header('Location: ' . $oauth_uri);
 	}
 }

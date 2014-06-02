@@ -40,7 +40,6 @@ class Module_top extends Module_utilities
 			$consumer_key, $consumer_secret,
 			$token_credentials['oauth_token'],
 			$token_credentials['oauth_token_secret']);
-		$connection->format = 'xml';
 		
 		//get response
 		$response = $connection->get(
@@ -49,9 +48,8 @@ class Module_top extends Module_utilities
 				'count' => 40,
 				'page' => $current,
 			));
-		$xml = @simplexml_load_string($response);
-		$this->set_assign('statuses', $xml->status);
-		
+		$this->set_assign('statuses', $response);
+	
 		//token
 		$post_token = guid();
 		$_SESSION['post_token'] = $post_token;

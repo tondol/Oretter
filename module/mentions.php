@@ -39,22 +39,19 @@ class Module_mentions extends Module_utilities
 			$consumer_key, $consumer_secret,
 			$token_credentials['oauth_token'],
 			$token_credentials['oauth_token_secret']);
-		$connection->format = 'xml';
 		
 		//get self
 		$response = $connection->get('account/verify_credentials');
-		$xml = @simplexml_load_string($response);
-		$this->set_assign('self', $xml);
+		$this->set_assign('self', $response);
 		
 		//get response
 		$response = $connection->get(
-			'statuses/mentions',
+			'statuses/mentions_timeline',
 			array(
 				'count' => 40,
 				'page' => $current,
 			));
-		$xml = @simplexml_load_string($response);
-		$this->set_assign('statuses', $xml->status);
+		$this->set_assign('statuses', $response);
 		
 		//token
 		$post_token = guid();

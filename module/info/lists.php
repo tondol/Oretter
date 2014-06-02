@@ -8,11 +8,21 @@ class Module_info_lists extends Module_utilities
 	//sub classes have to extend this method
 	function get_and_parse($connection, $user, $cursor)
 	{
-		$response = $connection->get(
-			(string)$user->screen_name . '/lists',
-			array('cursor' => $cursor)
-		);
-		return @simplexml_load_string($response);
+		$this->response = $connection->get(
+			'lists/list',
+			array(
+				'screen_name' => $user->screen_name,
+				'cursor' => $cursor,
+			));
+		return $this->response;
+	}
+	function get_next_cursor()
+	{
+		return null;
+	}
+	function get_prev_cursor()
+	{
+		return null;
 	}
 	
 	function action()
@@ -48,21 +58,19 @@ class Module_info_lists extends Module_utilities
 			$consumer_key, $consumer_secret,
 			$token_credentials['oauth_token'],
 			$token_credentials['oauth_token_secret']);
-		$connection->format = 'xml';
 		
 		//get user
-		$response = $connection->get(
+		$user = $connection->get(
 			'users/show',
 			array('screen_name' => $screen_name)
 		);
-		$user = @simplexml_load_string($response);
 		$this->set_assign('user', $user);
 		
 		//get lists
-		$xml = $this->get_and_parse($connection, $user, $cursor);
-		$this->set_assign('lists', $xml->lists->list);
-		$this->set_assign('next', (string)$xml->next_cursor);
-		$this->set_assign('prev', (string)$xml->previous_cursor);
+		$response = $this->get_and_parse($connection, $user, $cursor);
+		$this->set_assign('lists', $response);
+		$this->set_assign('next', (string)$this->get_next_cursor());
+		$this->set_assign('prev', (string)$this->get_prev_cursor());
 		
 		//token
 		$post_token = guid();
@@ -70,9 +78,10 @@ class Module_info_lists extends Module_utilities
 		$this->set_assign('post_token', $post_token);
 		
 		//overwrite page names
-		$this->config['pages']['info/lists'] = "{$user->screen_name}の作成したリスト";
-		$this->config['pages']['info/lists_memberships'] = "{$user->screen_name}をフォローしているリスト";
-		$this->config['pages']['info/lists_subscriptions'] = "{$user->screen_name}がフォローしているリスト";
+		$this->config['pages']['info/lists'] = "{$user->screen_name}が作成したリスト・購読しているリスト";
+		$this->config['pages']['info/lists_ownerships'] = "{$user->screen_name}が作成したリスト";
+		$this->config['pages']['info/lists_subscriptions'] = "{$user->screen_name}が購読しているリスト";
+		$this->config['pages']['info/lists_memberships'] = "{$user->screen_name}が登録されているリスト";
 		
 		$this->render();
 	}

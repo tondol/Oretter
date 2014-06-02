@@ -2,7 +2,7 @@
 
 <?php
 	$statuses = $this->get_assign('statuses');
-	$target = $this->get_assign('target');
+	$source = $this->get_assign('source');
 	$user = $this->get_assign('user');
 	$post_token = $this->get_assign('post_token');
 	$prev = $this->get_assign('prev');
@@ -43,7 +43,7 @@
 <hr />
 
 <h2><?= escape($user->screen_name) ?>のつぶやき</h2>
-<?php if ($statuses instanceof Traversable): ?>
+<?php if (is_array($statuses) && count($statuses) != 0): ?>
 	<dl>
 		<?php foreach ($statuses as $status): ?>
 			<?php $this->set_assign('status', $status) ?>
@@ -68,7 +68,7 @@
 <hr />
 
 <?php if ($user->id != $_SESSION['token_credentials']['user_id']): ?>
-	<?php if ($target->followed_by != "true"): ?>
+	<?php if ($source->following != "true"): ?>
 		<h2 id="follow"><?= escape($user->screen_name) ?>をフォローする</a></h2>
 		<form action="<?= escape($this->get_uri('post/follow')) ?>" method="post">
 			<p><input type="submit" value="フォローする" />

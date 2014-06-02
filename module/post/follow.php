@@ -36,14 +36,12 @@ class Module_post_follow extends Module_utilities
 				$consumer_key, $consumer_secret,
 				$token_credentials['oauth_token'],
 				$token_credentials['oauth_token_secret']);
-			$connection->format = 'xml';
 			
 			//get response
-			$response = $connection->post('friendships/create/' . $this->post['id']);
-			$xml = @simplexml_load_string($response);
+			$response = $connection->post('friendships/create', array('id' => $this->post['id']));
 			
 			//check response
-			if ($xml->id != "") {
+			if ($response->id_str != "") {
 				$message = "フォローが正しく完了しました。";
 			} else {
 				$message = "おやおや、何かおかしい！";

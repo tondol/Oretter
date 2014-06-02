@@ -52,16 +52,15 @@ class Module_search extends Module_utilities
 			$token_credentials['oauth_token_secret']);
 		
 		//get response
-		$uri = 'http://search.twitter.com/search.atom';
-		$params = http_build_query(array(
-			'lang' => 'ja',
-			'q' => $query,
-			'page' => $current,
-			'rpp' => 40,
-		));
-		$response = file_get_contents($uri . '?' . $params);
-		$xml = @simplexml_load_string($response);
-		$this->set_assign('entries', $xml->entry);
+		$response = $connection->get(
+			'search/tweets',
+			array(
+				'lang' => 'ja',
+				'q' => $query,
+				/* 'page' => $current, */
+				'rpp' => 40,
+			));
+		$this->set_assign('entries', $response->statuses);
 		
 		//token
 		$post_token = guid();
