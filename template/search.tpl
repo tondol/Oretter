@@ -4,9 +4,9 @@
 	$current = $this->get_current();
 	$entries = $this->get_assign('entries');
 	$query = $this->get_assign('query');
+	$max_id = $this->get_assign('max_id');
+	$since_id = $this->get_assign('since_id');
 	$post_token = $this->get_assign('post_token');
-	$prev = $this->get_assign('prev');
-	$next = $this->get_assign('next');
 ?>
 
 <h2>タイムライン</h2>
@@ -58,19 +58,19 @@
 	);
 	$prev_params = array(
 		'q' => $query,
-		'p' => $prev,
+		'since_id' => $max_id,
 	);
 	$next_params = array(
 		'q' => $query,
-		'p' => $next,
+		'max_id' => $since_id,
 	);
 ?>
 <ul>
 	<li><a href="<?= escape($this->get_uri(null, $current_params)) ?>" accesskey="0">[0]タイムラインを更新</a></li>
-	<?php if ($prev): ?>
+	<?php if ($max_id): ?>
 		<li><a href="<?= escape($this->get_uri(null, $prev_params)) ?>" accesskey="4">[4]前を見る</a></li>
 	<?php endif; ?>
-	<?php if ($next): ?>
+	<?php if ($since_id): ?>
 		<li><a href="<?= escape($this->get_uri(null, $next_params)) ?>" accesskey="6">[6]次を見る</a></li>
 	<?php endif; ?>
 	<li><a href="#top" accesskey="2">[2]ページ先頭に戻る</a></li>

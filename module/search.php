@@ -18,16 +18,6 @@ class Module_search extends Module_utilities
 			exit(1);
 		}
 		
-		//pager
-		if ($this->request['p'] != "") {
-			$current = max(intval($this->request['p']), 1);
-		} else {
-			$current = 1;
-		}
-		$this->set_assign('current', $current);
-		$this->set_assign('next', $current + 1);
-		$this->set_assign('prev', $current - 1);
-		
 		//get search_query
 		//store search_query
 		$query = $this->request['q'];
@@ -37,12 +27,17 @@ class Module_search extends Module_utilities
 			$query = $_SESSION['search_query'];
 		}
 		$this->set_assign('query', $query);
-		
+	
 		//callback
 		$params = array(
 			'q' => $query,
-			'p' => $current,
 		);
+		if ($this->request['max_id'] != "") {
+			$params['max_id'] = $this->request['max_id'];
+		}
+		if ($this->request['since_id'] != "") {
+			$params['since_id'] = $this->request['since_id'];
+		}
 		$_SESSION['callback'] = $this->get_uri(null, $params);
 		
 		//get instance of twitteroauth
@@ -52,16 +47,32 @@ class Module_search extends Module_utilities
 			$token_credentials['oauth_token_secret']);
 		
 		//get response
-		$response = $connection->get(
-			'search/tweets',
-			array(
-				'lang' => 'ja',
-				'q' => $query,
-				/* 'page' => $current, */
-				'rpp' => 40,
-			));
+		$params = array(
+			'lang' => 'ja',
+			'q' => $query,
+			'count' => 40,
+		);
+		if ($this->request['max_id'] != "") {
+			$params['max_id'] = $this->request['max_id'];
+		}
+		if ($this->request['since_id'] != "") {
+			$params['since_id'] = $this->request['since_id'];
+		}
+		$response = $connection->get('search/tweets', $params);
 		$this->set_assign('entries', $response->statuses);
-		
+
+		//max_id, since_id
+		if ($this->request['max_id']) {
+			$this->set_assign('max_id', $this->request['max_id']);
+		} else if (count($response->statuses) != 0) {
+			$this->set_assign('max_id', $response->statuses[0]->id_str);
+		}
+		if ($this->request['since_id'] != "") {
+			$this->set_assign('since_id', $this->request['since_id']);
+		} else if (count($response->statuses) != 0) {
+			$this->set_assign('since_id', $response->statuses[count($response->statuses) - 1]->id_str);
+		}
+
 		//token
 		$post_token = guid();
 		$_SESSION['post_token'] = $post_token;
