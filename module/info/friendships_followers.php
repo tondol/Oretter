@@ -22,7 +22,7 @@ class Module_info_friendships_followers extends Module_info_friendships
 	}
 	function get_prev_cursor()
 	{
-		return $this->response->prev_cursor_str;
+		return $this->response->previous_cursor_str;
 	}
 }
 

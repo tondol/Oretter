@@ -8,8 +8,12 @@
 	$next = $this->get_assign('next');
 ?>
 
-<?php if (mt_rand() % 2 == 0): ?>
+<?php if (($rand = mt_rand() % 4) == 0): ?>
 	<p><strong>ぼくがかんがえたさいきょうのガラケー向けTwitterクライアント。</strong></p>
+<?php elseif ($rand == 1): ?>
+	<p><strong>ぼくがかんがえたさいきょうの社畜向けTwitterクライアント。</strong></p>
+<?php elseif ($rand == 2): ?>
+	<p><strong>事前に簡易ログイン設定をしておけば，中国でもTwitterができる。そう，Oretterならね。</strong></p>
 <?php else: ?>
 	<p><strong>ソビエトロシアでは、いまどうしてる？があなたをつぶやく！</strong></p>
 <?php endif; ?>

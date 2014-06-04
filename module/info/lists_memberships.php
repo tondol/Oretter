@@ -21,7 +21,7 @@ class Module_info_lists_memberships extends Module_info_lists
 	}
 	function get_prev_cursor()
 	{
-		return $this->response->prev_cursor_str;
+		return $this->response->previous_cursor_str;
 	}
 }
 
