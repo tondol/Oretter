@@ -9,7 +9,9 @@ class Module_logout extends Module_utilities
 		session_start();
 		$_SESSION = array();
 		session_destroy();
-		$this->store_auth_token('');
+
+		$this->set_auth_token_to_cookie('');
+
 		header('Location: ' . $this->get_uri('top'));
 	}
 }

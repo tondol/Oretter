@@ -11,32 +11,32 @@ class Module_auth extends Module_utilities
 		$message = array();
 		$db = $this->initialize_database();
 		
-		//load record and delete unused records
-		$tmp_credentials = $this->load_record_by_token_credentials($db, $token_credentials);
+		//fetch auth_token record
+		$tmp_credentials = $this->select_record_by_token_credentials($db, $token_credentials);
 		$this->garbage_collect($db);
 		
-		//logged in
+		//auth_token has already inserted?
 		if ($tmp_credentials !== false) {
-			//record exists
 			$auth_token = $this->generate_auth_token();
 			$result = $this->update_record($db, $auth_token, $token_credentials);
-			
-			//completed
+	
 			if ($result !== false) {
-				$this->store_auth_token($auth_token);
+				//completed!
+				//set auth_token to cookie
+				$this->set_auth_token_to_cookie($auth_token);
 				$message[] = "簡易ログイン用のトークンを更新しました。";
 				$message[] = "このページをブックマークして次回からご利用ください。";
 			} else {
 				$message[] = "簡易ログイン用のトークンを更新できませんでした。";
 			}
 		} else {
-			//record does not exist
 			$auth_token = $this->generate_auth_token();
-			$result = $this->store_record($db, $auth_token, $token_credentials);
+			$result = $this->insert_record($db, $auth_token, $token_credentials);
 			
-			//completed
 			if ($result !== false) {
-				$this->store_auth_token($auth_token);
+				//completed!
+				//set auth_token to cookie
+				$this->set_auth_token_to_cookie($auth_token);
 				$message[] = "簡易ログイン用のトークンを登録しました。";
 				$message[] = "このページをブックマークして次回からご利用ください。";
 			} else {
@@ -53,46 +53,35 @@ class Module_auth extends Module_utilities
 		$message = array();
 		$db = $this->initialize_database();
 		
-		//callback
-		if ($this->post['callback'] != "") {
-			$callback = $this->post['callback'];
-		} else {
-			$callback = $this->get_uri('top');
-		}
+		//fetch auth_token record
+		$auth_token = $this->get_auth_token_from_cookie();
+		$tmp_credentials = $this->select_record_by_auth_token($db, $auth_token);
 		
-		//load token_credentials
-		$auth_token = $this->load_auth_token();
-		$tmp_credentials = $this->load_record_by_auth_token($db, $auth_token);
-		
-		//not logged in
+		//auth_token has already inserted?
 		if ($tmp_credentials !== false) {
-			//record exists
 			$auth_token = $this->generate_auth_token();
 			$result = $this->update_record($db, $auth_token, $tmp_credentials);
-			
-			//updated
+	
 			if ($result !== false) {
-				//get instance of twitteroauth
 				$connection = new TwitterOAuth(
 					$consumer_key, $consumer_secret,
 					$tmp_credentials['oauth_token'],
 					$tmp_credentials['oauth_token_secret']);
-				$connection->format = 'xml';
-				
-				//get authenticated user's information
+	
 				$response = $connection->get('account/verify_credentials');
-				$xml = @simplexml_load_string($response);
 				
-				//store auth_token and token_credentials
+				//completed!
+				//set auth_token to cookie and store token_credentials to session
 				$token_credentials = array(
 					'oauth_token' => $tmp_credentials['oauth_token'],
 					'oauth_token_secret' => $tmp_credentials['oauth_token_secret'],
-					'user_id' => (string)$xml->id,
-					'screen_name' => (string)$xml->screen_name,
+					'user_id' => $response->id_str,
+					'screen_name' => $response->screen_name,
 				);
-				$this->store_auth_token($auth_token);
+				$this->set_auth_token_to_cookie($auth_token);
 				$_SESSION['token_credentials'] = $token_credentials;
-				
+
+				//redirect
 				header('Location: ' . $this->get_uri('top'));
 				exit(1);
 				
@@ -100,10 +89,9 @@ class Module_auth extends Module_utilities
 				$message[] = "簡易ログインに失敗しました。";
 			}
 		} else {
-			//record not exists
 			$message[] = "簡易ログイン用のトークンが登録されていません。";
 		}
-		
+	
 		$this->set_assign('message', $message);
 	}
 	
