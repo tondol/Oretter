@@ -67,5 +67,3 @@ class stmt_Extended extends mysqli_stmt
         }
     }
 }
-
-?>

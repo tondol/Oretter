@@ -24,5 +24,3 @@ class Module_info_lists_memberships extends Module_info_lists
 		return $this->response->previous_cursor_str;
 	}
 }
-
-?>

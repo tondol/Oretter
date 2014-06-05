@@ -55,5 +55,3 @@ class Module_post_unfollow extends Module_utilities
 		$this->render();
 	}
 }
-
-?>

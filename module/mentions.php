@@ -61,5 +61,3 @@ class Module_mentions extends Module_utilities
 		$this->render();
 	}
 }
-
-?>

@@ -81,5 +81,3 @@ class Module_search extends Module_utilities
 		$this->render();
 	}
 }
-
-?>

@@ -53,5 +53,3 @@ class Module_action extends Module_utilities
 		$this->render();
 	}
 }
-
-?>

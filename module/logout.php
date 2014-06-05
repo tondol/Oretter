@@ -15,5 +15,3 @@ class Module_logout extends Module_utilities
 		header('Location: ' . $this->get_uri('top'));
 	}
 }
-
-?>

@@ -87,5 +87,3 @@ class Module_user extends Module_utilities
 		$this->render();
 	}
 }
-
-?>

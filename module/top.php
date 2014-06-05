@@ -58,5 +58,3 @@ class Module_top extends Module_utilities
 		$this->render();
 	}
 }
-
-?>

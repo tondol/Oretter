@@ -25,5 +25,3 @@ class Module_info_friendships_followers extends Module_info_friendships
 		return $this->response->previous_cursor_str;
 	}
 }
-
-?>

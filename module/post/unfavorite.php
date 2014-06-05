@@ -55,5 +55,3 @@ class Module_post_unfavorite extends Module
 		$this->render();
 	}
 }
-
-?>

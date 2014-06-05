@@ -65,5 +65,3 @@ class Module_login extends Module_utilities
 		header('Location: ' . $oauth_uri);
 	}
 }
-
-?>

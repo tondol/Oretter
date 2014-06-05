@@ -123,5 +123,3 @@ function current_date_iso()
 {
 	return date('c');
 }
-
-?>

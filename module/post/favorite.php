@@ -55,5 +55,3 @@ class Module_post_favorite extends Module
 		$this->render();
 	}
 }
-
-?>

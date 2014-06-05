@@ -78,5 +78,3 @@ class Module_info_friendships extends Module_utilities
 		$this->render();
 	}
 }
-
-?>

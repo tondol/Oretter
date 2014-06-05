@@ -86,5 +86,3 @@ class Module_info_lists extends Module_utilities
 		$this->render();
 	}
 }
-
-?>

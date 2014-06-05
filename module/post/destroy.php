@@ -55,5 +55,3 @@ class Module_post_destroy extends Module
 		$this->render();
 	}
 }
-
-?>

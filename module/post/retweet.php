@@ -55,5 +55,3 @@ class Module_post_retweet extends Module
 		$this->render();
 	}
 }
-
-?>

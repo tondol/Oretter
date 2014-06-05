@@ -118,5 +118,3 @@ class Module_utilities extends Module
 		return $param;
 	}
 }
-
-?>

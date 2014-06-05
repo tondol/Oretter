@@ -113,5 +113,3 @@ class Module_auth extends Module_utilities
 		$this->render();
 	}
 }
-
-?>

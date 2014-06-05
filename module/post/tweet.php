@@ -67,5 +67,3 @@ class Module_post_tweet extends Module
 		$this->render();
 	}
 }
-
-?>

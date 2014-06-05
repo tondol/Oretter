@@ -8,5 +8,3 @@ class Module_help extends Module
 		$this->render();
 	}
 }
-
-?>
