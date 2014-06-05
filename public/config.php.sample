@@ -2,7 +2,7 @@
 
 //ディレクトリの設定
 //基本的に弄る必要はないはず
-define('SYSTEM_DIR', dirname(__FILE__) . '/');
+define('SYSTEM_DIR', dirname(dirname(__FILE__)) . '/');
 define('LIB_DIR', SYSTEM_DIR . 'lib/');
 define('MODULE_DIR', SYSTEM_DIR . 'module/');
 define('TEMPLATE_DIR', SYSTEM_DIR . 'template/');
