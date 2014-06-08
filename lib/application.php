@@ -25,7 +25,7 @@ class Application
 	function load()
 	{
 		//normalize parameter: page
-		$chain = split(DIRECTORY_SEPARATOR, $this->get['page']);
+		$chain = explode(DIRECTORY_SEPARATOR, $this->get['page']);
 		foreach ($chain as $key => $value) {
 			//directory traversal
 			$chain[$key] = basename($value);
