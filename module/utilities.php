@@ -127,7 +127,7 @@ class Module_utilities extends Module
 		}
 		$i = 0; $last = 0;
 		$result = '';
-		for ($i=0;$i<strlen($s);$i++) {
+		for ($i=0;$i<mb_strlen($s, 'UTF-8');$i++) {
 			if (!empty($map[$i])) {
 				$index = $map[$i];
 				$end = $index[0];
