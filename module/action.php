@@ -20,7 +20,7 @@ class Module_action extends Module_utilities
 		}
 		
 		//id is not suplied
-		if ($this->request['id'] == "") {
+		if (empty($this->request['id'])) {
 			header('Location: ' . $callback);
 			exit(1);
 		}
@@ -38,7 +38,7 @@ class Module_action extends Module_utilities
 		$this->set_assign('status', $response);
 		
 		//get reply
-		if ($response->in_reply_to_status_id_str != "") {
+		if (!empty($response->in_reply_to_status_id_str)) {
 			$response = $connection->get(
 				'statuses/show',
 				array('id' => $response->in_reply_to_status_id_str));

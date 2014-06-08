@@ -1,10 +1,10 @@
 <?php $this->include_template('header.tpl') ?>
 
 <?php
-	$is_logged_in = $_SESSION['token_credentials'] != "";
+	$is_logged_in = !empty($_SESSION['token_credentials']);
 	$message = $this->get_assign('message');
 	$callback = $_SESSION['callback'];
-	$post_token = $_SESSION['post_token'];
+	$post_token = array_at($_SESSION, 'post_token');
 ?>
 
 <?php if (is_array($message)): ?>

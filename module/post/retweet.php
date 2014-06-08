@@ -18,14 +18,13 @@ class Module_post_retweet extends Module
 			exit(1);
 		}
 		
-		if ($this->post['id'] == "") {
+		if (empty($this->post['id'])) {
 			//id is not supplied
 			$message = "RTするステータスを指定してください。";
 			
-		} else if (
-			$this->post['post_token'] == "" ||
-			$this->post['post_token'] != $_SESSION['post_token'])
-		{
+		} else if (!empty($this->post['post_token']) ||
+				!empty($_SESSION['post_token']) ||
+				$this->post['post_token'] != $_SESSION['post_token']) {
 			//duplicated post
 			$message = "もう一度やり直してください。";
 			
@@ -40,7 +39,7 @@ class Module_post_retweet extends Module
 			$response = $connection->post('statuses/retweet/' . $this->post['id']);
 			
 			//check response
-			if ($response->id_str != "") {
+			if (!empty($response->id_str)) {
 				$message = "ステータスは正しく更新されました。";
 			} else {
 				$message = "おやおや、何かおかしい！";
@@ -51,7 +50,6 @@ class Module_post_retweet extends Module
 		unset($_SESSION['post_token']);
 		
 		$this->set_assign('message', $message);
-		$this->set_assign('callback', $callback);
 		$this->render();
 	}
 }

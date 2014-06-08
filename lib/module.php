@@ -41,7 +41,7 @@ class Module
 	//get variable by template
 	function get_assign($key)
 	{
-		return $this->variables[$key];
+		return array_at($this->variables, $key);
 	}
 	
 	//get id of current page

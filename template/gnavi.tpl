@@ -1,7 +1,6 @@
 <h2><a name="bottom" id="bottom">グローバルナビ</a></h2>
 <?php
-	$token_credentials = $_SESSION['token_credentials'];
-	$is_logged_in = $token_credentials != "";
+	$is_logged_in = !empty($_SESSION['token_credentials']);
 ?>
 <?php if ($is_logged_in): ?>
 	<ul>

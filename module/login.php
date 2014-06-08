@@ -13,9 +13,9 @@ class Module_login extends Module_utilities
 		$consumer_secret = $this->config['twitter']['consumer_secret'];
 		
 		//callback from twitter
-		if ($this->request['verifying'])
+		if (!empty($this->request['verifying']))
 		{
-			if ($this->request['oauth_verifier'] != "") {
+			if (!empty($this->request['oauth_verifier'])) {
 				//get instance of twitteroauth
 				$connection = new TwitterOAuth(
 					$consumer_key, $consumer_secret,
@@ -25,7 +25,7 @@ class Module_login extends Module_utilities
 				$token_credentials = $connection->getAccessToken($this->request['oauth_verifier']);
 				
 				//token_credentials is supplied
-				if ($token_credentials['oauth_token'] != "") {
+				if (!empty($token_credentials['oauth_token'])) {
 					//succeeded to login with oauth
 					session_regenerate_id();
 					$_SESSION['token_credentials'] = $token_credentials;

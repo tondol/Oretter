@@ -40,14 +40,14 @@ class Module_info_lists extends Module_utilities
 		}
 		
 		//screen_name
-		$screen_name = $this->request['screen_name'];
+		$screen_name = array_at($this->request, 'screen_name');
 		if ($screen_name == "") {
 			header('Location: ' . $this->get_uri('top'));
 			exit(1);
 		}
 		
 		//cursor
-		$cursor = $this->request['cursor'];
+		$cursor = array_at($this->request, 'cursor');
 		if ($cursor == "") {
 			$cursor = -1;
 		}

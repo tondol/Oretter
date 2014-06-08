@@ -75,21 +75,21 @@ class Module_utilities extends Module
 	
 	function get_identify_number()
 	{
-		if ($_SERVER['HTTP_X_DCMGUID'] != "") {
+		if (!empty($_SERVER['HTTP_X_DCMGUID'])) {
 			//docomo
 			$host = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 			if (preg_match('/docomo\.ne\.jp$/', $host)) {
 				return $_SERVER['HTTP_X_DCMGUID'];
 			}
 			
-		} else if ($_SERVER['HTTP_X_UP_SUBNO'] != "") {
+		} else if (!empty($_SERVER['HTTP_X_UP_SUBNO'])) {
 			//ezweb
 			$host = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 			if (preg_match('/ezweb\.ne\.jp$/', $host)) {
 				return $_SERVER['HTTP_X_UP_SUBNO'];
 			}
 			
-		} else if ($_SERVER['HTTP_X_JPHONE_UID'] != "") {
+		} else if (!empty($_SERVER['HTTP_X_JPHONE_UID'])) {
 			//softbank
 			$host = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 			if (preg_match('/jp-[dhtcrknsq]\.ne\.jp/', $host)) {
@@ -99,22 +99,50 @@ class Module_utilities extends Module
 		return null;
 	}
 	
-	function replace_uri($param)
+	function linkify($o)
 	{
-		//replace uri
-		$pattern = '/((?:https?|ftp)(?::\/\/[-_.!~*\'a-zA-Z0-9;\/?:\@&=+\$,%#]+))/i';
-		$replace = '<a href="${1}">${1}</a>';
-		$param = preg_replace($pattern, $replace, $param);
-		//replace screen_name
-		$pattern = '/@([0-9A-Z_]+)/i';
-		$user_uri = $this->get_uri('user', array('screen_name' => '${1}'));
-		$replace = '<a href="' . escape(urldecode($user_uri)) . '">@${1}</a>';
-		$param = preg_replace($pattern, $replace, $param);
-		//replace hashtag
-		$pattern = '/(^|\s)#(\w+)/i';
-		$hash_uri = $this->get_uri('search', array('q' => urlencode('#') . '${2}'));
-		$replace = '${1}<a href="' . escape(urldecode($hash_uri)) . '">#${2}</a>';
-		$param = preg_replace($pattern, $replace, $param);
-		return $param;
+		$s = $o->text;
+		$map = array();
+		foreach ($o->entities->urls as $i => $entry) {
+			$map[$entry->indices[0]] = [$entry->indices[1], function ($s) use ($entry) {
+				return "<a href=\"" . escape($entry->expanded_url) . "\">" . escape($entry->display_url) . "</a>";
+			}];
+		}
+		foreach ($o->entities->user_mentions as $i => $entry) {
+			$map[$entry->indices[0]] = [$entry->indices[1], function ($s) use ($entry) {
+				return "<a href=\"" . $this->get_uri('user', array('screen_name' => escape($entry->screen_name))) . "\">@" . escape($entry->screen_name) . "</a>";
+			}];
+		}
+		foreach ($o->entities->hashtags as $i => $entry) {
+			$map[$entry->indices[0]] = [$entry->indices[1], function ($s) use ($entry) {
+				return "<a href=\"" . $this->get_uri('search', array('q' => "#" . escape($entry->text))) . "\">#" . escape($entry->text) . "</a>";
+			}];
+		}
+		if (!empty($o->entities->media)) {
+			foreach ($o->entities->media as $i => $entry) {
+				$map[$entry->indices[0]] = [$entry->indices[1], function ($s) use ($entry) {
+					return "<a href=\"" . escape($entry->expanded_url) . "\">" . escape($entry->display_url) . "</a>";
+				}];
+			}
+		}
+		$i = 0; $last = 0;
+		$result = '';
+		for ($i=0;$i<strlen($s);$i++) {
+			if (!empty($map[$i])) {
+				$index = $map[$i];
+				$end = $index[0];
+				$f = $index[1];
+				if ($i != $last) {
+					$result .= escape(mb_substr($s, $last, $i - $last, 'UTF-8'));
+				}
+				$result .= $f(mb_substr($s, $i, $end - $i, 'UTF-8'));
+				$i = $end - 1;
+				$last = $end;
+			}
+		}
+		if ($i != $last) {
+			$result .= escape(mb_substr($s, $last, $i - $last, 'UTF-8'));
+		}
+		return $result;
 	}
 }

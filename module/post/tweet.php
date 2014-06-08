@@ -18,14 +18,13 @@ class Module_post_tweet extends Module
 			exit(1);
 		}
 		
-		if ($this->post['status'] == "") {
+		if (empty($this->post['status'])) {
 			//status is not supplied
 			$message = "ステータスを入力してください。";
 			
-		} else if (
-			$this->post['post_token'] == "" ||
-			$this->post['post_token'] != $_SESSION['post_token'])
-		{
+		} else if (empty($this->post['post_token']) ||
+				empty($_SESSION['post_token']) ||
+				$this->post['post_token'] != $_SESSION['post_token']) {
 			//duplicated post
 			$message = "もう一度やり直してください。";
 			
@@ -40,7 +39,7 @@ class Module_post_tweet extends Module
 			$params = array(
 				'status' => $this->post['status'],
 			);
-			if ($this->post['in_reply_to_status_id'] != "") {
+			if (!empty($this->post['in_reply_to_status_id'])) {
 				$params['in_reply_to_status_id'] = $this->post['in_reply_to_status_id'];
 			}
 			

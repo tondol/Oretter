@@ -20,8 +20,8 @@ class Module_lists extends Module_utilities
 		}
 		
 		//get list-id and screen_name
-		$id = $this->request['id'];
-		$screen_name = $this->request['screen_name'];
+		$id = array_at($this->request, 'id');
+		$screen_name = array_at($this->request, 'screen_name');
 		if ($id == "" || $screen_name == "") {
 			header('Location: ' . $this->get_uri('top'));
 			exit(1);
@@ -30,7 +30,7 @@ class Module_lists extends Module_utilities
 		$this->set_assign('screen_name', $screen_name);
 		
 		//pager
-		if ($this->request['p'] != "") {
+		if (!empty($this->request['p'])) {
 			$current = max(intval($this->request['p']), 1);
 		} else {
 			$current = 1;

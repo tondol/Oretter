@@ -19,7 +19,7 @@ class Module_mentions extends Module_utilities
 		}
 		
 		//pager
-		if ($this->request['p'] != "") {
+		if (!empty($this->request['p'])) {
 			$current = max(intval($this->request['p']), 1);
 		} else {
 			$current = 1;

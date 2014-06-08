@@ -25,7 +25,8 @@ class Application
 	function load()
 	{
 		//normalize parameter: page
-		$chain = explode(DIRECTORY_SEPARATOR, $this->get['page']);
+		$page = array_at($this->get, 'page');
+		$chain = explode(DIRECTORY_SEPARATOR, $page);
 		foreach ($chain as $key => $value) {
 			//directory traversal
 			$chain[$key] = basename($value);
@@ -45,7 +46,7 @@ class Application
 		}
 		
 		//main or 404 not found
-		if (!isset($this->current)) {
+		if (empty($this->current)) {
 			if ($imploded == "") {
 				$this->current = $this->config['application_main'];
 			} else {

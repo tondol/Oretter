@@ -25,11 +25,11 @@ class Form
 		
 		//初期化
 		foreach ($this->config as $key => $conf) {
-			if (!isset($conf['error_key'])) {
+			if (empty($conf['error_key'])) {
 				//エラーキーが設定されていなければ設定
 				$this->config[$key]['error_key'] = $key;
 			}
-			if (!isset($conf['notice'])) {
+			if (empty($conf['notice'])) {
 				//注意事項が設定されていなければ設定
 				$this->config[$key]['notice'] = array();
 			}
@@ -37,8 +37,8 @@ class Form
 		foreach ($this->config as $key => $conf) {
 			//各種配列を初期化
 			$error_key = $conf['error_key'];
-			$this->notice[$key] = $conf['notice'];
 			$this->error[$error_key] = array();
+			$this->notice[$key] = $conf['notice'];
 		}
 	}
 	
@@ -49,17 +49,17 @@ class Form
 	function load($input)
 	{
 		foreach ($this->config as $key => $conf) {
-			$type = $conf['type'];
-			$default = $conf['default'];
-			if (isset($_FILES[$key]) && $type == 'file') {
+			$type = array_at($conf, 'type');
+			$default = array_at($conf, 'default');
+			if (!empty($_FILES[$key]) && $type == 'file') {
 				//ファイルの場合
 				$this->input[$key] = $_FILES[$key];
-			} else if (isset($default) && $input[$key] == "") {
+			} else if (!is_null($default) && empty($input[$key])) {
 				//デフォルト値が設定されている場合
 				$this->input[$key] = $default;
 			} else {
 				//そのまま読み込む
-				$this->input[$key] = $input[$key];
+				$this->input[$key] = array_at($input, $key);
 			}
 		}
 	}
@@ -67,13 +67,13 @@ class Form
 	{
 		$store = array();
 		foreach ($this->config as $key => $conf) {
-			$type = $conf['type'];
+			$type = array_at($conf, 'type');
 			if (method_exists($this, "store_" . $type)) {
 				//ユーザー定義メソッド
-				$store[$key] = call_user_method("store_" . $type, $this, $key);
+				$store[$key] = call_user_func(array($this, "store_" . $type), $key);
 			} else {
 				//デフォルト
-				$store[$key] = $this->input[$key];
+				$store[$key] = array_at($this->input, $key);
 			}
 		}
 		return $store;
@@ -82,23 +82,23 @@ class Form
 	{
 		$record = array();
 		foreach ($this->config as $key => $conf) {
-			$type = $conf['type'];
+			$type = array_at($conf, 'type');
 			if ($conf['disable']) {
 				//DBには出力しない設定
 				continue;
 			} else if (method_exists($this, "get_record_" . $type)) {
 				//ユーザー定義メソッド
-				$record[$key] = call_user_method("get_record_" . $type, $this, $key);
+				$record[$key] = call_user_func(array($this, "get_record_" . $type), $key);
 			} else {
 				//デフォルト
-				$record[$key] = $this->input[$key];
+				$record[$key] = array_at($this->input, $key);
 			}
 		}
 		return $record;
 	}
 	function add_error($key, $str)
 	{
-		if (isset($this->config[$key])) {
+		if (!empty($this->config[$key])) {
 			//設定で定義済み
 			$conf = $this->config[$key];
 			$error_key = $conf['error_key'];
@@ -112,10 +112,10 @@ class Form
 	function validate()
 	{
 		foreach ($this->config as $key => $conf) {
-			$type = $conf['type'];
-			if ($conf['required']) {
+			$type = array_at($conf, 'type');
+			if (!empty($conf['required'])) {
 				//ユーザー定義メソッド
-				call_user_method("required_" . $type, $this, $key);
+				call_user_func(array($this, "required_" . $type), $key);
 			}
 		}
 	}
@@ -135,10 +135,10 @@ class Form
 	{
 		$controls = array();
 		foreach ($this->config as $key => $conf) {
-			$type = $conf['type'];
-			$error_key = $conf['error_key'];
-			$controls[$key]['html'] = call_user_method("render_" . $type, $this, $key);
-			$controls[$key]['label'] = $conf['label'];
+			$type = array_at($conf, 'type');
+			$error_key = array_at($conf, 'error_key');
+			$controls[$key]['html'] = call_user_func(array($this, "render_" . $type), $key);
+			$controls[$key]['label'] = array_at($conf, 'label');
 			
 			//凍結していないときのみ出力
 			if (!$this->is_freezed) {
@@ -156,7 +156,7 @@ class Form
 	private function render_text($key)
 	{
 		$conf = $this->config[$key];
-		$input = escape($this->input[$key]);
+		$input = escape(array_at($this->input, $key));
 		
 		if ($this->is_freezed) {
 			if ($input == "") {
@@ -165,7 +165,7 @@ class Form
 				return $input;
 			}
 		} else {
-			$attrs_array = $conf['attributes'];
+			$attrs_array = array_at_default($conf, 'attributes', array());
 			$attrs_array['type'] = 'text';
 			$attrs_array['name'] = $key;
 			$attrs_array['value'] = $input;
@@ -176,7 +176,7 @@ class Form
 	private function render_textarea($key)
 	{
 		$conf = $this->config[$key];
-		$input = escape($this->input[$key]);
+		$input = escape(array_at($this->input, $key));
 		
 		if ($this->is_freezed) {
 			if ($input == "") {
@@ -185,7 +185,7 @@ class Form
 				return nl2br($input);
 			}
 		} else {
-			$attrs_array = $conf['attributes'];
+			$attrs_array = array_at_default($conf, 'attributes', array());
 			$attrs_array['name'] = $key;
 			$attrs = $this->render_attributes($attrs_array);
 			return "<textarea {$attrs}>{$input}</textarea>";
@@ -194,12 +194,12 @@ class Form
 	private function render_password($key)
 	{
 		$conf = $this->config[$key];
-		$input = escape($this->input[$key]);
+		$input = escape(array_at($this->input, $key));
 		
 		if ($this->is_freezed) {
 			return "非表示";
 		} else {
-			$attrs_array = $conf['attributes'];
+			$attrs_array = array_at_default($conf, 'attributes', array());
 			$attrs_array['type'] = 'password';
 			$attrs_array['name'] = $key;
 			$attrs = $this->render_attributes($attrs_array);
@@ -209,7 +209,7 @@ class Form
 	private function render_select($key)
 	{
 		$conf = $this->config[$key];
-		$input = escape($this->input[$key]);
+		$input = escape(array_at($this->input, $key));
 		$options = $conf['options'];
 		
 		if ($this->is_freezed) {
@@ -220,17 +220,19 @@ class Form
 				return $k;
 			}
 		} else {
-			$attrs_array = $conf['attributes'];
+			$attrs_array = array_at_default($conf, 'attributes', array());
 			$attrs_array['name'] = $key;
 			$attrs = $this->render_attributes($attrs_array);
 			$html = "<select {$attrs}>";
 			//dummy
-			$dummy = $conf['dummy'];
-			$attrs_array = array();
-			$attrs_array['value'] = '';
-			$attrs = $this->render_attributes($attrs_array);
-			$html .= "<option {$attrs}>{$dummy}</option>";
-			//other options
+			if (!empty($conf['dummy'])) {
+				$dummy = $conf['dummy'];
+				$attrs_array = array();
+				$attrs_array['value'] = '';
+				$attrs = $this->render_attributes($attrs_array);
+				$html .= "<option {$attrs}>{$dummy}</option>";
+			}
+			//options
 			foreach ($options as $k => $v) {
 				$attrs_array = array();
 				$attrs_array['value'] = $v;
@@ -249,7 +251,7 @@ class Form
 	private function render_radio($key)
 	{
 		$conf = $this->config[$key];
-		$input = escape($this->input[$key]);
+		$input = escape(array_at($this->input, $key));
 		$options = $conf['options'];
 		
 		if ($this->is_freezed) {
@@ -261,9 +263,10 @@ class Form
 			}
 		} else {
 			$radios = array();
-			$attrs_array = $conf['attributes'];
+			$attrs_array = array_at_default($conf, 'attributes', array());
 			$attrs_array['type'] = 'radio';
 			$attrs_array['name'] = $key;
+			//options
 			foreach ($options as $k => $v) {
 				$attrs_array['value'] = $v;
 				if ($input == $v) {
@@ -280,7 +283,7 @@ class Form
 	private function render_checkbox($key)
 	{
 		$conf = $this->config[$key];
-		$input = escape($this->input[$key]);
+		$input = escape(array_at($this->input, $key));
 		$label = $conf['label'];
 		
 		if ($this->is_freezed) {
@@ -290,7 +293,7 @@ class Form
 				return $label;
 			}
 		} else {
-			$attrs_array = $conf['attributes'];
+			$attrs_array = array_at_default($conf, 'attributes', array());
 			$attrs_array['type'] = 'checkbox';
 			$attrs_array['name'] = $key;
 			$attrs_array['value'] = "true";
@@ -303,13 +306,8 @@ class Form
 	}
 	private function render_checkboxes($key)
 	{
-		//入力が配列でなければ初期化
-		if (!is_array($this->input[$key])) {
-			$this->input[$key] = array();
-		}
-		
 		$conf = $this->config[$key];
-		$input = escape($this->input[$key]);
+		$input = escape(array_at_default($this->input, $key, array()));
 		$options = $conf['options'];
 		
 		if ($this->is_freezed) {
@@ -327,7 +325,7 @@ class Form
 			}
 		} else {
 			$checkboxs = array();
-			$attrs_array = $conf['attributes'];
+			$attrs_array = array_at_default($conf, 'attributes', array());
 			$attrs_array['type'] = 'checkbox';
 			$attrs_array['name'] = $key . "[]";
 			foreach ($options as $k => $v) {
@@ -346,17 +344,21 @@ class Form
 	private function render_file($key)
 	{
 		$conf = $this->config[$key];
-		$input = escape($this->input[$key]);
+		$input = escape(array_at($this->input, $key));
 		
 		if ($this->is_freezed) {
 			//アップロードしたファイル名を返す
-			return $input['name'];
+			if ($input['error'] != UPLOAD_ERR_OK || $input['size'] == 0) {
+				return "未選択";
+			} else {
+				return $input['name'];
+			}
 		} else {
 			//MAX_FILE_SIZE
 			$attrs_array = array();
 			$attrs_array['type'] = 'hidden';
 			$attrs_array['name'] = 'MAX_FILE_SIZE';
-			$attrs_array['value'] = $conf['max_file_size'];
+			$attrs_array['value'] = array_at_default($conf, 'max_file_size', 0);
 			$attrs = $this->render_attributes($attrs_array);
 			$html .= "<input {$attrs} />";
 			//コントロールを返す
@@ -377,35 +379,33 @@ class Form
 	{
 		$conf = $this->config[$key];
 		$label = $conf['label'];
-		
-		if ($this->input[$key] == "") {
+
+		if (empty($this->input[$key])) {
 			$this->add_error($key, "{$label}が入力されていません。");
 		}
 	}
 	private function required_textarea($key)
 	{
 		$conf = $this->config[$key];
-		$input = $this->input[$key];
 		$label = $conf['label'];
 		
-		if ($input == "") {
+		if (empty($this->input[$key])) {
 			$this->add_error($key, "{$label}が入力されていません。");
 		}
 	}
 	private function required_password($key)
 	{
 		$conf = $this->config[$key];
-		$input = $this->input[$key];
 		$label = $conf['label'];
 		
-		if ($input == "") {
+		if (empty($this->input[$key])) {
 			$this->add_error($key, "{$label}が入力されていません。");
 		}
 	}
 	private function required_select($key)
 	{
 		$conf = $this->config[$key];
-		$input = $this->input[$key];
+		$input = array_at($this->input, $key);
 		$label = $conf['label'];
 		$options = $conf['options'];
 		
@@ -417,7 +417,7 @@ class Form
 	private function required_radio($key)
 	{
 		$conf = $this->config[$key];
-		$input = $this->input[$key];
+		$input = array_at($this->input, $key);
 		$label = $conf['label'];
 		$options = $conf['options'];
 		
@@ -429,23 +429,17 @@ class Form
 	private function required_checkbox($key)
 	{
 		$conf = $this->config[$key];
-		$input = $this->input[$key];
 		$label = $conf['label'];
 		$options = $conf['options'];
 		
-		if ($input != "true") {
+		if (empty($this->input[$key])) {
 			$this->add_error($key, "{$label}がチェックされていません。");
 		}
 	}
 	private function required_checkboxes($key)
 	{
-		//入力が配列でなければ初期化
-		if (!is_array($this->input[$key])) {
-			$this->input[$key] = array();
-		}
-		
 		$conf = $this->config[$key];
-		$input = $this->input[$key];
+		$input = array_at_default($this->input, $key, array());
 		$options = $conf['options'];
 		$label = $conf['label'];
 		
@@ -462,11 +456,11 @@ class Form
 	}
 	private function required_file($key)
 	{
-		$input = $this->input[$key];
 		$conf = $this->config[$key];
+		$input = array_at_default($this->input, $key, array());
 		$label = $conf['label'];
 		
-		if ($input['error'] != UPLOAD_ERR_OK) {
+		if ($input['error'] != UPLOAD_ERR_OK || $input['size'] == 0) {
 			$this->add_error($key, "{$label}が正しくアップロードされていません。");
 		}
 	}
@@ -477,7 +471,7 @@ class Form
 	
 	private function store_checkbox($key)
 	{
-		if (!isset($this->input[$key])) {
+		if (empty($this->input[$key])) {
 			return "false";
 		} else {
 			return "true";
@@ -485,11 +479,11 @@ class Form
 	}
 	private function store_file($key)
 	{
-		$input = $this->input[$key];
+		$input = array_at_default($this->input, $key, array());
 		$conf = $this->config[$key];
 		
 		//アップロード後処理
-		if ($input['error'] == UPLOAD_ERR_OK) {
+		if ($input['error'] == UPLOAD_ERR_OK && $input['size'] != 0) {
 			$filename = sha1($input['tmp_name']);
 			$pathinfo = pathinfo($input['name']);
 			$directory = $conf['directory'];
@@ -505,12 +499,26 @@ class Form
 	//DB登録用の出力
 	/////////////////////////////////////////////////
 	
+	private function get_record_radio($key)
+	{
+		$input = array_at($this->input, $key);
+		$conf = $this->config[$key];
+		$options = $conf['options'];
+		$k = array_search($input, $options);
+		
+		//空文字列を返さないとNULLとして扱われる
+		if ($k == false) {
+			return "";
+		} else {
+			return $input;
+		}
+	}
 	private function get_record_file($key)
 	{
-		$input = $this->input[$key];
+		$input = array_at_default($this->input, $key, array());
 		$conf = $this->config[$key];
 		
-		if ($input['error'] == UPLOAD_ERR_OK) {
+		if ($input['error'] == UPLOAD_ERR_OK && $input['size'] != 0) {
 			//アップロード後のファイル名を返す
 			$filename = sha1($input['tmp_name']);
 			$pathinfo = pathinfo($input['name']);
@@ -520,7 +528,7 @@ class Form
 			return $destname;
 		} else {
 			//ファイルがアップロードされていない
-			return null;
+			return "";
 		}
 	}
 	
@@ -546,3 +554,5 @@ class Form
 		
 	}
 }
+
+?>

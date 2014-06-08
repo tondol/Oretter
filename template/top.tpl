@@ -1,7 +1,7 @@
 <?php $this->include_template('header.tpl') ?>
 
 <?php
-	$is_logged_in = $_SESSION['token_credentials'] != "";
+	$is_logged_in = array_at($_SESSION, 'token_credentials');
 	$statuses = $this->get_assign('statuses');
 	$post_token = $this->get_assign('post_token');
 	$prev = $this->get_assign('prev');

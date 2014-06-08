@@ -19,14 +19,13 @@ class Module_post_follow extends Module_utilities
 			exit(1);
 		}
 		
-		if ($this->post['id'] == "") {
+		if (empty($this->post['id'])) {
 			//id is not supplied
 			$message = "フォローするユーザーを指定してください。";
 			
-		} else if (
-			$this->post['post_token'] == "" ||
-			$this->post['post_token'] != $_SESSION['post_token'])
-		{
+		} else if (empty($this->post['post_token']) ||
+				empty($_SESSION['post_token']) ||
+				$this->post['post_token'] != $_SESSION['post_token']) {
 			//duplicated post
 			$message = "もう一度やり直してください。";
 			

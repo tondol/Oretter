@@ -25,7 +25,7 @@
 				--></a>
 			</dt>
 			<dd>
-				<?= $this->replace_uri($list->description) ?>
+				<?= escape($list->description) ?>
 			</dd>
 		<?php endforeach; ?>
 	</dl>
@@ -45,13 +45,13 @@
 <?php
 	$prev_params = array(
 		'cursor' => $prev,
-		'id' => $this->request['id'],
-		'screen_name' => $this->request['screen_name'],
+		'id' => array_at($this->request, 'id'),
+		'screen_name' => array_at($this->request, 'screen_name'),
 	);
 	$next_params = array(
 		'cursor' => $next,
-		'id' => $this->request['id'],
-		'screen_name' => $this->request['screen_name'],
+		'id' => array_at($this->request, 'id'),
+		'screen_name' => array_at($this->request, 'screen_name'),
 	);
 ?>
 <ul>

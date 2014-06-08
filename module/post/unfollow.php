@@ -19,14 +19,13 @@ class Module_post_unfollow extends Module_utilities
 			exit(1);
 		}
 		
-		if ($this->post['id'] == "") {
+		if (empty($this->post['id'])) {
 			//id is not supplied
 			$message = "フォローを削除するユーザーを指定してください。";
 			
-		} else if (
-			$this->post['post_token'] == "" ||
-			$this->post['post_token'] != $_SESSION['post_token'])
-		{
+		} else if (empty($this->post['post_token']) ||
+				empty($_SESSION['post_token']) ||
+				$this->post['post_token'] != $_SESSION['post_token']) {
 			//duplicated post
 			$message = "もう一度やり直してください。";
 			
@@ -41,7 +40,7 @@ class Module_post_unfollow extends Module_utilities
 			$response = $connection->post('friendships/destroy', array('id' => $this->post['id']));
 			
 			//check response
-			if ($response->id_str != "") {
+			if (!empty($response->id_str)) {
 				$message = "フォローの削除が正しく完了しました。";
 			} else {
 				$message = "おやおや、何かおかしい！";

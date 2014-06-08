@@ -7,7 +7,7 @@ define('LIB_DIR', SYSTEM_DIR . 'lib/');
 define('MODULE_DIR', SYSTEM_DIR . 'module/');
 define('TEMPLATE_DIR', SYSTEM_DIR . 'template/');
 define('STATIC_DIR', SYSTEM_DIR . 'static/');
-//ini_set('display_errors', true);
+ini_set('display_errors', false);
 ini_set('include_path', ini_get('include_path') . ':' . LIB_DIR);
 ini_set('include_path', ini_get('include_path') . ':' . LIB_DIR . 'twitteroauth/twitteroauth/');
 ini_set('session.use_only_cookies', false);

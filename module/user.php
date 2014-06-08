@@ -20,14 +20,14 @@ class Module_user extends Module_utilities
 		}
 		
 		//get screen_name
-		$screen_name = $this->request['screen_name'];
+		$screen_name = array_at($this->request, 'screen_name');
 		if ($screen_name == "") {
 			header('Location: ' . $this->get_uri('top'));
 			exit(1);
 		}
 		
 		//pager
-		if ($this->request['p'] != "") {
+		if (!empty($this->request['p'])) {
 			$current = max(intval($this->request['p']), 1);
 		} else {
 			$current = 1;

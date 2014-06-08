@@ -6,10 +6,10 @@
 	$post_token = $this->get_assign('post_token');
 	$callback = $_SESSION['callback'];
 	$user_params = array(
-		'screen_name' => (string)$status->user->screen_name,
+		'screen_name' => $status->user->screen_name,
 	);
 	$action_params = array(
-		'id' => (string)$status->id,
+		'id' => $status->id,
 	);
 ?>
 
@@ -28,7 +28,7 @@
 	</dl>
 <?php endif; ?>
 
-<?php if ($status->retweeted_status): ?>
+<?php if (!empty($status->retweeted_status)): ?>
 	<h2>リツイート元のつぶやき</h2>
 	<dl>
 		<?php $this->set_assign('status', $status->retweeted_status) ?>
