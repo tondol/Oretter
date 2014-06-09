@@ -24,7 +24,7 @@
 				--></a>
 			</dt>
 			<dd>
-				<?= $this->replace_uri($friend->name) ?>
+				<?= escape($friend->name) ?>
 			</dd>
 			<dd>
 				<strong><?= $friend->following == "true" ? "フォロー中" : "未フォロー" ?></strong>

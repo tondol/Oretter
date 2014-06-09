@@ -28,6 +28,8 @@
 				<?php $this->include_template('status.tpl'); ?>
 			<?php endforeach; ?>
 		</dl>
+	<?php elseif (array_at($statuses, 'errors', 0, 'code') == 88): ?>
+		<p>Twitter APIの回数制限に到達しました!!</p>
 	<?php else: ?>
 		<p>つぶやきがありません。</p>
 	<?php endif; ?>

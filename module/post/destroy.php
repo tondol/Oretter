@@ -50,7 +50,6 @@ class Module_post_destroy extends Module
 		unset($_SESSION['post_token']);
 		
 		$this->set_assign('message', $message);
-		$this->set_assign('callback', $callback);
 		$this->render();
 	}
 }

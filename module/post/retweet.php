@@ -22,8 +22,8 @@ class Module_post_retweet extends Module
 			//id is not supplied
 			$message = "RTするステータスを指定してください。";
 			
-		} else if (!empty($this->post['post_token']) ||
-				!empty($_SESSION['post_token']) ||
+		} else if (empty($this->post['post_token']) ||
+				empty($_SESSION['post_token']) ||
 				$this->post['post_token'] != $_SESSION['post_token']) {
 			//duplicated post
 			$message = "もう一度やり直してください。";
