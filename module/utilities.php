@@ -48,7 +48,7 @@ class Module_utilities extends Module
 		if ($id != null) {
 			return $id;
 		} else {
-			return $this->request['auth_token'];
+			return array_at($this->request, 'auth_token');
 		}
 	}
 	function set_auth_token_to_cookie($auth_token)

@@ -5,6 +5,43 @@ require_once dirname(__FILE__) . '/utilities.php';
 
 class Module_login extends Module_utilities
 {
+	//簡易ログインを設定
+	function set_auth($token_credentials)
+	{
+		$db = $this->initialize_database();
+		
+		//fetch auth_token record
+		$tmp_credentials = $this->select_record_by_token_credentials($db, $token_credentials);
+		$this->garbage_collect($db);
+		
+		//auth_token has already inserted?
+		if ($tmp_credentials !== false) {
+			$auth_token = $this->generate_auth_token();
+			$result = $this->update_record($db, $auth_token, $token_credentials);
+	
+			if ($result !== false) {
+				//completed!
+				//set auth_token to cookie
+				$this->set_auth_token_to_cookie($auth_token);
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			$auth_token = $this->generate_auth_token();
+			$result = $this->insert_record($db, $auth_token, $token_credentials);
+			
+			if ($result !== false) {
+				//completed!
+				//set auth_token to cookie
+				$this->set_auth_token_to_cookie($auth_token);
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
 	function action()
 	{
 		session_start();
@@ -13,33 +50,29 @@ class Module_login extends Module_utilities
 		$consumer_secret = $this->config['twitter']['consumer_secret'];
 		
 		//callback from twitter
-		if (!empty($this->request['verifying']))
-		{
+		if (!empty($this->request['verifying'])) {
 			if (!empty($this->request['oauth_verifier'])) {
-				//get instance of twitteroauth
 				$connection = new TwitterOAuth(
 					$consumer_key, $consumer_secret,
 					$_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
 				
-				//get access token
 				$token_credentials = $connection->getAccessToken($this->request['oauth_verifier']);
 				
-				//token_credentials is supplied
 				if (!empty($token_credentials['oauth_token'])) {
-					//succeeded to login with oauth
+					//completed!
+					//set token_credentials to session
 					session_regenerate_id();
 					$_SESSION['token_credentials'] = $token_credentials;
+					$this->set_auth($token_credentials);
 					header('Location: ' . $this->get_uri('top'));
 					
 				} else {
-					//failed to login with oauth
 					$message = "ログインに失敗しました。";
 					$this->set_assign('message', $message);
 					$this->render();
 				}
 				
 			} else {
-				//failed to login with oauth
 				$message = "ログインに失敗しました。";
 				$this->set_assign('message', $message);
 				$this->render();

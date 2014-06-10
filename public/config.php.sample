@@ -49,7 +49,6 @@ $config = array(
 		'info/friendships_followers' => 'フォローされているユーザー',
 		'login' => 'ログイン',
 		'logout' => 'ログアウト',
-		'auth' => '簡易ログイン',
 		'missing' => '404 Not Found',
 	),
 	//ユーザー設定
