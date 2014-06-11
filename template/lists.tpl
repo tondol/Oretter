@@ -3,12 +3,12 @@
 <?php
 	$lists = $this->get_assign('lists');
 	$statuses = $this->get_assign('statuses');
-	$post_token = $this->get_assign('post_token');
 	$id = $this->get_assign('id');
 	$screen_name = $this->get_assign('screen_name');
 	$current = $this->get_assign('current');
 	$prev = $this->get_assign('prev');
 	$next = $this->get_assign('next');
+	$post_token = $_SESSION['post_token'];
 ?>
 
 <h2>タイムライン</h2>

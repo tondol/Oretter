@@ -72,11 +72,6 @@ class Module_info_lists extends Module_utilities
 		$this->set_assign('next', (string)$this->get_next_cursor());
 		$this->set_assign('prev', (string)$this->get_prev_cursor());
 		
-		//token
-		$post_token = guid();
-		$_SESSION['post_token'] = $post_token;
-		$this->set_assign('post_token', $post_token);
-		
 		//overwrite page names
 		$this->config['pages']['info/lists'] = "{$user->screen_name}が作成したリスト・購読しているリスト";
 		$this->config['pages']['info/lists_ownerships'] = "{$user->screen_name}が作成したリスト";

@@ -54,14 +54,6 @@ class Module_post_tweet extends Module
 			}
 		}
 		
-		//delete token
-		unset($_SESSION['post_token']);
-		
-		//new token
-		$post_token = guid();
-		$_SESSION['post_token'] = $post_token;
-		$this->set_assign('post_token', $post_token);
-		
 		$this->set_assign('message', $message);
 		$this->render();
 	}

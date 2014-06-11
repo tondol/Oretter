@@ -53,11 +53,6 @@ class Module_mentions extends Module_utilities
 			));
 		$this->set_assign('statuses', $response);
 		
-		//token
-		$post_token = guid();
-		$_SESSION['post_token'] = $post_token;
-		$this->set_assign('post_token', $post_token);
-		
 		$this->render();
 	}
 }

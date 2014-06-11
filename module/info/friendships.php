@@ -66,11 +66,6 @@ class Module_info_friendships extends Module_utilities
 		$this->set_assign('prev', $this->get_prev_cursor());
 		$this->set_assign('friends', $response);
 		
-		//token
-		$post_token = guid();
-		$_SESSION['post_token'] = $post_token;
-		$this->set_assign('post_token', $post_token);
-		
 		//overwrite page names
 		$this->config['pages']['info/friendships_friends'] = "{$user->screen_name}がフォローしているユーザー";
 		$this->config['pages']['info/friendships_followers'] = "{$user->screen_name}をフォローしているユーザー";

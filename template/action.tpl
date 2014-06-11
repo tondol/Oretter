@@ -3,14 +3,14 @@
 <?php
 	$status = $this->get_assign('status');
 	$reply = $this->get_assign('reply');
-	$post_token = $this->get_assign('post_token');
-	$callback = $_SESSION['callback'];
 	$user_params = array(
 		'screen_name' => $status->user->screen_name,
 	);
 	$action_params = array(
 		'id' => $status->id,
 	);
+	$post_token = $_SESSION['post_token'];
+	$callback = $_SESSION['callback'];
 ?>
 
 <h2>対象のつぶやき</h2

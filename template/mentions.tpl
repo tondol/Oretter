@@ -3,9 +3,9 @@
 <?php
 	$current = $this->get_current();
 	$statuses = $this->get_assign('statuses');
-	$post_token = $this->get_assign('post_token');
 	$prev = $this->get_assign('prev');
 	$next = $this->get_assign('next');
+	$post_token = $_SESSION['post_token'];
 ?>
 
 <h2>タイムライン</h2>

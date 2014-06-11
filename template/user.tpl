@@ -4,15 +4,15 @@
 	$statuses = $this->get_assign('statuses');
 	$source = $this->get_assign('source');
 	$user = $this->get_assign('user');
-	$post_token = $this->get_assign('post_token');
 	$prev = $this->get_assign('prev');
 	$next = $this->get_assign('next');
 	$friendships_params = array(
-		'screen_name' => (string)$user->screen_name,
+		'screen_name' => $user->screen_name,
 	);
 	$user_params = array(
-		'screen_name' => (string)$user->screen_name,
+		'screen_name' => $user->screen_name,
 	);
+	$post_token = $_SESSION['post_token'];
 ?>
 
 <dl>

@@ -6,7 +6,7 @@
 	$query = $this->get_assign('query');
 	$max_id = $this->get_assign('max_id');
 	$since_id = $this->get_assign('since_id');
-	$post_token = $this->get_assign('post_token');
+	$post_token = $_SESSION['post_token'];
 ?>
 
 <h2>タイムライン</h2>

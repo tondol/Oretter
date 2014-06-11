@@ -1,11 +1,11 @@
 <?php $this->include_template('header.tpl') ?>
 
 <?php
-	$is_logged_in = array_at($_SESSION, 'token_credentials');
 	$statuses = $this->get_assign('statuses');
-	$post_token = $this->get_assign('post_token');
 	$prev = $this->get_assign('prev');
 	$next = $this->get_assign('next');
+	$is_logged_in = array_at($_SESSION, 'token_credentials');
+	$post_token = array_at($_SESSION, 'post_token');
 ?>
 
 <?php if (($rand = mt_rand() % 4) == 0): ?>

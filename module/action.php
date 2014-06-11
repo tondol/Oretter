@@ -45,11 +45,6 @@ class Module_action extends Module_utilities
 			$this->set_assign('reply', $response);
 		}
 		
-		//token
-		$post_token = guid();
-		$_SESSION['post_token'] = $post_token;
-		$this->set_assign('post_token', $post_token);
-		
 		$this->render();
 	}
 }

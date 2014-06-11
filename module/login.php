@@ -21,11 +21,7 @@ class Module_login extends Module_utilities
 	
 			if ($result !== false) {
 				//completed!
-				//set auth_token to cookie
 				$this->set_auth_token_to_cookie($auth_token);
-				return true;
-			} else {
-				return false;
 			}
 		} else {
 			$auth_token = $this->generate_auth_token();
@@ -33,11 +29,7 @@ class Module_login extends Module_utilities
 			
 			if ($result !== false) {
 				//completed!
-				//set auth_token to cookie
 				$this->set_auth_token_to_cookie($auth_token);
-				return true;
-			} else {
-				return false;
 			}
 		}
 	}
@@ -62,8 +54,9 @@ class Module_login extends Module_utilities
 					//completed!
 					//set token_credentials to session
 					session_regenerate_id();
-					$_SESSION['token_credentials'] = $token_credentials;
 					$this->set_auth($token_credentials);
+					$_SESSION['token_credentials'] = $token_credentials;
+					$_SESSION['post_token'] = sha1(session_id());
 					header('Location: ' . $this->get_uri('top'));
 					
 				} else {

@@ -24,7 +24,7 @@ class Module_search extends Module_utilities
 		if ($query != "") {
 			$_SESSION['search_query'] = $query;
 		} else {
-			$query = $_SESSION['search_query'];
+			$query = array_at($_SESSION, 'search_query');
 		}
 		$this->set_assign('query', $query);
 	
@@ -59,25 +59,20 @@ class Module_search extends Module_utilities
 			$params['since_id'] = $this->request['since_id'];
 		}
 		$response = $connection->get('search/tweets', $params);
-		$this->set_assign('entries', $response->statuses);
+		$this->set_assign('entries', array_at($response, 'statuses'));
 
 		//max_id, since_id
 		if (!empty($this->request['max_id'])) {
 			$this->set_assign('max_id', $this->request['max_id']);
-		} else if (count($response->statuses) != 0) {
+		} else if (!empty($response->statuses)) {
 			$this->set_assign('max_id', $response->statuses[0]->id_str);
 		}
 		if (!empty($this->request['since_id'])) {
 			$this->set_assign('since_id', $this->request['since_id']);
-		} else if (count($response->statuses) != 0) {
+		} else if (!empty($response->statuses)) {
 			$this->set_assign('since_id', $response->statuses[count($response->statuses) - 1]->id_str);
 		}
 
-		//token
-		$post_token = guid();
-		$_SESSION['post_token'] = $post_token;
-		$this->set_assign('post_token', $post_token);
-		
 		$this->render();
 	}
 }

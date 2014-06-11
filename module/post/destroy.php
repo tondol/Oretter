@@ -46,9 +46,6 @@ class Module_post_destroy extends Module
 			}
 		}
 		
-		//delete token
-		unset($_SESSION['post_token']);
-		
 		$this->set_assign('message', $message);
 		$this->render();
 	}
