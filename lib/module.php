@@ -84,10 +84,10 @@ class Module
 		}
 		//query
 		$query = http_build_query($params);
-		if (!empty(session_id())) {
-			$query .= empty($query) ? '' : '&';
-			$query .= escape(session_name()) . '=' . escape(session_id());
-		}
+		//if (!empty(session_id())) {
+		//	$query .= empty($query) ? '' : '&';
+		//	$query .= escape(session_name()) . '=' . escape(session_id());
+		//}
 		//create uri
 		if (empty($query)) {
 			return $this->config['application_uri'];
@@ -113,10 +113,10 @@ class Module
 		}
 		//query
 		$query = http_build_query($params);
-		if (!empty(session_id())) {
-			$query .= empty($query) ? '' : '&';
-			$query .= escape(session_name()) . '=' . escape(session_id());
-		}
+		//if (!empty(session_id())) {
+		//	$query .= empty($query) ? '' : '&';
+		//	$query .= escape(session_name()) . '=' . escape(session_id());
+		//}
 		//create uri
 		if (empty($query)) {
 			return $this->config['application_uri'] . $id;
