@@ -84,15 +84,15 @@ class Module
 		}
 		//query
 		$query = http_build_query($params);
-		if (SID != "") {
-			$query .= $query != "" ? '&' : "";
-			$query .= escape(SID);
+		if (!empty(session_id())) {
+			$query .= empty($query) ? '' : '&';
+			$query .= escape(session_name()) . '=' . escape(session_id());
 		}
 		//create uri
-		if ($query != "") {
-			return $this->config['application_uri'] . '?' . $query;
-		} else {
+		if (empty($query)) {
 			return $this->config['application_uri'];
+		} else {
+			return $this->config['application_uri'] . '?' . $query;
 		}
 	}
 /*
@@ -113,15 +113,15 @@ class Module
 		}
 		//query
 		$query = http_build_query($params);
-		if (SID != "") {
-			$query .= $query != "" ? '&' : "";
-			$query .= escape(SID);
+		if (!empty(session_id())) {
+			$query .= empty($query) ? '' : '&';
+			$query .= escape(session_name()) . '=' . escape(session_id());
 		}
 		//create uri
-		if ($query != "") {
-			return $this->config['application_uri'] . $id . '?' . $query;
-		} else {
+		if (empty($query)) {
 			return $this->config['application_uri'] . $id;
+		} else {
+			return $this->config['application_uri'] . $id . '?' . $query;
 		}
 	}
 */

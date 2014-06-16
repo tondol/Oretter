@@ -17,20 +17,14 @@ class Module_login extends Module_utilities
 		//auth_token has already inserted?
 		if ($tmp_credentials !== false) {
 			$auth_token = $this->generate_auth_token();
+			$this->set_auth_token_to_cookie($auth_token);
 			$result = $this->update_record($db, $auth_token, $token_credentials);
-	
-			if ($result !== false) {
-				//completed!
-				$this->set_auth_token_to_cookie($auth_token);
-			}
+			//completed!
 		} else {
 			$auth_token = $this->generate_auth_token();
+			$this->set_auth_token_to_cookie($auth_token);
 			$result = $this->insert_record($db, $auth_token, $token_credentials);
-			
-			if ($result !== false) {
-				//completed!
-				$this->set_auth_token_to_cookie($auth_token);
-			}
+			//completed!
 		}
 	}
 

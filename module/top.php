@@ -17,9 +17,11 @@ class Module_top extends Module_utilities
 		//auth_token has already inserted?
 		if ($tmp_credentials !== false) {
 			$auth_token = $this->generate_auth_token();
+			$this->set_auth_token_to_cookie($auth_token);
 			$result = $this->update_record($db, $auth_token, $tmp_credentials);
 	
 			if ($result !== false) {
+				//completed!
 				return array(
 					'oauth_token' => $tmp_credentials['oauth_token'],
 					'oauth_token_secret' => $tmp_credentials['oauth_token_secret'],
@@ -45,7 +47,6 @@ class Module_top extends Module_utilities
 				//complete!
 				//set auth_token to cookie and store token_credentials to session
 				session_regenerate_id();
-				$this->set_auth_token_to_cookie($auth_token);
 				$_SESSION['token_credentials'] = $token_credentials;
 				$_SESSION['post_token'] = sha1(session_id());
 			} else {

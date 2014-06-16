@@ -31,7 +31,7 @@ class Module_info_lists extends Module_utilities
 		
 		$consumer_key = $this->config['twitter']['consumer_key'];
 		$consumer_secret = $this->config['twitter']['consumer_secret'];
-		$token_credentials = $_SESSION['token_credentials'];
+		$token_credentials = array_at($_SESSION, 'token_credentials');
 		
 		//not logged in
 		if ($token_credentials == "") {
