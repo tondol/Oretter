@@ -1,17 +1,35 @@
 * {
-
+	margin: 0;
+	padding: 0;
 }
 html {
 	line-height: 1.5em;
 }
 h1 {
 	border-bottom: solid #ff9933 10px;
+	margin: 10px 5px;
 }
 h2 {
 	border-left: solid #6666ff 10px;
+	margin: 10px 5px;
 	padding-left: 5px;
+}
+dl {
+	margin: 5px;
+}
+dd {
+	margin-left: 40px;
+}
+ul {
+	margin: 5px;
+}
+p {
+	margin: 5px;
 }
 hr {
 	visibility: hidden;
-	height: 1em;
+	height: 20px;
+}
+address {
+	margin: 5px;
 }
