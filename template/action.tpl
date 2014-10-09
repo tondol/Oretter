@@ -13,7 +13,7 @@
 	$callback = $_SESSION['callback'];
 ?>
 
-<h2>対象のつぶやき</h2>
+<h2>対象の投稿</h2>
 
 <dl>
 	<?php $this->set_assign('status', $status) ?>
@@ -21,7 +21,7 @@
 </dl>
 
 <?php if ($reply): ?>
-	<h2>返信元のつぶやき</h2>
+	<h2>返信元の投稿</h2>
 	<dl>
 		<?php $this->set_assign('status', $reply) ?>
 		<?php $this->include_template('status.tpl'); ?>
@@ -29,14 +29,14 @@
 <?php endif; ?>
 
 <?php if (!empty($status->retweeted_status)): ?>
-	<h2>リツイート元のつぶやき</h2>
+	<h2>リツイート元の投稿</h2>
 	<dl>
 		<?php $this->set_assign('status', $status->retweeted_status) ?>
 		<?php $this->include_template('status.tpl'); ?>
 	</dl>
 <?php endif; ?>
 
-<h2><a href="#reply" name="reply" id="reply" accesskey="7">[7]つぶやきに返信する</a></h2>
+<h2><a href="#reply" name="reply" id="reply" accesskey="7">[7]返信する</a></h2>
 <form action="<?= escape($this->get_uri('post/tweet')) ?>" method="post">
 	<?php
 		$reply = '@' . escape($status->user->screen_name) . ' ';
@@ -50,29 +50,29 @@
 <hr />
 
 <?php if ($status->favorited != "true"): ?>
-	<h2>つぶやきをふぁぼる</h2>
+	<h2>お気に入り追加</h2>
 	<form action="<?= escape($this->get_uri('post/favorite')) ?>" method="post">
-		<p><input type="submit" value="ふぁぼる" />
+		<p><input type="submit" value="追加する" />
 		<input type="hidden" name="id" value="<?= escape($status->id_str) ?>" />
 		<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 	</form>
 <?php else: ?>
-	<h2>ふぁぼりを取り消す</h2>
+	<h2>お気に入り削除</h2>
 	<form action="<?= escape($this->get_uri('post/unfavorite')) ?>" method="post">
-		<p><input type="submit" value="取り消す" />
+		<p><input type="submit" value="削除する" />
 		<input type="hidden" name="id" value="<?= escape($status->id_str) ?>" />
 		<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 	</form>
 <?php endif; ?>
 
-<h2>つぶやきを公式RTする</h2>
+<h2>公式RTする</h2>
 <form action="<?= escape($this->get_uri('post/retweet')) ?>" method="post">
 	<p><input type="submit" value="公式RTする" />
 	<input type="hidden" name="id" value="<?= escape($status->id_str) ?>" />
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
 
-<h2>つぶやきを非公式RTする</h2>
+<h2>非公式RTする</h2>
 <form action="<?= escape($this->get_uri('post/tweet')) ?>" method="post">
 	<?php
 		if ($status->user->protected == "true") {
@@ -86,7 +86,7 @@
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
 
-<h2>つぶやきをQTする</h2>
+<h2>QTする</h2>
 <form action="<?= escape($this->get_uri('post/tweet')) ?>" method="post">
 	<?php
 		if ($status->user->protected == "true") {
@@ -102,7 +102,7 @@
 </form>
 
 <?php if ($status->user->id == $_SESSION['token_credentials']['user_id']): ?>
-	<h2>つぶやきを削除する</h2>
+	<h2>削除する</h2>
 	<form action="<?= escape($this->get_uri('post/destroy')) ?>" method="post">
 		<p><input type="submit" value="削除する" />
 		<input type="hidden" name="id" value="<?= escape($status->id_str) ?>" />
