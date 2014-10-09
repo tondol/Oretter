@@ -33,3 +33,7 @@ hr {
 address {
 	margin: 5px;
 }
+textarea {
+	width: 30em;
+	height: 5em;
+}
