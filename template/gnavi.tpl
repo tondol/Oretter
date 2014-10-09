@@ -5,7 +5,7 @@
 <?php if ($is_logged_in): ?>
 	<ul>
 		<li><a href="<?= escape($this->get_uri('top')) ?>" accesskey="1">[1]トップページ</a></li>
-		<li><a href="<?= escape($this->get_uri('mentions')) ?>" accesskey="*">[*]あなた宛のつぶやき</a></li>
+		<li><a href="<?= escape($this->get_uri('mentions')) ?>" accesskey="*">[*]あなた宛の投稿</a></li>
 		<li><a href="<?= escape($this->get_uri('search')) ?>" accesskey="#">[#]実況ビュー</a></li>
 		<li><a href="<?= escape($this->get_uri('logout')) ?>">ログアウト</a></li>
 		<li><a href="<?= escape($this->get_uri('help')) ?>">ヘルプ</a></li>

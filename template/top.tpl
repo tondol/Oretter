@@ -31,10 +31,10 @@
 	<?php elseif (array_at($statuses, 'errors', 0, 'code') == 88): ?>
 		<p>Twitter APIの回数制限に到達しました!!</p>
 	<?php else: ?>
-		<p>つぶやきがありません。</p>
+		<p>投稿がありません。</p>
 	<?php endif; ?>
 	
-	<h2><a href="#tweet" name="tweet" id="tweet" accesskey="7">[7]つぶやきを投稿する</a></h2>
+	<h2><a href="#tweet" name="tweet" id="tweet" accesskey="7">[7]投稿する</a></h2>
 	<form action="<?= escape($this->get_uri('post/tweet')) ?>" method="post">
 		<p><textarea name="status"></textarea>
 		<br />

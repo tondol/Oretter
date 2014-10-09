@@ -42,7 +42,7 @@
 
 <hr />
 
-<h2><?= escape($user->screen_name) ?>のつぶやき</h2>
+<h2><?= escape($user->screen_name) ?>の投稿</h2>
 <?php if (is_array($statuses) && count($statuses) != 0): ?>
 	<dl>
 		<?php foreach ($statuses as $status): ?>
@@ -51,10 +51,10 @@
 		<?php endforeach; ?>
 	</dl>
 <?php else: ?>
-	<p>つぶやきはありません。</p>
+	<p>投稿はありません。</p>
 <?php endif; ?>
 
-<h2><a href="#tweet" name="tweet" id="tweet" accesskey="7">[7]<?= escape($user->screen_name) ?>宛につぶやく</a></h2>
+<h2><a href="#tweet" name="tweet" id="tweet" accesskey="7">[7]<?= escape($user->screen_name) ?>宛に投稿する</a></h2>
 <form action="<?= escape($this->get_uri('post/tweet')) ?>" method="post">
 	<p><textarea name="status">@<?= escape($user->screen_name) ?></textarea>
 	<br />

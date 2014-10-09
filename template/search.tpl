@@ -19,10 +19,10 @@
 		<?php endforeach; ?>
 	</dl>
 <?php else: ?>
-	<p>つぶやきはありません。</p>
+	<p>投稿はありません。</p>
 <?php endif; ?>
 
-<h2><a href="#tweet" id="tweet" name="tweet" accesskey="7">[7]検索ワード付きでつぶやく</a></h2>
+<h2><a href="#tweet" id="tweet" name="tweet" accesskey="7">[7]検索ワード付きで投稿する</a></h2>
 <form action="<?= escape($this->get_uri('post/tweet')) ?>" method="post">
 	<?php
 		if ($query != "") {
