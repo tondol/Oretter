@@ -31,7 +31,8 @@
 			$status = "";
 		}
 	?>
-	<p><input type="text" name="status" value="<?= escape($status) ?>" />
+	<p><textarea name="status"><?= escape($status) ?></textarea>
+	<br />
 	<input type="submit" value="送信" />
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>

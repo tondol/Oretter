@@ -56,7 +56,8 @@
 
 <h2><a href="#tweet" name="tweet" id="tweet" accesskey="7">[7]<?= escape($user->screen_name) ?>宛につぶやく</a></h2>
 <form action="<?= escape($this->get_uri('post/tweet')) ?>" method="post">
-	<p><input type="text" name="status" value="@<?= escape($user->screen_name) ?> " />
+	<p><textarea name="status">@<?= escape($user->screen_name) ?></textarea>
+	<br />
 	<input type="submit" value="送信" />
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>

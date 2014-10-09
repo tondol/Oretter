@@ -41,7 +41,8 @@
 	<?php
 		$reply = '@' . escape($status->user->screen_name) . ' ';
 	?>
-	<p><input type="text" name="status" value="<?= $reply ?>" />
+	<p><textarea name="status"><?= $reply ?></textarea>
+	<br />
 	<input type="submit" value="返信する" />
 	<input type="hidden" name="in_reply_to_status_id" value="<?= escape($status->id_str) ?>" />
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
@@ -81,7 +82,8 @@
 			$quote = ' RT @' . escape($status->user->screen_name) . ': ' . $status->text;
 		}
 	?>
-	<p><input type="text" name="status" value="<?= $quote ?>" />
+	<p><textarea name="status"><?= $quote ?></textarea>
+	<br />
 	<input type="submit" value="非公式RTする" />
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
 </form>
@@ -95,7 +97,8 @@
 			$quote = ' QT @' . escape($status->user->screen_name) . ': ' . $status->text;
 		}
 	?>
-	<p><input type="text" name="status" value="<?= $quote ?>" />
+	<p><textarea name="status"><?= $quote ?></textarea>
+	<br />
 	<input type="submit" value="QTする" />
 	<input type="hidden" name="in_reply_to_status_id" value="<?= escape($status->id_str) ?>" />
 	<input type="hidden" name="post_token" value="<?= escape($post_token) ?>" /></p>
