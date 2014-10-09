@@ -13,7 +13,7 @@
 	$callback = $_SESSION['callback'];
 ?>
 
-<h2>対象のつぶやき</h2
+<h2>対象のつぶやき</h2>
 
 <dl>
 	<?php $this->set_assign('status', $status) ?>
