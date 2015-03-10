@@ -1,5 +1,3 @@
-CREATE DATABASE IF NOT EXISTS oretter;
-USE oretter;
 CREATE TABLE IF NOT EXISTS `oretter_auth_tokens` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `auth_token` varchar(512) NOT NULL,
