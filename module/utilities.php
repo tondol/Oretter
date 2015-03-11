@@ -5,7 +5,7 @@ class Module_utilities extends Module
 	//initialize php database object
 	function initialize_database()
 	{
-		$dsn = "mysql:dbname={$this->config['db']['dbname']}" .
+		$dsn = "mysql:dbname={$this->config['db']['database']}" .
 			";host={$this->config['db']['host']}" .
 			";port={$this->config['db']['port']}";
 		$user = $this->config['db']['user'];
