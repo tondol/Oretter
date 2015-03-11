@@ -5,7 +5,9 @@ class Module_utilities extends Module
 	//initialize php database object
 	function initialize_database()
 	{
-		$dsn = "mysql:dbname={$this->config['db']['dbname']};host={$this->config['db']['host']}";
+		$dsn = "mysql:dbname={$this->config['db']['dbname']}" .
+			";host={$this->config['db']['host']}" .
+			";port={$this->config['db']['port']}";
 		$user = $this->config['db']['user'];
 		$password = $this->config['db']['password'];
 		$db = new PDO($dsn, $user, $password);
