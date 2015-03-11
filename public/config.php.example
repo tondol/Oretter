@@ -1,0 +1,70 @@
+<?php
+
+//ディレクトリの設定
+//基本的に弄る必要はないはず
+define('SYSTEM_DIR', dirname(dirname(__FILE__)) . '/');
+define('LIB_DIR', SYSTEM_DIR . 'lib/');
+define('MODULE_DIR', SYSTEM_DIR . 'module/');
+define('TEMPLATE_DIR', SYSTEM_DIR . 'template/');
+define('STATIC_DIR', SYSTEM_DIR . 'static/');
+ini_set('display_errors', false);
+ini_set('include_path', ini_get('include_path') . ':' . LIB_DIR);
+ini_set('include_path', ini_get('include_path') . ':' . LIB_DIR . 'twitteroauth/twitteroauth/');
+ini_set('session.use_only_cookies', false);
+date_default_timezone_set('Asia/Tokyo');
+
+//フレームワークの設定
+//すべてのモジュールから参照できる
+$config = array(
+	//ディレクトリの設定
+	'module_dir' => MODULE_DIR,
+	'template_dir' => TEMPLATE_DIR,
+	'static_dir' => STATIC_DIR,
+	//アプリケーション固有の設定
+	'application_name' => 'Oretter（β）',
+	'application_uri' => 'http://oretter.tondol.com/',
+	'application_main' => 'top',
+	'application_missing' => 'missing',
+	//ページIDとページ名称の設定
+	'pages' => array(
+		'top' => 'トップ',
+		'mentions' => 'あなた宛の投稿',
+		'search' => '実況ビュー',
+		'help' => 'ヘルプ',
+		'action' => 'コマンド？',
+		'user' => 'ユーザービュー',
+		'lists' => 'リストビュー',
+		'post/tweet' => '投稿する',
+		'post/retweet' => '投稿をRTする',
+		'post/destroy' => '投稿を削除する',
+		'post/favorite' => 'お気に入り追加',
+		'post/unfavorite' => 'お気に入り削除',
+		'post/follow' => 'フォローする',
+		'post/unfollow' => 'フォローをやめる',
+		'info/lists' => '作成したリスト・購読しているリスト',
+		'info/lists_ownerships' => '作成したリスト',
+		'info/lists_subscriptions' => '購読しているリスト',
+		'info/lists_memberships' => '登録されているリスト',
+		'info/friendships_friends' => 'フォローしているユーザー',
+		'info/friendships_followers' => 'フォローされているユーザー',
+		'login' => 'ログイン',
+		'logout' => 'ログアウト',
+		'missing' => '404 Not Found',
+	),
+	//ユーザー設定
+	'twitter' => array(
+		'consumer_key' => '',
+		'consumer_secret' => '',
+	),
+	'db' => array(
+		'host' => 'localhost',
+		'port' => 3306,
+		'user' => '',
+		'password' => '',
+		'dbname' => '',
+	),
+	'auth' => array(
+		'table' => 'oretter_auth_tokens',
+		'expire' => 3600 * 24 * 7,
+	),
+);
