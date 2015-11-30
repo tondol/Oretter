@@ -1,5 +1,5 @@
 <?php
-	$status = $this->get_assign('status');
+	$status = $this->get('status');
 	$action_params = array(
 		'id' => $status->id_str,
 	);
@@ -11,28 +11,32 @@
 	);
 ?>
 <dt>
-	<?php if (!empty($status->retweeted_status)): ?>
-		<a href="<?= escape($this->get_uri('user', $retweeted_user_params)) ?>"><!--
-		--><?= escape($status->retweeted_status->user->screen_name) ?><!--
+	<?php if ($status->errors): ?>
+		閲覧権限がありません	
+	<?php elseif ($status->retweeted_status): ?>
+		<a href="<?= h($this->get_uri('user', $retweeted_user_params)) ?>"><!--
+		--><?= h($status->retweeted_status->user->screen_name) ?><!--
 		--></a>
-		(RT by <a href="<?= escape($this->get_uri('user', $user_params)) ?>"><!--
-		--><?= escape($status->user->screen_name) ?><!--
+		(RT by <a href="<?= h($this->get_uri('user', $user_params)) ?>"><!--
+		--><?= h($status->user->screen_name) ?><!--
 		--></a>)
 	<?php else: ?>
-		<a href="<?= escape($this->get_uri('user', $user_params)) ?>"><!--
-		--><?= escape($status->user->screen_name) ?><!--
+		<a href="<?= h($this->get_uri('user', $user_params)) ?>"><!--
+		--><?= h($status->user->screen_name) ?><!--
 		--></a>
 	<?php endif; ?>
 </dt>
 <dd>
-	<?php if (!empty($status->retweeted_status)): ?>
+	<?php if ($status->errors): ?>
+		閲覧権限がありません
+	<?php elseif ($status->retweeted_status): ?>
 		<?= $this->linkify($status->retweeted_status) ?>
 	<?php else: ?>
 		<?= $this->linkify($status) ?>
 	<?php endif; ?>
 </dd>
 <dd>
-	<a href="<?= escape($this->get_uri('action', $action_params)) ?>"><!--
+	<a href="<?= h($this->get_uri('action', $action_params)) ?>"><!--
 	--><?= date('Y-m-d H:i:s', strtotime($status->created_at)) ?><!--
 	--></a>
 </dd>

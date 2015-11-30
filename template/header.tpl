@@ -5,14 +5,14 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript" />
-	<link rel="stylesheet" type="text/css" href="<?= $this->get_static('static/style/fonts-min.css') ?>" />
-	<link rel="stylesheet" type="text/css" href="<?= $this->get_static('static/style/default.css') ?>" />
+	<link rel="stylesheet" type="text/css" href="<?= $this->get_public('static/style/fonts-min.css') ?>" />
+	<link rel="stylesheet" type="text/css" href="<?= $this->get_public('static/style/default.css') ?>" />
 	<title><?= $this->get_title() ?></title>
 </head>
 <body>
 
-<?php if ($this->get_current() == 'top'): ?>
-	<h1><a name="top" id="top"><?= $this->config['application_name'] ?></a></h1>
+<?php if ($this->get_chain() == 'top'): ?>
+	<h1><a name="top" id="top"><?= $this->config['application_title'] ?></a></h1>
 <?php else: ?>
 	<h1><a name="top" id="top"><?= $this->get_name() ?></a></h1>
 <?php endif; ?>

@@ -1,7 +1,3 @@
 <?php
 
-require_once 'config.php';
-require_once 'application.php';
-
-$app = new Application();
-$app->run();
+require_once dirname(dirname(__FILE__)) . '/bootstrap.php';

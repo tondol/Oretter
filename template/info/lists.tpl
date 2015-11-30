@@ -1,10 +1,10 @@
 <?php $this->include_template('header.tpl') ?>
 
 <?php
-	$lists = $this->get_assign('lists');
-	$user = $this->get_assign('user');
-	$prev = $this->get_assign('prev');
-	$next = $this->get_assign('next');
+	$lists = $this->get('lists');
+	$user = $this->get('user');
+	$prev = $this->get('prev');
+	$next = $this->get('next');
 	$callback = $_SESSION['callback'];
 ?>
 
@@ -20,12 +20,12 @@
 				);
 			?>
 			<dt>
-				<a href="<?= escape($this->get_uri('lists', $lists_params)) ?>"><!--
-				--><?= escape($list->full_name) ?><!--
+				<a href="<?= h($this->get_uri('lists', $lists_params)) ?>"><!--
+				--><?= h($list->full_name) ?><!--
 				--></a>
 			</dt>
 			<dd>
-				<?= escape($list->description) ?>
+				<?= h($list->description) ?>
 			</dd>
 		<?php endforeach; ?>
 	</dl>
@@ -45,22 +45,22 @@
 <?php
 	$prev_params = array(
 		'cursor' => $prev,
-		'id' => array_at($this->request, 'id'),
-		'screen_name' => array_at($this->request, 'screen_name'),
+		'id' => array_at($this->get, 'id'),
+		'screen_name' => array_at($this->get, 'screen_name'),
 	);
 	$next_params = array(
 		'cursor' => $next,
-		'id' => array_at($this->request, 'id'),
-		'screen_name' => array_at($this->request, 'screen_name'),
+		'id' => array_at($this->get, 'id'),
+		'screen_name' => array_at($this->get, 'screen_name'),
 	);
 ?>
 <ul>
-	<li><a href="<?= escape($callback) ?>">[0]元のページに戻る</a></li>
+	<li><a href="<?= h($callback) ?>">[0]元のページに戻る</a></li>
 	<?php if ($prev): ?>
-		<li><a href="<?= escape($this->get_uri(null, $prev_params)) ?>" accesskey="4">[4]前を見る</a></li>
+		<li><a href="<?= h($this->get_uri(null, $prev_params)) ?>" accesskey="4">[4]前を見る</a></li>
 	<?php endif; ?>
 	<?php if ($next): ?>
-		<li><a href="<?= escape($this->get_uri(null, $next_params)) ?>" accesskey="6">[6]次を見る</a></li>
+		<li><a href="<?= h($this->get_uri(null, $next_params)) ?>" accesskey="6">[6]次を見る</a></li>
 	<?php endif; ?>
 	<li><a href="#top" accesskey="2">[2]ページ先頭に戻る</a></li>
 	<li><a href="#bottom" accesskey="8">[8]ページ後尾に移動</a></li>

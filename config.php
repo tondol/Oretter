@@ -1,32 +1,33 @@
 <?php
 
-//ディレクトリの設定
-//基本的に弄る必要はないはず
-define('SYSTEM_DIR', dirname(dirname(__FILE__)) . '/');
-define('LIB_DIR', SYSTEM_DIR . 'lib/');
-define('MODULE_DIR', SYSTEM_DIR . 'module/');
-define('TEMPLATE_DIR', SYSTEM_DIR . 'template/');
-define('STATIC_DIR', SYSTEM_DIR . 'static/');
-ini_set('display_errors', false);
-ini_set('include_path', ini_get('include_path') . ':' . LIB_DIR);
-ini_set('include_path', ini_get('include_path') . ':' . LIB_DIR . 'twitteroauth/twitteroauth/');
-ini_set('session.use_only_cookies', false);
-date_default_timezone_set('Asia/Tokyo');
+define('PHP_DIR', dirname(__FILE__) . '/');
+define('SYSTEM_DIR', dirname(__FILE__) . '/');
+define('PUBLIC_DIR', SYSTEM_DIR . 'public/');
+define('CORE_DIR', PHP_DIR . 'core/');
+define('CONTROLLER_DIR', PHP_DIR . 'controller/');
+define('TEMPLATE_DIR', PHP_DIR . 'template/');
+// define('SPYC_DIR', PHP_DIR . 'spyc/');
+define('TWITTER_OAUTH_DIR', PHP_DIR . 'twitteroauth/');
 
-//フレームワークの設定
-//すべてのモジュールから参照できる
+ini_set('display_errors', true);
+ini_set('error_reporting', E_ALL ^ E_NOTICE);
+ini_set('include_path', ini_get('include_path') . ':' . CORE_DIR . ':' . SPYC_DIR . ':' . TWITTER_OAUTH_DIR);
+ini_set('date.timezone', "Asia/Tokyo");
+
+// require_once 'Spyc.php';
+require_once 'twitteroauth/twitteroauth.php';
+
 $config = array(
-	//ディレクトリの設定
-	'module_dir' => MODULE_DIR,
-	'template_dir' => TEMPLATE_DIR,
-	'static_dir' => STATIC_DIR,
-	//アプリケーション固有の設定
-	'application_name' => 'Oretter（β）',
-	'application_uri' => 'http://oretter.tondol.com/',
-	'application_main' => 'top',
-	'application_missing' => 'missing',
-	//ページIDとページ名称の設定
-	'pages' => array(
+	'controller_dir' => CONTROLLER_DIR,
+        'template_dir' => TEMPLATE_DIR,
+        'public_dir' => PUBLIC_DIR,
+
+        'application_uri' => 'https://oretter.tondol.com/',
+        'application_main' => 'top',
+        'application_title' => 'Oretter（β）',
+        'application_missing' => 'missing',
+
+	'chain' => array(
 		'top' => 'トップ',
 		'mentions' => 'あなた宛の投稿',
 		'search' => '実況ビュー',
@@ -51,16 +52,16 @@ $config = array(
 		'logout' => 'ログアウト',
 		'missing' => '404 Not Found',
 	),
-	//ユーザー設定
+
 	'twitter' => array(
-		'consumer_key' => '',
-		'consumer_secret' => '',
+		'consumer_key' => '4sGVDT9dcp8Miy1BctlrlA',
+		'consumer_secret' => 'upu1vxvbr9PudYon5WqyqkQLIqyHJKKsjNAsevz6x0',
 	),
 	'db' => array(
-		'host' => 'localhost',
-		'port' => 3306,
-		'user' => '',
-		'password' => '',
+		'host' => 'mysql',
+		'port' => '3306',
+		'user' => 'docker',
+		'password' => 'jSeqkvS5JUSMH',
 		'database' => 'oretter',
 	),
 	'auth' => array(
