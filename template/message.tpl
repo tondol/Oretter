@@ -15,7 +15,7 @@
 
 <?php if ($this->get_chain() == "post/tweet"): ?>
 	<h2><a href="#tweet" name="tweet" id="tweet" accesskey="7">[7]続けて投稿する</a></h2>
-	<form action="<?= h($this->get_uri('post/tweet')) ?>" method="post">
+	<form action="<?= h($this->get_url('post/tweet')) ?>" method="post">
 		<p><textarea name="status"></textarea>
 		<br />
 		<input type="submit" value="送信" />

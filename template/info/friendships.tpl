@@ -19,7 +19,7 @@
 				);
 			?>
 			<dt>
-				<a href="<?= h($this->get_uri('user', $friend_params)) ?>"><!--
+				<a href="<?= h($this->get_url('user', $friend_params)) ?>"><!--
 				--><?= h($friend->screen_name) ?><!--
 				--></a>
 			</dt>
@@ -55,10 +55,10 @@
 <ul>
 	<li><a href="<?= h($callback) ?>">[0]元のページに戻る</a></li>
 	<?php if ($prev): ?>
-		<li><a href="<?= h($this->get_uri(null, $prev_params)) ?>" accesskey="4">[4]前を見る</a></li>
+		<li><a href="<?= h($this->get_url(null, $prev_params)) ?>" accesskey="4">[4]前を見る</a></li>
 	<?php endif; ?>
 	<?php if ($next): ?>
-		<li><a href="<?= h($this->get_uri(null, $next_params)) ?>" accesskey="6">[6]次を見る</a></li>
+		<li><a href="<?= h($this->get_url(null, $next_params)) ?>" accesskey="6">[6]次を見る</a></li>
 	<?php endif; ?>
 	<li><a href="#top" accesskey="2">[2]ページ先頭に戻る</a></li>
 	<li><a href="#bottom" accesskey="8">[8]ページ後尾に移動</a></li>

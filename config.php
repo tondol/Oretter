@@ -22,10 +22,10 @@ $config = array(
         'template_dir' => TEMPLATE_DIR,
         'public_dir' => PUBLIC_DIR,
 
-        'application_uri' => 'https://oretter.tondol.com/',
         'application_main' => 'top',
-        'application_title' => 'Oretter（β）',
         'application_missing' => 'missing',
+        'application_url' => 'https://oretter.tondol.com/',
+        'application_title' => 'Oretter（β）',
 
 	'chain' => array(
 		'top' => 'トップ',

@@ -12,6 +12,6 @@ class Controller_logout extends Controller_oretter
 
 		$this->set_auth_token_to_cookie('');
 
-		header('Location: ' . $this->get_uri('top'));
+		header('Location: ' . $this->get_url('top'));
 	}
 }

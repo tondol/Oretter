@@ -112,12 +112,12 @@ class Controller_oretter extends Controller
 		}
 		foreach ($o->entities->user_mentions as $i => $entry) {
 			$map[$entry->indices[0]] = [$entry->indices[1], function ($s) use ($entry) {
-				return "<a href=\"" . $this->get_uri('user', array('screen_name' => h($entry->screen_name))) . "\">@" . h($entry->screen_name) . "</a>";
+				return "<a href=\"" . $this->get_url('user', array('screen_name' => h($entry->screen_name))) . "\">@" . h($entry->screen_name) . "</a>";
 			}];
 		}
 		foreach ($o->entities->hashtags as $i => $entry) {
 			$map[$entry->indices[0]] = [$entry->indices[1], function ($s) use ($entry) {
-				return "<a href=\"" . $this->get_uri('search', array('q' => "#" . h($entry->text))) . "\">#" . h($entry->text) . "</a>";
+				return "<a href=\"" . $this->get_url('search', array('q' => "#" . h($entry->text))) . "\">#" . h($entry->text) . "</a>";
 			}];
 		}
 		if (!empty($o->entities->media)) {

@@ -37,7 +37,7 @@
 <?php endif; ?>
 
 <h2><a href="#reply" name="reply" id="reply" accesskey="7">[7]投稿に返信する</a></h2>
-<form action="<?= h($this->get_uri('post/tweet')) ?>" method="post">
+<form action="<?= h($this->get_url('post/tweet')) ?>" method="post">
 	<?php
 		$reply = '@' . h($status->user->screen_name) . ' ';
 	?>
@@ -52,14 +52,14 @@
 
 <?php if ($status->favorited != "true"): ?>
 	<h2>お気に入り追加</h2>
-	<form action="<?= h($this->get_uri('post/favorite')) ?>" method="post">
+	<form action="<?= h($this->get_url('post/favorite')) ?>" method="post">
 		<p><input type="submit" value="追加する" />
 		<input type="hidden" name="id" value="<?= h($status->id_str) ?>" />
 		<input type="hidden" name="post_token" value="<?= h($post_token) ?>" /></p>
 	</form>
 <?php else: ?>
 	<h2>お気に入り削除</h2>
-	<form action="<?= h($this->get_uri('post/unfavorite')) ?>" method="post">
+	<form action="<?= h($this->get_url('post/unfavorite')) ?>" method="post">
 		<p><input type="submit" value="削除する" />
 		<input type="hidden" name="id" value="<?= h($status->id_str) ?>" />
 		<input type="hidden" name="post_token" value="<?= h($post_token) ?>" /></p>
@@ -67,14 +67,14 @@
 <?php endif; ?>
 
 <h2>投稿を公式RTする</h2>
-<form action="<?= h($this->get_uri('post/retweet')) ?>" method="post">
+<form action="<?= h($this->get_url('post/retweet')) ?>" method="post">
 	<p><input type="submit" value="公式RTする" />
 	<input type="hidden" name="id" value="<?= h($status->id_str) ?>" />
 	<input type="hidden" name="post_token" value="<?= h($post_token) ?>" /></p>
 </form>
 
 <h2>投稿を非公式RTする</h2>
-<form action="<?= h($this->get_uri('post/tweet')) ?>" method="post">
+<form action="<?= h($this->get_url('post/tweet')) ?>" method="post">
 	<?php
 		if ($status->user->protected == "true") {
 			$quote = ' RT @***: ' . $status->text;
@@ -89,7 +89,7 @@
 </form>
 
 <h2>投稿をQTする</h2>
-<form action="<?= h($this->get_uri('post/tweet')) ?>" method="post">
+<form action="<?= h($this->get_url('post/tweet')) ?>" method="post">
 	<?php
 		if ($status->user->protected == "true") {
 			$quote = ' QT @***: ' . $status->text;
@@ -106,7 +106,7 @@
 
 <?php if ($status->user->id == $_SESSION['token_credentials']['user_id']): ?>
 	<h2>投稿を削除する</h2>
-	<form action="<?= h($this->get_uri('post/destroy')) ?>" method="post">
+	<form action="<?= h($this->get_url('post/destroy')) ?>" method="post">
 		<p><input type="submit" value="削除する" />
 		<input type="hidden" name="id" value="<?= h($status->id_str) ?>" />
 		<input type="hidden" name="post_token" value="<?= h($post_token) ?>" /></p>

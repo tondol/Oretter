@@ -14,14 +14,14 @@ class Controller_user extends Controller_oretter
 		
 		//not logged in
 		if ($token_credentials == "") {
-			header('Location: ' . $this->get_uri('top'));
+			header('Location: ' . $this->get_url('top'));
 			exit(1);
 		}
 		
 		//get screen_name
 		$screen_name = array_at($this->get, 'screen_name');
 		if ($screen_name == "") {
-			header('Location: ' . $this->get_uri('top'));
+			header('Location: ' . $this->get_url('top'));
 			exit(1);
 		}
 		
@@ -40,7 +40,7 @@ class Controller_user extends Controller_oretter
 			'screen_name' => $screen_name,
 			'p' => $current,
 		);
-		$_SESSION['callback'] = $this->get_uri(null, $params);
+		$_SESSION['callback'] = $this->get_url(null, $params);
 		
 		//get instance of twitteroauth
 		$connection = new TwitterOAuth(

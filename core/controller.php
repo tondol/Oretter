@@ -60,32 +60,32 @@ class Controller {
 			return $this->config["chain"][$chain];
 		}
 	}
-	// get urk for specified chain (default: this)
-	function get_uri($chain=null, $params=null) {
+	// get url for specified chain (default: this)
+	function get_url($chain=null, $params=null) {
 		if (is_null($chain)) {
 			$chain = $this->chain;
 		}
 		if ($chain == $this->config["application_main"]) {
-			$uri = $this->config["application_uri"];
+			$url = $this->config["application_url"];
 		} else {
-			$uri = $this->config["application_uri"] . $chain . DIRECTORY_SEPARATOR;
+			$url = $this->config["application_url"] . $chain . DIRECTORY_SEPARATOR;
 		}
 		if (!is_null($params)) {
-			$uri .= "?" . http_build_query($params);
+			$url .= "?" . http_build_query($params);
 		}
-		return $uri;
+		return $url;
 	}
 	function get_link($chain=null) {
-                $uri = $this->get_uri($chain);
-                $name = $this->get_name($chain);
-                return "<a href=\"" . $uri . "\">" . $name . "</a>";
-        }
+		$url = $this->get_url($chain);
+		$name = $this->get_name($chain);
+		return "<a href=\"" . $url . "\">" . $name . "</a>";
+	}
 	// get url for specified path
 	function get_public($path=null) {
 		if (is_null($path)) {
-			return $this->config["application_uri"];
+			return $this->config["application_url"];
 		} else {
-			return $this->config["application_uri"] . $path;
+			return $this->config["application_url"] . $path;
 		}
 	}
 	// include template for specified path

@@ -13,7 +13,7 @@ class Controller_mentions extends Controller_oretter
 		$token_credentials = array_at($_SESSION, 'token_credentials');
 		
 		if ($token_credentials == "") {
-			header('Location: ' . $this->get_uri('top'));
+			header('Location: ' . $this->get_url('top'));
 			exit(1);
 		}
 		
@@ -31,7 +31,7 @@ class Controller_mentions extends Controller_oretter
 		$params = array(
 			'p' => $current,
 		);
-		$_SESSION['callback'] = $this->get_uri(null, $params);
+		$_SESSION['callback'] = $this->get_url(null, $params);
 		
 		//get instance of twitteroauth
 		$connection = new TwitterOAuth(

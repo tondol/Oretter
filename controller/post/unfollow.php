@@ -14,7 +14,7 @@ class Controller_post_unfollow extends Controller_oretter
 		
 		//not logged in
 		if ($token_credentials == "") {
-			header('Location: ' . $this->get_uri('top'));
+			header('Location: ' . $this->get_url('top'));
 			exit(1);
 		}
 		

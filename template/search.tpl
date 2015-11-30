@@ -23,7 +23,7 @@
 <?php endif; ?>
 
 <h2><a href="#tweet" id="tweet" name="tweet" accesskey="7">[7]検索ワード付きで投稿する</a></h2>
-<form action="<?= h($this->get_uri('post/tweet')) ?>" method="post">
+<form action="<?= h($this->get_url('post/tweet')) ?>" method="post">
 	<?php
 		if ($query != "") {
 			$status = ' ' . h($query);
@@ -38,7 +38,7 @@
 </form>
 
 <h2><a name="search" id="search">検索ワード</a></h2>
-<form action="<?= h($this->get_uri()) ?>" method="get">
+<form action="<?= h($this->get_url()) ?>" method="get">
 	<?php
 		if ($query != "") {
 			$search = h($query);
@@ -67,12 +67,12 @@
 	);
 ?>
 <ul>
-	<li><a href="<?= h($this->get_uri(null, $current_params)) ?>" accesskey="0">[0]タイムラインを更新</a></li>
+	<li><a href="<?= h($this->get_url(null, $current_params)) ?>" accesskey="0">[0]タイムラインを更新</a></li>
 	<?php if ($max_id): ?>
-		<li><a href="<?= h($this->get_uri(null, $prev_params)) ?>" accesskey="4">[4]前を見る</a></li>
+		<li><a href="<?= h($this->get_url(null, $prev_params)) ?>" accesskey="4">[4]前を見る</a></li>
 	<?php endif; ?>
 	<?php if ($since_id): ?>
-		<li><a href="<?= h($this->get_uri(null, $next_params)) ?>" accesskey="6">[6]次を見る</a></li>
+		<li><a href="<?= h($this->get_url(null, $next_params)) ?>" accesskey="6">[6]次を見る</a></li>
 	<?php endif; ?>
 	<li><a href="#top" accesskey="2">[2]ページ先頭に戻る</a></li>
 	<li><a href="#bottom" accesskey="8">[8]ページ後尾に移動</a></li>

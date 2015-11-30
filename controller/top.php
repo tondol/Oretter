@@ -68,7 +68,7 @@ class Controller_top extends Controller_oretter
 		$params = array(
 			'p' => $current,
 		);
-		$_SESSION['callback'] = $this->get_uri(null, $params);
+		$_SESSION['callback'] = $this->get_url(null, $params);
 		
 		//get instance of twitteroauth
 		$connection = new TwitterOAuth(

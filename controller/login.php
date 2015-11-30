@@ -50,7 +50,7 @@ class Controller_login extends Controller_oretter
 					$this->set_auth($token_credentials);
 					$_SESSION['token_credentials'] = $token_credentials;
 					$_SESSION['post_token'] = sha1(session_id());
-					header('Location: ' . $this->get_uri('top'));
+					header('Location: ' . $this->get_url('top'));
 					
 				} else {
 					$message = "ログインに失敗しました。";
@@ -73,14 +73,14 @@ class Controller_login extends Controller_oretter
 		//get temporary_credentials
 		$connection = new TwitterOAuth($consumer_key, $consumer_secret);
 		$connection->host = "https://api.twitter.com/1.1/";
-		$redirect_uri = $this->get_uri(null, array('verifying' => true));
-		$temporary_credentials = $connection->getRequestToken($redirect_uri);
+		$redirect_url = $this->get_url(null, array('verifying' => true));
+		$temporary_credentials = $connection->getRequestToken($redirect_url);
 		
 		//store temporary_credentials
 		$_SESSION['oauth_token'] = $temporary_credentials['oauth_token'];
 		$_SESSION['oauth_token_secret'] = $temporary_credentials['oauth_token_secret'];
-		$oauth_uri = $connection->getAuthorizeURL($temporary_credentials);
+		$oauth_url = $connection->getAuthorizeURL($temporary_credentials);
 
-		header('Location: ' . $oauth_uri);
+		header('Location: ' . $oauth_url);
 	}
 }

@@ -14,14 +14,14 @@
 	<?php if ($status->errors): ?>
 		閲覧権限がありません	
 	<?php elseif ($status->retweeted_status): ?>
-		<a href="<?= h($this->get_uri('user', $retweeted_user_params)) ?>"><!--
+		<a href="<?= h($this->get_url('user', $retweeted_user_params)) ?>"><!--
 		--><?= h($status->retweeted_status->user->screen_name) ?><!--
 		--></a>
-		(RT by <a href="<?= h($this->get_uri('user', $user_params)) ?>"><!--
+		(RT by <a href="<?= h($this->get_url('user', $user_params)) ?>"><!--
 		--><?= h($status->user->screen_name) ?><!--
 		--></a>)
 	<?php else: ?>
-		<a href="<?= h($this->get_uri('user', $user_params)) ?>"><!--
+		<a href="<?= h($this->get_url('user', $user_params)) ?>"><!--
 		--><?= h($status->user->screen_name) ?><!--
 		--></a>
 	<?php endif; ?>
@@ -36,7 +36,7 @@
 	<?php endif; ?>
 </dd>
 <dd>
-	<a href="<?= h($this->get_uri('action', $action_params)) ?>"><!--
+	<a href="<?= h($this->get_url('action', $action_params)) ?>"><!--
 	--><?= date('Y-m-d H:i:s', strtotime($status->created_at)) ?><!--
 	--></a>
 </dd>
