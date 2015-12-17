@@ -52,7 +52,7 @@ class Application {
 		// get controller name and path for specified chain
 		$controller_name = "Controller_" . str_replace(DIRECTORY_SEPARATOR, "_", $this->chain);
 		$controller_path = $this->config["controller_dir"] . $this->chain . ".php";
-		
+
 		// check the existence
 		if (file_exists($controller_path)) {
 			require_once $controller_path;

@@ -27,22 +27,22 @@ class Controller_login extends Controller_oretter
 		}
 	}
 
-	function action()
+	function run()
 	{
 		session_start();
 		
 		$consumer_key = $this->config['twitter']['consumer_key'];
 		$consumer_secret = $this->config['twitter']['consumer_secret'];
-		
+
 		//callback from twitter
-		if (!empty($this->request['verifying'])) {
-			if (!empty($this->request['oauth_verifier'])) {
+		if (!empty($this->get['verifying'])) {
+			if (!empty($this->get['oauth_verifier'])) {
 				$connection = new TwitterOAuth(
 					$consumer_key, $consumer_secret,
 					$_SESSION['oauth_token'], $_SESSION['oauth_token_secret']);
-				
-				$token_credentials = $connection->getAccessToken($this->request['oauth_verifier']);
-				
+
+				$token_credentials = $connection->getAccessToken($this->get['oauth_verifier']);
+
 				if (!empty($token_credentials['oauth_token'])) {
 					//completed!
 					//set token_credentials to session
@@ -54,13 +54,13 @@ class Controller_login extends Controller_oretter
 					
 				} else {
 					$message = "ログインに失敗しました。";
-					$this->set_assign('message', $message);
+					$this->set('message', $message);
 					$this->render();
 				}
 				
 			} else {
 				$message = "ログインに失敗しました。";
-				$this->set_assign('message', $message);
+				$this->set('message', $message);
 				$this->render();
 			}
 			
